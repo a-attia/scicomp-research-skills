@@ -45,7 +45,7 @@ scicomp-research-skills/
 ## On a new machine
 
 ```bash
-git clone <your-fork-url> ~/.scicomp-research-skills
+git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
 ~/.scicomp-research-skills/bin/install.sh
 ```
 
@@ -71,10 +71,10 @@ target is safe.
 
 ## On the development machine
 
-The dev checkout lives at
-`~/AHMED_HOME/Research/Projects/Software/scicomp-research-skills/`
-(or wherever you cloned it for editing). Edit there, commit + push from
-there.
+The dev checkout lives wherever you cloned it for editing (anywhere
+EXCEPT `~/.scicomp-research-skills/`, which is the canonical checkout
+that refuses commits). A common convention is to keep it under your
+usual code-projects directory. Edit there, commit + push from there.
 
 ## Refreshing the canonical checkout
 
@@ -109,7 +109,73 @@ the current install list) so you know whether to run uninstall.sh.
 ~/.scicomp-research-skills/bin/uninstall.sh --deep --confirm
 ```
 
-The dev checkout under Software/ is NEVER touched by uninstall.sh.
+Dev checkouts of this repo at any other path are NEVER touched by uninstall.sh.
+
+## Starting a new project that uses this repository
+
+Once `~/.scicomp-research-skills/` is installed (see "On a new machine"
+above), starting a new project that loads these skills + conventions is
+a 5-step copy-and-customise.
+
+### A. New research paper (canonical workflow)
+
+```bash
+# 1. Create the project directory anywhere you keep papers.
+#    Substitute your own path for <papers-parent-dir>.
+mkdir -p <papers-parent-dir>/<paper-short-name>
+cd <papers-parent-dir>/<paper-short-name>
+git init
+
+# 2. Copy the paper-skeleton template (AGENTS.md + PLAN.md + README.md +
+#    .gitignore + references/ + notes/ + experiments/ + figures/ + drafts/).
+cp -R ~/.scicomp-research-skills/templates/paper-skeleton/. .
+
+# 3. Customise the four files containing <...> placeholders:
+#    - AGENTS.md   -> project name, target venue, code dependencies
+#    - PLAN.md     -> working title, headline contribution, reading list
+#    - README.md   -> title, authors, target submission, pinned versions
+#    - notes/README.md -> section topics matching PLAN.md sections
+
+# 4. (One-time per machine) verify the canonical checkout is fresh:
+~/.scicomp-research-skills/bin/refresh.sh
+
+# 5. First commit.
+git add .
+git commit -m "chore: bootstrap from scicomp-research-skills/templates/paper-skeleton"
+```
+
+Now open the project in your agent client (OpenCode, Claude Code, Codex,
+Cursor, ...). The agent will:
+
+1. Read the project's `AGENTS.md`.
+2. Follow it to `~/.scicomp-research-skills/AGENTS.md` for shared
+   conventions.
+3. Load `skills/literature-survey/` and `skills/research-paper-writing/`
+   on demand as the work proceeds.
+
+A typical first session: ask the agent to run the `literature-survey`
+skill on your first batch of references, then use
+`research-paper-writing` to draft the introduction once the closest
+competitors' survey notes are in place.
+
+### B. New research software project
+
+Templates for software-flavoured projects are planned but not yet
+shipped. For now, see `AGENTS.md` Section 11.B for the recommended
+interim approach (scaffold with your usual tool, then hand-write a
+short `AGENTS.md` modelled on the paper-skeleton's).
+
+### C. Reviewer response / rebuttal
+
+Also not yet templated. See `AGENTS.md` Section 11.C for the interim
+approach (add a `rebuttal_<round>/` sub-directory inside the existing
+paper repo).
+
+### Full reference
+
+For the detailed walkthrough including troubleshooting and the roadmap
+of upcoming templates (software-skeleton, rebuttal-skeleton,
+experiment-skeleton), see `AGENTS.md` Section 11.
 
 ## Adding a new skill, template, or convention
 
