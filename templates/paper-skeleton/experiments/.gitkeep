@@ -1,0 +1,12 @@
+# experiments/
+
+Per-run experimental artifacts. Layout:
+
+  experiments/$date_$algo_$variant/
+    metadata.json    -- seeds, hyperparameters, upstream library git hashes
+    run.py           -- the actual run script (or symlink to one)
+    results/         -- seed-by-seed outputs
+    plots/           -- matplotlib outputs
+
+Individual run subdirectories are gitignored (they may be large); only
+this `.gitkeep` is tracked.

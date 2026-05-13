@@ -1,0 +1,28 @@
+# Downloaded PDFs and their text-extraction cache (track only the .bib)
+references/pdf/
+references/pdf/.txt/
+
+# Experiment artifacts
+experiments/*/
+!experiments/.gitkeep
+
+# LaTeX build
+drafts/*.aux
+drafts/*.bbl
+drafts/*.blg
+drafts/*.log
+drafts/*.out
+drafts/*.toc
+drafts/*.synctex.gz
+drafts/_build/
+drafts/_minted-*/
+
+# Editor / OS
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Direnv / local environment
+.envrc
+.env

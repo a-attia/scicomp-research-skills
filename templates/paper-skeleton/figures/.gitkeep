@@ -1,0 +1,5 @@
+# figures/
+
+Final figures consumed by drafts/main.tex (or main.md). Build via
+matplotlib scripts checked into experiments/. Tracked in git so reviewers
+can see what's in the draft.
