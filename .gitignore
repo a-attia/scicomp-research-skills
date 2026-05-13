@@ -7,3 +7,15 @@ Thumbs.db
 *.swo
 *~
 *.tmp
+
+# In-repo agent-filename symlinks created by bin/install.sh.
+# These are per-checkout (created locally on install) and should not be
+# tracked in the repo.  They all symlink to AGENTS.md.
+/CLAUDE.md
+/.cursorrules
+/CONVENTIONS.md
+/GEMINI.md
+/AGENT.md
+
+# uninstall.sh log file (only present after running uninstall.sh)
+.scicomp-research-skills.uninstall.log
