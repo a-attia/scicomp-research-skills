@@ -1,86 +1,98 @@
-# Skills: Research Paper Writing
+# scicomp-research-skills
 
-[中文介绍](./README_zh.md).
+Agent skills + workflow templates for research in scientific computing
+(papers and software).
 
-> Important Attribution
-> Most writing knowledge and methodology in this repository comes from Prof. Peng Sida (彭思达)'s open study notes:
-> https://pengsida.notion.site/c1a22465a0fa4b15a12985223916048e
-> Prof. Peng's original repository:
-> https://github.com/pengsida/learning_research
-> I sincerely thank Prof. Peng for openly sharing these valuable experiences.
-> My contribution is organization, structured adaptation, and packaging as reusable Skills.
+This repository follows the [agents.md](https://agents.md/) standard and
+the [OpenCode skills](https://opencode.ai/docs/skills/) /
+[Anthropic skills](https://docs.anthropic.com/en/docs/build-with-claude/agent-skills)
+conventions, so any markdown-aware coding agent can consume it (OpenCode,
+Claude Code, Codex, Cursor, Aider, Gemini CLI, etc.).
 
-## Repository Overview
+**See [`AGENTS.md`](AGENTS.md) for the entry point that AI agents
+should read first.**
 
-This repository currently provides one skill package:
+This repository started as a clone of
+[Master-cai/Research-Paper-Writing-Skills](https://github.com/Master-cai/Research-Paper-Writing-Skills)
+on 2026-05-13 and intentionally diverges to broaden scope to scientific
+computing (covering both research papers AND research software). See
+[`ATTRIBUTION.md`](ATTRIBUTION.md) for the lineage.
 
-- `research-paper-writing/`
-  - `SKILL.md`: core workflow and usage rules
-  - `references/`: section-specific writing guides and templates
-  - `agents/openai.yaml`: agent metadata
+## Layout
 
-Typical use cases:
+```
+scicomp-research-skills/
+  AGENTS.md             -- entry point for AI agents (read this first)
+  README.md             -- you are here
+  ATTRIBUTION.md        -- upstream attribution + divergence notes
+  LICENSE               -- MIT (inherited from upstream)
 
-- Drafting or rewriting Abstract / Introduction / Method / Experiments / Conclusion
-- Improving paragraph flow and section logic
-- Checking claim-evidence alignment
-- Running pre-submission self-review from a reviewer mindset
+  bin/
+    refresh.sh          -- refresh the canonical (~/.scicomp-research-skills/) checkout
+    install.sh          -- one-time setup on a new machine
 
-## Installation
+  skills/               -- on-demand skills (one folder per skill, each with SKILL.md)
+    research-paper-writing/   -- (from upstream) section drafting + paragraph-clarity check
+    literature-survey/        -- (added) bibtex+PDF+pdftotext+survey-note workflow
 
-Assume you are in the repository root.
+  templates/            -- starter scaffolds for new projects
+    paper-skeleton/     -- starter files for a new scientific-computing paper repo
 
-### 1) Codex
+  .githooks/
+    pre-commit          -- refuses commits in the canonical (~/.scicomp-research-skills/) checkout
+```
 
-Copy the skill into `$CODEX_HOME/skills/`:
+## On a new machine
 
 ```bash
-mkdir -p "$CODEX_HOME/skills"
-cp -R research-paper-writing "$CODEX_HOME/skills/"
+git clone <your-fork-url> ~/.scicomp-research-skills
+~/.scicomp-research-skills/bin/install.sh
 ```
 
-Usage example:
+`install.sh` configures the local repo's `core.hooksPath`, makes scripts
+executable, and creates agent-specific filename symlinks (CLAUDE.md,
+.cursorrules, etc.) inside the canonical checkout.
 
-```text
-Use $research-paper-writing to improve my paper's Introduction.
-```
-
-### 2) CC (Claude Code)
-
-Use either a global or project-level installation.
-
-Global:
+For OpenCode auto-discovery of skills, additionally:
 
 ```bash
-mkdir -p "$HOME/.claude/skills"
-cp -R research-paper-writing "$HOME/.claude/skills/"
+ln -s ~/.scicomp-research-skills/skills ~/.config/opencode/skills
+# or for Claude Code compatibility:
+ln -s ~/.scicomp-research-skills/skills ~/.claude/skills
 ```
 
-Project-level:
+## On the development machine
+
+The dev checkout lives at
+`~/AHMED_HOME/Research/Projects/Software/scicomp-research-skills/`
+(or wherever you cloned it for editing). Edit there, commit + push from
+there.
+
+To pick up the latest changes in the canonical checkout used by agents:
 
 ```bash
-mkdir -p .claude/skills
-cp -R research-paper-writing .claude/skills/
+~/.scicomp-research-skills/bin/refresh.sh
+# or directly: git -C ~/.scicomp-research-skills pull --ff-only
 ```
 
-In prompts, explicitly request this skill, for example: `Please use the research-paper-writing skill`.
+## Adding a new skill, template, or convention
 
-### 3) Gemini
+See `AGENTS.md` Sections 8 and 9.
 
-Copy this skill into your Gemini skills directory:
+## Pulling updates from upstream (Master-cai)
+
+The upstream repository is configured as the `upstream` remote:
 
 ```bash
-mkdir -p "$HOME/.gemini/skills"
-cp -R research-paper-writing "$HOME/.gemini/skills/"
+git fetch upstream
+git log upstream/main --oneline ^main
+# Cherry-pick or merge as appropriate.
+# Note: our directory layout differs (skills/research-paper-writing/
+# instead of upstream's research-paper-writing/), so blind-merge will
+# conflict on every file. Prefer cherry-pick for individual changes.
 ```
-
-Then ask concrete tasks in Gemini (for example, rewriting an Abstract with claim-evidence checks).
-
-## Credits
-
-Again, this repository is primarily based on Prof. Peng Sida (彭思达)'s open notes, while my work focuses on curation and Skills adaptation.
-Prof. Peng's original repository: https://github.com/pengsida/learning_research
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](./LICENSE).
+MIT. See `LICENSE` (inherited from upstream, A. Attia additions also
+MIT). See `ATTRIBUTION.md` for the divergence record.

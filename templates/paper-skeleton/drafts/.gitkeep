@@ -1,0 +1,4 @@
+# drafts/
+
+LaTeX or Markdown sources for the paper draft. Build artifacts (.aux,
+.bbl, .log, etc.) are gitignored; only sources are tracked.

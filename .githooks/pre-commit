@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+#
+# pre-commit hook for the scicomp-research-skills repository.
+#
+# Behaviour: refuses to commit if this checkout looks like the CANONICAL
+# checkout at ~/.scicomp-research-skills/. Edits should happen only in
+# the dev checkout (typically
+# ~/AHMED_HOME/Research/Projects/Software/scicomp-research-skills/).
+#
+# Rationale: the canonical checkout is auto-refreshed via git pull. If
+# you accidentally edit + commit there, your changes either get lost on
+# the next pull (--ff-only refuses divergent merges, but it's still
+# confusing) or worse, you end up with diverged checkouts whose state is
+# hard to reconcile.
+#
+# To bypass this hook (don't): git commit --no-verify
+
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+CANONICAL="${HOME}/.scicomp-research-skills"
+
+# Resolve symlinks for safe comparison.
+REPO_ROOT_ABS="$(cd "${REPO_ROOT}" && pwd -P)"
+CANONICAL_ABS="$(cd "${CANONICAL}" 2>/dev/null && pwd -P || echo "")"
+
+if [[ -n "${CANONICAL_ABS}" && "${REPO_ROOT_ABS}" == "${CANONICAL_ABS}" ]]; then
+  echo "ERROR: this is the CANONICAL checkout (${CANONICAL})." >&2
+  echo "Edits + commits should happen in the DEV checkout, typically:" >&2
+  echo "  ~/AHMED_HOME/Research/Projects/Software/scicomp-research-skills/" >&2
+  echo "" >&2
+  echo "If you genuinely want to commit here (rare; you almost certainly" >&2
+  echo "do not), bypass with: git commit --no-verify" >&2
+  exit 1
+fi
+
+exit 0
