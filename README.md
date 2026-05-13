@@ -49,17 +49,25 @@ git clone <your-fork-url> ~/.scicomp-research-skills
 ~/.scicomp-research-skills/bin/install.sh
 ```
 
-`install.sh` configures the local repo's `core.hooksPath`, makes scripts
-executable, and creates agent-specific filename symlinks (CLAUDE.md,
-.cursorrules, etc.) inside the canonical checkout.
+`install.sh` does four things, idempotently:
 
-For OpenCode auto-discovery of skills, additionally:
+1. Configures the local repo's `core.hooksPath` to enable the
+   commit-blocking pre-commit hook on the canonical checkout.
+2. Makes hook scripts and `bin/` scripts executable.
+3. Creates **in-repo filename symlinks** so agents that look for
+   non-AGENTS.md filenames find the same content: `CLAUDE.md` (Claude
+   Code), `.cursorrules` (Cursor), `CONVENTIONS.md` (Aider), `GEMINI.md`
+   (Gemini), `AGENT.md` (Zed singular form fallback).
+4. Creates **user-home skill-discovery symlinks** so agents that
+   auto-discover skills from `~/.config/opencode/skills/`, `~/.claude/skills/`,
+   `~/.codex/skills/` (or `$CODEX_HOME/skills/`), `~/.agents/skills/`,
+   and `~/.gemini/skills/` all point at our `skills/` folder.
 
-```bash
-ln -s ~/.scicomp-research-skills/skills ~/.config/opencode/skills
-# or for Claude Code compatibility:
-ln -s ~/.scicomp-research-skills/skills ~/.claude/skills
-```
+The script defends against accidentally clobbering existing user
+content: if any of these target paths already exists as a real directory
+or as a symlink pointing somewhere else, it warns and skips rather than
+overwrites. Re-running the script after manually removing a problematic
+target is safe.
 
 ## On the development machine
 
@@ -68,12 +76,40 @@ The dev checkout lives at
 (or wherever you cloned it for editing). Edit there, commit + push from
 there.
 
-To pick up the latest changes in the canonical checkout used by agents:
+## Refreshing the canonical checkout
+
+To pick up the latest changes:
 
 ```bash
 ~/.scicomp-research-skills/bin/refresh.sh
 # or directly: git -C ~/.scicomp-research-skills pull --ff-only
 ```
+
+If a refresh brought in changes to install.sh (new agent symlinks, new
+user-home skill paths, etc.), reconcile by running:
+
+```bash
+~/.scicomp-research-skills/bin/install.sh --update
+```
+
+`--update` does the same idempotent install + additionally reports any
+in-repo orphan symlinks (created by an older install.sh but no longer in
+the current install list) so you know whether to run uninstall.sh.
+
+## Removing what install.sh created
+
+```bash
+# Preview what would be removed (default: dry-run, no changes):
+~/.scicomp-research-skills/bin/uninstall.sh
+
+# Actually remove install.sh's symlinks:
+~/.scicomp-research-skills/bin/uninstall.sh --confirm
+
+# Full removal (symlinks + git config + delete the canonical checkout):
+~/.scicomp-research-skills/bin/uninstall.sh --deep --confirm
+```
+
+The dev checkout under Software/ is NEVER touched by uninstall.sh.
 
 ## Adding a new skill, template, or convention
 
