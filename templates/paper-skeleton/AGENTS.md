@@ -1,7 +1,7 @@
 # <Paper short name> / AGENTS.md
 
 This project loads shared workflow conventions from the
-[scicomp-research-skills](https://github.com/<your-fork>) repository.
+[scicomp-research-skills](https://github.com/a-attia/scicomp-research-skills) repository.
 Before doing anything else, the consuming agent should:
 
 1. Verify `~/.scicomp-research-skills/AGENTS.md` exists and is no more

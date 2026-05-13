@@ -42,8 +42,9 @@ This repository **starts from upstream
 
 Two checkouts of this repository exist on each machine:
 
-- **Development checkout**:
-  `~/AHMED_HOME/Research/Projects/Software/scicomp-research-skills/`
+- **Development checkout**: anywhere EXCEPT `~/.scicomp-research-skills/`
+  (a common convention is to keep it under your usual code-projects
+  directory).
   - This is where edits + commits happen.
   - Other research projects + agents on the machine **ignore** this
     checkout completely.
@@ -62,7 +63,7 @@ Two checkouts of this repository exist on each machine:
 Set up the canonical checkout on a fresh machine via:
 
 ```bash
-git clone <your-fork-url> ~/.scicomp-research-skills
+git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
 ~/.scicomp-research-skills/bin/install.sh
 ```
 
@@ -93,7 +94,7 @@ OpenCode supports referencing remote instructions natively via
 {
   "$schema": "https://opencode.ai/config.json",
   "instructions": [
-    "https://raw.githubusercontent.com/<your-fork>/main/AGENTS.md"
+    "https://raw.githubusercontent.com/a-attia/scicomp-research-skills/main/AGENTS.md"
   ]
 }
 ```
@@ -181,48 +182,20 @@ overrides them.
 
 ## 7. Per-project AGENTS.md boilerplate
 
-Per-project `AGENTS.md` files should follow this structure (keep them
-short -- target ~50-100 lines):
+Per-project `AGENTS.md` files should be short (target ~50-100 lines)
+and follow the canonical template kept in this repository at:
 
-```markdown
-# <project name> / AGENTS.md
+- `templates/paper-skeleton/AGENTS.md` -- the canonical per-project
+  AGENTS.md boilerplate (currently paper-flavoured; the structure
+  generalises to software projects too).
 
-This project loads shared workflow conventions from a separate
-repository. Before doing anything else, the consuming agent should:
+When the user asks "how do I start a new project that uses this
+repository", point them at Section 11 of this file ("Starting a new
+project") and copy `templates/paper-skeleton/` to bootstrap.
 
-1. Verify `~/.scicomp-research-skills/AGENTS.md` exists and is no more
-   than 30 days stale (per its modification time). If stale, print a
-   reminder suggesting `~/.scicomp-research-skills/bin/refresh.sh` and
-   proceed anyway.
-2. Read `~/.scicomp-research-skills/AGENTS.md`.
-3. Read any skill files referenced below from
-   `~/.scicomp-research-skills/skills/<name>/SKILL.md`.
-4. Then read the rest of THIS file.
-
-Skills to load for this project (load on demand, not all at once):
-
-- `~/.scicomp-research-skills/skills/research-paper-writing/SKILL.md`
-- `~/.scicomp-research-skills/skills/literature-survey/SKILL.md`
-
----
-
-## Project facts
-
-- Name: <project full name>
-- Nature: <e.g. journal paper, software library>
-- Status: <e.g. drafting Section 5; M3 milestone>
-- Plan-of-record: PLAN.md (read this after AGENTS.md)
-
-## Project-specific overrides
-
-(Anything that differs from the universal conventions in
-~/.scicomp-research-skills/AGENTS.md Section 6.)
-
-## Project-specific facts the agent should not have to derive
-
-(One-off facts: target venue, citation conventions, key collaborators,
-specific external dependencies, current draft phase.)
-```
+The template is the single source of truth for the boilerplate. If you
+need to update the boilerplate (e.g. add a new skill to load), edit the
+template; do NOT copy-paste the boilerplate into multiple places.
 
 ## 8. How to add a new skill
 
@@ -270,6 +243,117 @@ Equivalent regex: `^[a-z0-9]+(-[a-z0-9]+)*$`
 MIT. See `LICENSE` for the upstream copyright (Master-cai 2026); see
 `ATTRIBUTION.md` for our additions (also MIT, A. Attia 2026).
 
+## 11. Starting a new project
+
+When a user asks "I'm starting a new <paper / software / reviewer
+response>; how do I wire in this repository?", the agent should walk the
+user through the steps below. The exact sequence depends on project type.
+
+### 11.A New research paper
+
+The canonical workflow. Templates and skills are paper-ready today.
+
+1. **Create the project directory** (anywhere convenient; typically a
+   sibling of any code dependencies it references):
+   ```bash
+   mkdir -p <papers-parent-dir>/<paper-short-name>
+   cd <papers-parent-dir>/<paper-short-name>
+   git init
+   ```
+2. **Copy the paper-skeleton template** from the canonical checkout:
+   ```bash
+   cp -R ~/.scicomp-research-skills/templates/paper-skeleton/. .
+   ```
+   This brings in `AGENTS.md`, `PLAN.md`, `README.md`, `.gitignore`,
+   `references/{bibliography.bib, _collection_log.md}`, `notes/README.md`,
+   and `.gitkeep`s for `experiments/`, `figures/`, `drafts/`.
+3. **Customise the four `<...>` placeholders**:
+   - `AGENTS.md` -- fill in project name, nature, status, target venue,
+     code dependencies, citation style, collaborators.
+   - `PLAN.md` -- fill in the working title, headline contribution,
+     test case, hypothesis, survey reading list (start with stubs;
+     refine via the `literature-survey` skill).
+   - `README.md` -- fill in title, authors, target submission, pinned
+     upstream library versions, status.
+   - `notes/README.md` -- fill in the section topics matching your
+     PLAN.md sections.
+4. **Verify the agent will load the skills**. From inside the project:
+   ```bash
+   ls ~/.scicomp-research-skills/AGENTS.md      # should exist
+   ls ~/.scicomp-research-skills/skills/        # should list both skills
+   ```
+   If the canonical checkout is missing or stale, run
+   `~/.scicomp-research-skills/bin/refresh.sh` (or `install.sh` if it
+   has never been set up on this machine).
+5. **First commit**:
+   ```bash
+   git add .
+   git commit -m "chore: bootstrap from scicomp-research-skills/templates/paper-skeleton"
+   ```
+6. **Open the project in your agent client**. The agent will read
+   `AGENTS.md` first, follow it to `~/.scicomp-research-skills/AGENTS.md`,
+   then load the skills referenced (`research-paper-writing`,
+   `literature-survey`) on demand as the work proceeds.
+
+A typical first session asks the agent to:
+
+- run the `literature-survey` skill workflow on the first batch of
+  references (Steps 1-5 of that skill produce the verified bib entries +
+  per-paper survey notes);
+- then use the `research-paper-writing` skill to draft Section 1
+  (Introduction) once the survey notes for the closest competitors are
+  in place.
+
+### 11.B New research software project
+
+A dedicated `templates/software-skeleton/` is **not yet shipped**. Until
+it is, the recommended approach is:
+
+1. Use your normal language-/framework-specific scaffolding (e.g.
+   `cookiecutter`, `cargo new`, `uv init`, etc.) to create the project.
+2. Hand-write a short `AGENTS.md` modelled on
+   `~/.scicomp-research-skills/templates/paper-skeleton/AGENTS.md`:
+   - Same Section 1-3 boilerplate (verify, read root AGENTS.md, read
+     skills, then read this file).
+   - Skills-to-load list will likely be EMPTY for now (the existing
+     skills are paper-flavoured); add skills as we ship software-flavoured
+     ones.
+   - `## Project facts` should describe the library (language, public
+     API surface, primary downstream consumers, current release).
+3. Hand-write a `PLAN.md` modelled on
+   `~/.scicomp-research-skills/templates/paper-skeleton/PLAN.md` but
+   reorganised around code milestones (M1 = bootstrap + CI, M2 = core
+   API, M3 = first user, ...) instead of paper milestones.
+4. Open an issue against this repository requesting a
+   `templates/software-skeleton/` (one of the planned future additions).
+
+### 11.C Reviewer response / rebuttal
+
+Also not yet shipped as a dedicated template. Recommended interim:
+
+1. Create a sub-directory inside the existing paper repo:
+   `<paper-repo>/rebuttal_<round>/`.
+2. Hand-write a short `AGENTS.md` that loads the parent paper's
+   AGENTS.md plus the `research-paper-writing` skill (specifically the
+   `paper-review.md` reference, which covers reviewer-facing concerns).
+3. A dedicated `templates/rebuttal-skeleton/` is on the roadmap.
+
+### Roadmap of templates
+
+Items expected to be added to `templates/` over time:
+
+- `software-skeleton/` -- minimal Python research-software project
+  skeleton (`pyproject.toml`, `src/`, `tests/`, `docs/`, AGENTS.md,
+  PLAN.md tuned to code milestones).
+- `rebuttal-skeleton/` -- reviewer-response workspace (response.md,
+  diff-tracking, line-by-line response template).
+- `experiment-skeleton/` -- standalone experiment / ablation workspace
+  (separate from a paper repo, e.g. for exploratory work that may or
+  may not become a paper).
+
+When you ship one of these, append it to the templates index in
+Section 5 and add a corresponding sub-section to Section 11 above.
+
 ---
 
-*Created 2026-05-13 by clone-and-diverge from Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Maintained by A. Attia.*
+*Created 2026-05-13 by clone-and-diverge from Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent config, dual-licensed LICENSE, single-sourced per-project boilerplate via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a new project"). Maintained by A. Attia.*

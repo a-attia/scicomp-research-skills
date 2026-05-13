@@ -82,4 +82,4 @@ upstream library into the run's metadata JSON.
 ---
 
 *This skeleton was generated from
-[scicomp-research-skills/templates/paper-skeleton/](https://github.com/<your-fork>/tree/main/templates/paper-skeleton).*
+[scicomp-research-skills/templates/paper-skeleton/](https://github.com/a-attia/scicomp-research-skills/tree/main/templates/paper-skeleton).*
