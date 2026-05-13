@@ -21,8 +21,8 @@
 #      untouched.
 #   3. With --deep AND interactive confirmation: also unsets the local
 #      git config core.hooksPath and DELETES the entire canonical
-#      checkout (~/.scicomp-research-skills/). The dev checkout
-#      (typically under Software/) is NEVER touched.
+#      checkout (~/.scicomp-research-skills/). Dev checkouts of this
+#      repo at any other path are NEVER touched.
 #
 # Every action (preview or actual) is appended to a log file at
 # ~/.scicomp-research-skills.uninstall.log so you can audit later.
@@ -76,7 +76,7 @@ OPTIONS:
       --deep        Also unset git config core.hooksPath AND delete the
                     entire canonical checkout (~/.scicomp-research-skills/).
                     Requires interactive confirmation unless -y is passed.
-                    The dev checkout under Software/ is NEVER touched.
+                    Dev checkouts of this repo at any other path are NEVER touched.
 
 EXAMPLES:
   # Preview what would be removed (default behaviour, no removal):
@@ -294,44 +294,44 @@ if (( DEEP )); then
     note "        To delete it from elsewhere: rm -rf ${CANONICAL_ABS}"
     COUNT_WARNED=$((COUNT_WARNED + 1))
   else
-    if (( DRY_RUN )); then
+    # Belt-and-braces safety: only ever delete the exact expected
+    # canonical path (${HOME}/.scicomp-research-skills). The earlier
+    # REPO_ROOT_ABS == CANONICAL_ABS check should already guarantee
+    # this, but we re-check here so any future refactor cannot
+    # accidentally rm -rf the wrong directory.
+    EXPECTED_CANONICAL="${HOME}/.scicomp-research-skills"
+    EXPECTED_CANONICAL_ABS="$(cd "${EXPECTED_CANONICAL}" 2>/dev/null && pwd -P || echo "${EXPECTED_CANONICAL}")"
+
+    if [[ "${CANONICAL_ABS}" != "${EXPECTED_CANONICAL_ABS}" ]]; then
+      note "  REFUSED: ${CANONICAL_ABS} is not the expected canonical path (${EXPECTED_CANONICAL_ABS}); refusing to delete."
+      COUNT_WARNED=$((COUNT_WARNED + 1))
+    elif (( DRY_RUN )); then
       note "  WOULD DELETE canonical checkout: ${CANONICAL_ABS}"
-      note "  (tip: dev checkout at typically Software/scicomp-research-skills/ is NOT touched)"
+      note "  (tip: dev checkouts of this repo at any other path are NOT touched)"
     else
       # Interactive confirmation unless --yes was also passed.
       if (( ! ASSUME_YES )); then
         note ""
         echo "*** This will RECURSIVELY DELETE the canonical checkout: ${CANONICAL_ABS}"
-        echo "*** The dev checkout (typically under Software/) is NOT touched."
+        echo "*** Dev checkouts of this repo at any other path are NOT touched."
         read -r -p "Type 'DELETE' to confirm: " confirmation
         log_action "  interactive confirmation prompt: user typed: '${confirmation}'"
         if [[ "${confirmation}" != "DELETE" ]]; then
           note "  ABORTED canonical-checkout deletion (confirmation did not match 'DELETE')"
           COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
         else
-          # Last sanity check: never delete the dev checkout.
-          if [[ "${CANONICAL_ABS}" == *"/Projects/Software/"* ]]; then
-            note "  REFUSED: ${CANONICAL_ABS} looks like a dev checkout (path contains '/Projects/Software/'); not deleting."
-            COUNT_WARNED=$((COUNT_WARNED + 1))
-          else
-            # We're about to delete the directory we're sitting in. cd out first.
-            cd "${HOME}"
-            rm -rf "${CANONICAL_ABS}"
-            note "  DELETED canonical checkout: ${CANONICAL_ABS}"
-            COUNT_REMOVED=$((COUNT_REMOVED + 1))
-          fi
+          # We're about to delete the directory we're sitting in. cd out first.
+          cd "${HOME}"
+          rm -rf "${CANONICAL_ABS}"
+          note "  DELETED canonical checkout: ${CANONICAL_ABS}"
+          COUNT_REMOVED=$((COUNT_REMOVED + 1))
         fi
       else
         # --yes was passed; skip the interactive prompt.
-        if [[ "${CANONICAL_ABS}" == *"/Projects/Software/"* ]]; then
-          note "  REFUSED: ${CANONICAL_ABS} looks like a dev checkout (path contains '/Projects/Software/'); not deleting even with -y."
-          COUNT_WARNED=$((COUNT_WARNED + 1))
-        else
-          cd "${HOME}"
-          rm -rf "${CANONICAL_ABS}"
-          note "  DELETED canonical checkout: ${CANONICAL_ABS} (via -y)"
-          COUNT_REMOVED=$((COUNT_REMOVED + 1))
-        fi
+        cd "${HOME}"
+        rm -rf "${CANONICAL_ABS}"
+        note "  DELETED canonical checkout: ${CANONICAL_ABS} (via -y)"
+        COUNT_REMOVED=$((COUNT_REMOVED + 1))
       fi
     fi
   fi

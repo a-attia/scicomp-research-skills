@@ -4,8 +4,8 @@
 #
 # Behaviour: refuses to commit if this checkout looks like the CANONICAL
 # checkout at ~/.scicomp-research-skills/. Edits should happen only in
-# the dev checkout (typically
-# ~/AHMED_HOME/Research/Projects/Software/scicomp-research-skills/).
+# the dev checkout (anywhere on disk EXCEPT ~/.scicomp-research-skills/;
+# typically under your usual code-projects directory).
 #
 # Rationale: the canonical checkout is auto-refreshed via git pull. If
 # you accidentally edit + commit there, your changes either get lost on
@@ -26,8 +26,8 @@ CANONICAL_ABS="$(cd "${CANONICAL}" 2>/dev/null && pwd -P || echo "")"
 
 if [[ -n "${CANONICAL_ABS}" && "${REPO_ROOT_ABS}" == "${CANONICAL_ABS}" ]]; then
   echo "ERROR: this is the CANONICAL checkout (${CANONICAL})." >&2
-  echo "Edits + commits should happen in the DEV checkout, typically:" >&2
-  echo "  ~/AHMED_HOME/Research/Projects/Software/scicomp-research-skills/" >&2
+  echo "Edits + commits should happen in your DEV checkout (any clone" >&2
+  echo "of this repo OUTSIDE ${CANONICAL})." >&2
   echo "" >&2
   echo "If you genuinely want to commit here (rare; you almost certainly" >&2
   echo "do not), bypass with: git commit --no-verify" >&2
