@@ -38,19 +38,28 @@ Update on every `PLAN.md` revision.>
 
 ## Install
 
-<One code block. The bare minimum (e.g. `pip install <library-name>`,
-`uv add <library-name>`, or `pip install git+<URL>` for pre-release).
-Defer per-platform notes and CUDA/MPI variants to `docs/install.md`.>
+<One code block. Substitute the install command appropriate for your
+language. The Python form is shown as the template's documented
+default; for Julia, C++, Rust, Fortran, MATLAB, etc., see
+[`MULTI-LANGUAGE.md`](MULTI-LANGUAGE.md). Defer per-platform notes
+and CUDA/MPI variants to `docs/install.md`.>
 
 ```bash
+# Python (template default):
 pip install <library-name>
+
+# Julia:
+# using Pkg; Pkg.add("<LibraryName>")
+
+# Other languages: see MULTI-LANGUAGE.md.
 ```
 
 ## Quick example
 
 <10-20 line code snippet that produces a recognisable result. Should
 be runnable verbatim. Output shown as a comment or follow-on code
-block.>
+block. The Python form is shown as the template's documented
+default; replace with your language's equivalent.>
 
 ```python
 import <library_name> as <ln>
@@ -62,16 +71,26 @@ print(result)  # expected: <recognisable output>
 
 ## How this repo is organised
 
+The tree below shows the **Python** layout (the template's documented
+default). For Julia, C++, Rust, Fortran, and other languages, the
+package layer (`src/`, `tests/`, build manifest, ...) follows your
+language's conventions; the paper-coupling layer (`AGENTS.md`,
+`PLAN.md`, `README.md`, `CITATION.cff`, `experiments/`, `figures/`,
+`notes/`, `references/`, `.github/ISSUE_TEMPLATE/`) is identical
+regardless of language. See [`MULTI-LANGUAGE.md`](MULTI-LANGUAGE.md)
+for the per-language layout reference.
+
 ```text
 <library-name>/
 ├── AGENTS.md             entry point for AI agents
 ├── PLAN.md               plan-of-record (the contract)
 ├── README.md             you are here
+├── MULTI-LANGUAGE.md     per-language adaptation guidance
 ├── CITATION.cff          how to cite this library
 ├── LICENSE
 │
-├── src/<library_name>/   the library source
-│   ├── core/             numerical methods
+├── src/<library_name>/   the library source (Python layout shown;
+│   ├── core/             other languages: see MULTI-LANGUAGE.md)
 │   ├── solvers/          linear / nonlinear / time-stepping solvers
 │   ├── io/               I/O routines (separate from numerics)
 │   └── _diagnostics.py   python -m <library_name>._diagnostics
@@ -122,9 +141,12 @@ methodology. The non-negotiable rules:
   use randomness record their seed in
   `experiments/<run-id>/metadata.json`.
 
-Run the full test suite:
+Run the full test suite (Python form shown; for other languages
+substitute your test runner -- `Pkg.test()` for Julia, `cargo test`
+for Rust, `ctest` for CMake-based C++, etc.):
 
 ```bash
+# Python:
 pytest                              # unit + integration (fast)
 pytest -m e2e                       # add end-to-end (slower)
 pytest -m "slow or gpu or mpi"      # opt-in to slow / specialised tests
@@ -172,52 +194,86 @@ specific paper.">
 
 For reproducibility, this library pins direct + transitive
 dependencies. The lockfile is at <`uv.lock` / `pixi.lock` /
-`conda-lock.yml`>.
+`conda-lock.yml` for Python; `Manifest.toml` for Julia; `Cargo.lock`
+for Rust; vcpkg manifest for C++; ...>.
 
 Key direct dependencies + version policy:
 
 - **<dep 1>**: <version constraint> (<rationale, e.g. "API change in
   X.Y.0">).
 - **<dep 2>**: <version constraint>.
-- **Python versions supported**: <e.g. "3.11, 3.12, 3.13" per SPEC 0>.
+- **Supported language versions**: <e.g. "Python 3.11, 3.12, 3.13"
+  per SPEC 0; or "Julia 1.10 (LTS) and 1.x (current stable)"; or
+  "C++17, GCC >= 11 / Clang >= 15">.
 
 Update the lockfile via:
 
 ```bash
+# Python:
 <uv lock --upgrade>      # or pixi update / conda-lock --update / ...
+
+# Julia:
+# julia --project=. -e 'using Pkg; Pkg.update()'
+
+# Other languages: see your language's update command.
 ```
 
 ## Development
 
 This library was bootstrapped via
 [`scicomp-research-skills/templates/software-skeleton/`](https://github.com/a-attia/scicomp-research-skills/tree/main/templates/software-skeleton),
-which delegates the package scaffolding (pyproject, pre-commit, ruff,
-GitHub Actions matrix) to an upstream community template. The
-recommended upstream is
-[`scientific-python/cookie`](https://github.com/scientific-python/cookie)
-(BSD-3-Clause); alternative upstreams supported by `bootstrap.sh` are
-[`NLeSC/python-template`](https://github.com/NLeSC/python-template)
-(Apache-2.0; FAIR-software-aware) and
-[`CU-DBMI/template-uv-python-research-software`](https://github.com/CU-DBMI/template-uv-python-research-software)
-(BSD-3-Clause; uv-first).
+which delegates the package scaffolding (build manifest, source
+layout, tests scaffold, pre-commit + CI configs) to an upstream
+community template. Bundled options:
 
-To set up a development environment:
+- **Python (default)**:
+  [`scientific-python/cookie`](https://github.com/scientific-python/cookie)
+  (BSD-3-Clause; recommended);
+  [`NLeSC/python-template`](https://github.com/NLeSC/python-template)
+  (Apache-2.0; FAIR-software-aware);
+  [`CU-DBMI/template-uv-python-research-software`](https://github.com/CU-DBMI/template-uv-python-research-software)
+  (BSD-3-Clause; uv-first).
+- **Julia**:
+  [`JuliaBesties/BestieTemplate.jl`](https://github.com/JuliaBesties/BestieTemplate.jl)
+  (MPL-2.0; modeled on NLeSC/python-template).
+- **C++ / Rust / Fortran / MATLAB / Mathematica**: no upstream is
+  bundled; use your community's standard scaffolding (cmake init /
+  cargo new / fpm new / etc.). The paper-coupling layer in this
+  template applies regardless. See
+  [`MULTI-LANGUAGE.md`](MULTI-LANGUAGE.md) for per-language
+  guidance.
+
+To set up a development environment (Python form shown; for other
+languages substitute your environment-manager + test-runner
+commands -- see [`MULTI-LANGUAGE.md`](MULTI-LANGUAGE.md)):
 
 ```bash
+# Python:
 git clone <URL>
 cd <library-name>
 <uv sync --all-extras --dev>     # OR: pip install -e ".[dev]"
 pre-commit install
 pytest
+
+# Julia:
+# git clone <URL>
+# cd <library-name>
+# julia --project=. -e 'using Pkg; Pkg.instantiate()'
+# julia --project=. -e 'using Pkg; Pkg.test()'
 ```
 
-To verify the repo against the
+For Python projects, verify the repo against the
 [Scientific Python repo-review](https://learn.scientific-python.org/development/guides/repo-review/)
 checks (codes `PY*` / `PP*` / `GH*` / `MY*` / `RF*`):
 
 ```bash
 uvx sp-repo-review[cli] .
 ```
+
+For Julia projects, equivalent quality checks live in
+[Aqua.jl](https://github.com/JuliaTesting/Aqua.jl) (run automatically
+by BestieTemplate.jl-generated test suites). For other languages, use
+your community's lint / format / quality tools.
 
 For the full development workflow + contribution guide, see
 <`docs/development.md` / `CONTRIBUTING.md`>.

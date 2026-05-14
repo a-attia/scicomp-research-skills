@@ -83,6 +83,12 @@ Design principles in use (from
 Either prose with an annotated ASCII tree, or a markdown image of a
 block diagram. Aim to fit on one screen.>
 
+The tree below shows the **Python** layout (the template's documented
+default). For Julia, C++, Rust, Fortran, etc., adapt to your
+language's conventions; see
+[`MULTI-LANGUAGE.md`](MULTI-LANGUAGE.md) for the per-language
+layout reference.
+
 ```text
 src/<library_name>/
 ├── __init__.py             public API exports
@@ -100,7 +106,9 @@ Each component's responsibility in 1-2 sentences:
 - **`io/`** -- <responsibility>.
 - **`_diagnostics.py`** -- self-test of the installed package; per
   `research-software-engineering/references/02-testing-for-numerical-code.md`
-  "Diagnostic tests" pattern.
+  "Diagnostic tests" pattern. (Equivalent in Julia: a `@testset
+  "diagnostics"` block runnable on the installed package; in C++:
+  a `ctest` target.)
 
 ---
 
@@ -108,7 +116,7 @@ Each component's responsibility in 1-2 sentences:
 
 | Milestone | Status | Goal                                                                            |
 |:----------|:-------|:--------------------------------------------------------------------------------|
-| **M1**    | <done / in-progress / pending> | Bootstrap + CI: pyproject, tests/ skeleton, GitHub Actions for unit tests, pre-commit, ruff, mypy. |
+| **M1**    | <done / in-progress / pending> | Bootstrap + CI: build manifest (pyproject.toml / Project.toml / Cargo.toml / CMakeLists.txt / ...), tests/ skeleton, GitHub Actions for unit tests, pre-commit / equivalent linters. |
 | **M2**    | <...>  | Core numerical method: implementation + MMS test + convergence-rate test.       |
 | **M3**    | <...>  | Public API: top-level functions stable; type hints complete; first user docs.   |
 | **M4**    | <...>  | First downstream user: <internal collaborator OR paper experiment OR external library>. |
