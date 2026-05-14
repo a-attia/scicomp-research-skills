@@ -222,18 +222,26 @@ each group are independent.
 
 - **Commit messages**: conventional commit style preferred
   (`feat: ...`, `fix: ...`, `docs: ...`) but not enforced.
-- **AI co-authorship attribution**: by default, no `Co-Authored-By`
-  trailers (the human committer is solely responsible per Bridgeford
-  et al. 2025 R9 -- "AI wrote it" is never an accountability defence).
-  Per-project `AGENTS.md` files MAY override this in their
-  "Project-specific overrides" section if the project has a specific
-  reason to record AI assistance per-commit (funder requirement,
-  journal AI-disclosure policy, institutional mandate, team
-  preference). When overridden, the conventional trailer form is
-  `Co-Authored-By: Claude <noreply@anthropic.com>` per Anthropic
-  Claude Code's documented convention. This very repo
-  (`scicomp-research-skills`) overrides per CONTRIBUTING.md
-  "Maintainer-policy override".
+- **AI co-authorship attribution (default = ON)**: by default,
+  commits produced with substantive AI assistance include the
+  trailer `Co-Authored-By: Claude <noreply@anthropic.com>` (per
+  Anthropic Claude Code's documented convention). Rationale: the
+  agent IS doing substantive work; the trailer makes that visible
+  in `git log` + the GitHub contributor list, consistent with the
+  JOSS 2025+ AI-Usage Disclosure norm. Bridgeford et al. 2025 R9
+  ("AI wrote it" is never an accountability defence) is about
+  *responsibility* (the human committer is responsible regardless),
+  not *attribution* -- the trailer records who participated; it
+  does not shift accountability. The two `templates/{paper,software}
+  -skeleton/` ship a `.gitmessage` commit-template file pre-wired
+  with the trailer; new projects get the discipline by default via
+  `git config --local commit.template .gitmessage` after
+  bootstrap. Per-project `AGENTS.md` files MAY override this in
+  their "Project-specific overrides" section if the project has a
+  specific reason to omit trailers (e.g. an institutional policy
+  that prohibits naming AI tools in commit logs, or a project
+  where AI involvement is so rare that per-commit attribution is
+  noise rather than signal).
 - **No unilateral commits**: agents do not create git commits unless the
   user explicitly requests it.
 
