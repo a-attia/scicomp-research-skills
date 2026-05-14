@@ -241,20 +241,40 @@ overrides them.
 
 ## 7. Per-project AGENTS.md boilerplate
 
-Per-project `AGENTS.md` files should be short (target ~50-100 lines)
-and follow the canonical template kept in this repository at:
+Per-project `AGENTS.md` files should be short (target ~50-150 lines;
+software projects with multi-skill loadouts + citation policy may
+reach the upper end) and follow one of the canonical templates kept
+in this repository:
 
-- `templates/paper-skeleton/AGENTS.md` -- the canonical per-project
-  AGENTS.md boilerplate (currently paper-flavoured; the structure
-  generalises to software projects too).
+- `templates/paper-skeleton/AGENTS.md` -- canonical for **paper**
+  projects (~80 lines; loads paper-writing + literature-survey +
+  human-facing-doc-authoring + agent-resource-discipline +
+  project-onboarding-on-demand).
+- `templates/software-skeleton/AGENTS.md` -- canonical for
+  **software** projects (~140 lines; loads research-software-
+  engineering + agent-resource-discipline + human-facing-doc-
+  authoring + literature-survey + research-paper-writing-on-demand
+  + project-onboarding-on-demand; includes a "Citation + archival
+  policy" section + Python defaults flagged with cross-reference
+  to MULTI-LANGUAGE.md).
+
+Both templates share the same overall structure: Sections 1-3
+boilerplate (verify canonical checkout / read root AGENTS.md / load
+skills); skills-to-load list (with `### Available but not loaded by
+default` subsection for project-onboarding); Project facts;
+Project-specific overrides; Project-specific facts the agent should
+not have to derive; date-stamp footer.
 
 When the user asks "how do I start a new project that uses this
 repository", point them at Section 11 of this file ("Starting a new
-project") and copy `templates/paper-skeleton/` to bootstrap.
+project") and copy the matching template (`templates/paper-skeleton/`
+for papers, `templates/software-skeleton/` for software).
 
-The template is the single source of truth for the boilerplate. If you
-need to update the boilerplate (e.g. add a new skill to load), edit the
-template; do NOT copy-paste the boilerplate into multiple places.
+These two templates are the single source of truth for the
+boilerplate. If you need to update the boilerplate (e.g. add a new
+skill to load, change a section heading), edit BOTH templates +
+keep them in sync; do NOT copy-paste the boilerplate into ad-hoc
+locations.
 
 ## 8. How to add a new skill
 

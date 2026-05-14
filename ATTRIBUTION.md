@@ -153,11 +153,14 @@ agents and users to read.
   citable, checklist) cited in `references/05-reproducibility-infrastructure.md`
   (planned).
 
-### Project templates referenced (planned for `templates/software-skeleton/`)
+### Project templates referenced (used by `templates/software-skeleton/`)
 
-The future `templates/software-skeleton/` (planned per the audit's PR3
-sequencing) will not reimplement package scaffolding. It will delegate
-to one of:
+`templates/software-skeleton/` does not reimplement package
+scaffolding. Its `bootstrap.sh` delegates to one of the following
+upstream community templates (the user picks at bootstrap time;
+none is vendored here):
+
+**Python (default; bundled in bootstrap.sh):**
 
 - **scientific-python/cookie** (BSD-3-Clause).
   https://github.com/scientific-python/cookie .
@@ -166,14 +169,27 @@ to one of:
 - **CU-DBMI/template-uv-python-research-software** (BSD-3-Clause).
   https://github.com/CU-DBMI/template-uv-python-research-software .
 
-The `templates/software-skeleton/` will add only the research-paper-
-specific layers (`experiments/<run-id>/`, `figures/<paper-section>/`,
-`notes/impl_*.md`, `references/_collection_log.md`, CITATION.cff with
-Zenodo handshake instructions, `.github/ISSUE_TEMPLATE/` for
-numerical-correctness regressions / API ergonomics / performance
-regressions) on top of whichever upstream the user chooses. Detailed
-attribution will land in the template's own `AGENTS.md` and `README.md`
-when shipped.
+**Julia (bundled in bootstrap.sh):**
+
+- **JuliaBesties/BestieTemplate.jl** (MPL-2.0). Modeled on
+  NLeSC/python-template; copier-based via PythonCall.
+  https://github.com/JuliaBesties/BestieTemplate.jl .
+
+**C++ / Rust / Fortran / MATLAB / Mathematica:** no upstream is
+bundled; users use their community's standard scaffolding (cmake init
+/ cargo new / fpm new / etc.) for the package layer. The paper-
+coupling layer in `templates/software-skeleton/` applies regardless.
+See `templates/software-skeleton/MULTI-LANGUAGE.md` for per-language
+guidance + the placeholder-translation table.
+
+`templates/software-skeleton/` adds the research-paper-coupling
+layers (`AGENTS.md`, `PLAN.md`, `README.md`, `CITATION.cff` with
+Zenodo handshake instructions, `experiments/<run-id>/` snapshot
+discipline, `figures/<paper-section>/` provenance discipline,
+`notes/impl_*.md`, `references/_collection_log.md`,
+`.github/ISSUE_TEMPLATE/` for numerical-correctness / API /
+performance regressions, `MULTI-LANGUAGE.md`) on top of whichever
+upstream the user chooses.
 
 ---
 
@@ -183,4 +199,10 @@ Wilson 2014/2017, Roache 2002, Oberkampf & Roy 2010, LeVeque/Mitchell/
 Stodden 2012, Scientific Python Development Guide, pyOpenSci, JOSS,
 BSSw.io, The Turing Way, NLeSC fair-software, plus template upstreams
 scientific-python/cookie + NLeSC/python-template + CU-DBMI/template-uv-
-python-research-software). Maintained by A. Attia.*
+python-research-software). Revised 2026-05-14 (post-fresh-audit:
+de-staled "templates/software-skeleton/ planned" framing -- the
+template has shipped; renamed the corresponding section heading from
+"planned for" to "used by"; added Julia bundled-upstream
+JuliaBesties/BestieTemplate.jl and the C++ / Rust / Fortran / MATLAB /
+Mathematica "no upstream is bundled; see MULTI-LANGUAGE.md" callout).
+Maintained by A. Attia.*
