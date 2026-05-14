@@ -51,6 +51,18 @@ The four skills `research-software-engineering` +
 `literature-survey` are designed to compose freely; loading 2-3
 simultaneously is normal for software sessions.
 
+### Available but not loaded by default
+
+The following skills are available and load on demand for specific
+non-routine tasks; do NOT load them at session start unless the user
+asks for the matching task.
+
+- `~/.scicomp-research-skills/skills/project-onboarding/SKILL.md`
+  -- only load if the user wants to migrate this project to a
+  different framework structure, or asks about adopting additional
+  framework features. Not relevant for routine implementation /
+  testing / release work.
+
 ---
 
 ## Project facts
