@@ -11,6 +11,16 @@ the [OpenCode skills](https://opencode.ai/docs/skills/) /
 conventions, so any markdown-aware coding agent can consume it
 (OpenCode, Claude Code, Codex, Cursor, Aider, Gemini CLI, ...).
 
+> **STATUS (2026-05-14): provisional.** This framework was built in 4
+> days of intensive agent-assisted development, with extensive prior-art
+> audits but **ZERO real research projects have used it end-to-end yet**.
+> Some content is well-grounded (`research-paper-writing`,
+> `literature-survey`, `paper-skeleton`); other content is informed
+> prediction that may need pruning after real-project evidence
+> accumulates. **See [`STATUS.md`](STATUS.md) for the honest map of
+> what's tested vs speculative**, what to expect when adopting today,
+> and how the framework gets to "no-longer-provisional".
+
 > **For AI agents reading this repository**: jump straight to
 > [`AGENTS.md`](AGENTS.md). That is the canonical entry point. This
 > README is for humans.

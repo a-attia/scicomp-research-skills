@@ -8,6 +8,18 @@ This file follows the [agents.md](https://agents.md/) open standard.
 Agent clients that look for other filenames (e.g. `CLAUDE.md`) read this
 same content via symlinks created by `bin/install.sh`.
 
+> **PROVISIONAL FRAMEWORK** (as of 2026-05-14): some skill content
+> here is well-grounded (research-paper-writing, literature-survey,
+> paper-skeleton template); other skill content is informed prediction
+> from prior-art audits but **has not yet been validated by any real
+> research-project session**. When a rule feels speculative or
+> doesn't quite fit the situation, **surface that to the user
+> explicitly** + append an entry to the project's
+> `notes/agent_feedback.md` (per
+> `agent-resource-discipline/references/persistent-memory.md`). See
+> [`STATUS.md`](STATUS.md) at the repo root for the honest map of
+> what is tested vs speculative.
+
 ---
 
 ## 1. What this repository is
