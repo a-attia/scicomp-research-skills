@@ -4,8 +4,44 @@ Loaded on demand from the `agent-resource-discipline` skill when a
 session is loading multiple skills, multiple reference files, or
 multiple PDFs simultaneously.
 
-The agent's context window is finite. Spending it on material that
-isn't actively driving the current decision is waste.
+## Why this matters (empirical grounding)
+
+The context window is finite, but more importantly, the **attention
+budget within the window degrades faster than the nominal window
+suggests**. Chroma's "context rot" study
+(`https://research.trychroma.com/context-rot`, cited by Anthropic in
+their *Effective Context Engineering for AI Agents* post) finds that
+recall and reasoning quality drop measurably as context length grows,
+with effects appearing well before the window fills. Symptoms include
+recency bias (agent over-weights the last few messages),
+lost-in-the-middle (agent ignores material between the start and the
+recent end), and goal drift (agent loses track of the original task).
+
+So context-window budgeting is not just about avoiding hard token
+caps; it is about keeping the agent's working set small enough that
+the agent is **good** at using it.
+
+## The hybrid pre-load + just-in-time pattern
+
+This skill recommends a **hybrid** of two patterns:
+
+- **Pre-load** at session start: read the project's indices
+  (AGENTS.md, PLAN.md, `_collection_log.md`, `notes/README.md`) in a
+  single parallel batch. This is 4 small reads -- the agent now knows
+  the project's state without further exploration. This is what
+  Anthropic's context-engineering post calls the "speed advantage" of
+  pre-loading.
+- **Just-in-time retrieval** for everything else: skill references,
+  survey notes, `.txt` extractions, web fetches, source files. Loaded
+  by name on demand, only when the next decision actually requires
+  them. This is what Anthropic calls the "smaller working set"
+  advantage.
+
+Each pattern alone has problems: pre-load-only blows the working set
+out before any work is done; just-in-time-only spends turns on
+exploration that should have been one initial read. The hybrid is
+strictly better. The first-action protocol IS the pre-load; every
+other rule in this file is just-in-time.
 
 ---
 
@@ -27,6 +63,20 @@ Concretely:
 These are soft limits -- if a task genuinely needs more, exceed them
 and accept the cost. The point is to NOTICE when you're loading more
 than this and ask "do I need all of this for the next decision?".
+
+### Skill-author length budgets
+
+For skill AUTHORS in this ecosystem (not just users): Anthropic's
+official `skill-creator` skill recommends keeping each `SKILL.md`
+**under 500 lines**. If a skill approaches that limit, add another
+layer of progressive disclosure (split into per-topic references)
+rather than letting the skill body grow. Reference files themselves
+should be similarly bounded -- typical 150-300 lines, with structural
+hierarchy if they need to grow further.
+
+This skill's own files conform: `SKILL.md` is ~250 lines (was 197
+before the prior-art audit revisions); each `references/*.md` is
+~150-280 lines.
 
 ## Skill loading: one + one
 
@@ -148,4 +198,11 @@ overfull context.
 
 ---
 
-*Created 2026-05-13 by A. Attia.*
+*Created 2026-05-13 by A. Attia. Revised 2026-05-13 (post-prior-art
+audit): added "Why this matters" empirical-grounding paragraph citing
+Chroma's context-rot study (via Anthropic's context-engineering post);
+added "The hybrid pre-load + just-in-time pattern" framing so the
+first-action protocol is identified explicitly as a deliberate
+pre-load (not a contradiction of the just-in-time rule); added
+"Skill-author length budgets" sub-section citing Anthropic's
+skill-creator 500-line guidance.*

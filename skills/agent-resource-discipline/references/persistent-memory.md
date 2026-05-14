@@ -134,6 +134,57 @@ When reading at session start, walk the hierarchy top-down: AGENTS.md
 -> PLAN.md -> the index files. Do not dive into individual survey
 notes / experiment runs unless the task requires it.
 
+## Mid-session memory: recitation against goal drift
+
+Long sessions (those exceeding ~50 tool calls) suffer from a separate
+failure mode: the original PLAN.md fades from the agent's recent
+attention as conversation length grows. The Manus team identifies this
+as the "lost-in-the-middle" pattern and addresses it via **recitation**
+(`https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus`,
+their rule 4): the agent periodically re-reads the plan into recent
+context, where the model attends most strongly.
+
+Concrete recitation rule:
+
+- Every ~30-50 tool calls in a long session, re-`Read` the relevant
+  section of `PLAN.md` (just the section the work is currently in, not
+  the whole document).
+- Likewise, before declaring a major sub-task complete, re-`Read` the
+  outline of the sub-task from the relevant `notes/section_<N>.md` or
+  `notes/impl_<component>.md`.
+
+Recitation is cheap (~50-200 tokens per re-read). Goal drift is
+expensive (the agent ends up working on the wrong sub-task, or the
+right sub-task with the wrong constraints).
+
+## Failures stay in the conversation; structural failures get logged
+
+When a tool call fails mid-session (a dead URL, a rate limit, a file
+not found, a bib entry that doesn't resolve), the temptation is to
+silently retry or work around it. The Manus team's rule 5 ("keep the
+wrong stuff in") is the right response: **let the failure sit in the
+conversation** so the model adapts and avoids re-trying the same path.
+
+For *structural* failures -- failures that are not transient and that
+future sessions will hit too -- additionally log to the appropriate
+audit entry:
+
+- A citation's PDF is genuinely unobtainable -> note in the bib
+  entry's `note` field AND log to `_collection_log.md` "Items not
+  found / left for user".
+- An arXiv ID is wrong (resolves to a different paper) -> add a
+  "Corrections to apply" entry to `_collection_log.md`.
+- A URL referenced in PLAN.md is dead -> log to `PLAN.md` "Open
+  Questions" with the dead URL + when it was last reachable.
+- A figure-generation script in `experiments/` fails reproducibly ->
+  log in the run's metadata JSON + a note in `notes/section_<N>.md`.
+
+The principle: in-session failures stay in the conversation for the
+agent's adaptive use; structural failures additionally become part of
+the persistent record so future sessions don't have to rediscover
+them. Silent retries are forbidden; silent fixes are forbidden;
+explicit logging is the way.
+
 ## Multi-session workflows
 
 Some tasks span sessions deliberately:
@@ -157,4 +208,10 @@ exactly where to resume.
 
 ---
 
-*Created 2026-05-13 by A. Attia.*
+*Created 2026-05-13 by A. Attia. Revised 2026-05-13 (post-prior-art
+audit): added "Mid-session memory: recitation against goal drift"
+section codifying the Manus team's rule 4 (recitation as the simplest
+defence against the lost-in-the-middle failure mode); added "Failures
+stay in the conversation; structural failures get logged" section
+codifying Manus's rule 5 + a routing table for which audit entry
+gets which kind of structural failure.*
