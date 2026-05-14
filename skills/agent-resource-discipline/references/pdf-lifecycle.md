@@ -8,6 +8,31 @@ academic paper PDF is 10-40 pages with mixed text + figures + equations,
 and the binary format is not directly consumable by most agents. The
 rules below minimise repeated work across sessions.
 
+## How this differs from PaperQA-style RAG
+
+A common alternative to the protocol below is **programmatic
+retrieval-augmented generation** over PDFs (parse + chunk + embed +
+retrieve), e.g. via [PaperQA2](https://github.com/Future-House/paper-qa).
+Both approaches solve the same underlying problem (avoid re-reading
+PDFs in full on every query), but optimise for different things:
+
+| Dimension                     | This skill (survey-note cache)                    | PaperQA / RAG (embedding cache)                  |
+|:------------------------------|:--------------------------------------------------|:-------------------------------------------------|
+| Cache representation          | Hand-curated `notes/survey_<citekey>.md` (~30-50 lines) | Vector embeddings of chunked PDFs            |
+| Per-query token cost          | Low (a survey note is small)                      | Medium (embedding lookup + chunk fetch)          |
+| Ad-hoc query flexibility      | Only what the survey note covers                  | Any question over the whole paper                |
+| Reproducibility / version control | Markdown in git; diffs auditable              | Vector DB; not normally checked in                |
+| Citation-quality summaries    | Yes (the survey note IS a citation)               | No (RAG output is regenerated per query)         |
+| Cross-session human review    | Yes (the user reads the same note the agent reads) | No (the user does not read the embeddings)      |
+
+The skill's protocol is designed for **research-paper authoring**,
+where citation-quality, version-controlled, human-reviewable summaries
+matter more than ad-hoc query flexibility. For the latter use case
+(e.g. reading 200 papers to answer a single broad question), PaperQA-
+style RAG is the better tool. Use whichever is appropriate; the two
+can also coexist (survey notes for the deeply-cited papers, RAG over
+the long tail).
+
 ---
 
 ## The lifecycle in one diagram
@@ -130,23 +155,92 @@ In particular, the **Method (full detail)** section should include the
 key equations in MathJax, not just prose summaries. If a future
 session needs the equation, it should be in the note already.
 
-## When to re-extract or re-read the binary PDF
+## Fallback protocol (when the survey note is insufficient)
 
-Rare cases. The honest list:
+The agent's default is **read the survey note first**. But the note is
+sometimes wrong, missing, or insufficient for the current question.
+The fallback ladder, in order of cost:
 
-1. **The PDF was replaced** (preprint -> published version, v1 -> v3
-   on arXiv). Re-run `pdftotext`; consider updating the survey note.
-2. **The `.txt` extraction is corrupted or missing** (rare; usually a
-   tooling bug).
-3. **You need to look at a figure or table directly** (`pdftotext` does
-   not extract figures). Use the binary PDF viewer.
-4. **The survey note was written by someone else and you don't trust
-   it**. Read the `.txt` end-to-end and produce a fresh note (do NOT
-   silently overwrite the existing note; add a "Revised" stamp + note
-   the disagreements).
+### Rung 1: target-grep the `.txt` extraction
 
-Outside these cases: the `.txt` is enough; the note is enough; the
-PDF binary stays in the directory but is never re-opened.
+When the survey note doesn't directly answer the question but the
+question is well-defined (a specific equation, a specific table number,
+a specific parameter value):
+
+1. `Grep` the `.txt` extraction for keywords or section names from the
+   question.
+2. `Read` the matching section with `offset` + `limit`.
+3. **Update the survey note** with the new fact you just retrieved
+   (one or two lines under the appropriate section; add a "Revised
+   YYYY-MM-DD" stamp). Future sessions will not have to re-derive.
+
+This is the most common fallback. It costs ~50-200 tokens (one Grep,
+one targeted Read) instead of ~1500 (whole-paper Read).
+
+### Rung 2: read more of the `.txt`
+
+When you've target-grepped and the answer requires understanding more
+context than a single section provides:
+
+1. `Read` the surrounding 2-3 sections (still offset+limit; not the
+   whole paper).
+2. **If you found that the survey note has a substantive error or
+   omission** (not just a missing detail): add a "Corrections to
+   apply" entry to `references/_collection_log.md` describing what
+   the note got wrong; then revise the note with a "Revised" stamp.
+3. Surface the discrepancy to the user in your response.
+
+### Rung 3: open the PDF binary
+
+Reserved for cases where text extraction genuinely fails:
+
+1. **`pdftotext` lost critical content** (uncommon, but happens with
+   heavily-formatted papers; equations rendered as images; columns
+   parsed in wrong order on a complex layout).
+2. **Need to look at a figure or table directly** (`pdftotext` does
+   not extract figures; some tables come out as garbled grids).
+3. **Need to see the page layout** (e.g. understand which figure
+   refers to which paragraph).
+
+For (1), consider re-running `pdftotext` with different flags
+(`-raw`, `-layout`, no flag) to compare; one of them often works
+where the others don't. Cache the better extraction in the same
+`.txt/<citekey>.txt` location (overwriting the worse one).
+
+### Rung 4: the PDF was replaced upstream
+
+When the upstream PDF has changed (preprint -> published; v1 -> v3 on
+arXiv; corrigendum issued):
+
+1. Replace `references/pdf/<citekey>.pdf` with the new PDF.
+2. Re-run `pdftotext`.
+3. Diff the new `.txt` against the cached old one (`git diff` if the
+   `.txt` were tracked, or `diff` against a backup).
+4. Update the survey note for any substantive changes.
+5. Add a "Corrections to apply" entry noting the version change AND
+   any change to bib metadata (page numbers, year).
+
+### Rung 5: the survey note was written by someone else and you don't trust it
+
+If you have specific reason to suspect the existing note misrepresents
+the paper:
+
+1. Read the `.txt` end-to-end (this is the rare case where bulk read
+   is appropriate).
+2. **Do NOT silently overwrite** the existing note. Add a new
+   "Revised YYYY-MM-DD by <reviewer>" stamp + an "Earlier version
+   said X; deep re-read shows Y" delta block at the end of the note.
+3. Surface the discrepancy in your response so the user can decide
+   whether to keep the old characterisation or adopt the new one.
+
+## Default state
+
+Outside the fallback ladder above, the day-to-day default is: the
+`.txt` is enough; the note is enough; the PDF binary stays in the
+directory but is never re-opened. **The fallback is a fallback, not a
+fall-through.** If you find yourself reaching Rung 3 or 5 routinely,
+the survey notes are too thin -- update the `literature-survey` skill
+workflow to capture more on first read.
 
 ## Anti-patterns to refuse
 
@@ -165,4 +259,9 @@ Modes the agent should refuse to enter:
 
 ---
 
-*Created 2026-05-13 by A. Attia.*
+*Created 2026-05-13 by A. Attia. Revised 2026-05-13 (post-prior-art
+audit): added "How this differs from PaperQA-style RAG" comparison
+table; restructured "When to re-extract or re-read" into a 5-rung
+fallback ladder (target-grep -> wider .txt read -> PDF binary -> PDF
+replaced -> distrust existing note) with explicit update-the-note
+side-effects so the cache stays fresh.*
