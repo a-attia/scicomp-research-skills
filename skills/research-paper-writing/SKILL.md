@@ -97,3 +97,30 @@ When asked to rewrite or draft sections, return:
 2. Revised paragraphs with explicit paragraph roles (opening/challenge/method/advantage/evidence/limitation).
 3. A short self-review checklist covering clarity, flow, terminology consistency, unsupported claims, and missing evidence.
 4. A claim-evidence map for each major claim in the revised text using `Claim: ... | Evidence: ... | Status: supported/needs evidence`.
+
+## Adjacent human-facing documents
+
+This skill governs the **published paper draft** itself (Abstract,
+Introduction, Related Work, Method, Experiments, Conclusion). When
+the work also requires producing or revising **meta-documents** that
+support the paper -- for example:
+
+- updates to the project's `PLAN.md`,
+- per-section research notes (`notes/section_<N>.md`),
+- per-component implementation plans (`notes/impl_<component>.md`),
+- the project's `README.md`,
+- a reviewer-response draft,
+
+those documents have a different audience (the user, co-authors,
+reviewers) and a different style budget than the paper itself. Load
+`~/.scicomp-research-skills/skills/human-facing-doc-authoring/SKILL.md`
+for the conventions and per-doc-type structural skeletons. Use BOTH
+skills together: paper-writing for the paper draft, human-facing for
+any meta-doc.
+
+---
+
+*Revised 2026-05-13: added "Adjacent human-facing documents" section
+pointing at the human-facing-doc-authoring skill for meta-docs
+(PLAN.md, section/impl notes, README, rebuttal) that this skill does
+not directly govern.*
