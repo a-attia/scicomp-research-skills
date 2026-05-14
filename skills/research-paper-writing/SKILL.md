@@ -1,6 +1,11 @@
 ---
 name: research-paper-writing
 description: Improve academic paper writing quality for ML/CV/NLP-style papers with clear section structure, paragraph flow, and reviewer-facing presentation. Use when drafting or revising Abstract, Introduction, Related Work, Method, Experiments, or Conclusion; polishing figures/tables; checking claim-support alignment; or performing self-review before submission.
+license: MIT
+metadata:
+  audience: research-paper authors
+  domain: ml-cv-nlp-research
+  origin: upstream Master-cai/Research-Paper-Writing-Skills @ 9ee5edd (vendored 2026-05-13; see ATTRIBUTION.md)
 ---
 # Research Paper Writing
 
