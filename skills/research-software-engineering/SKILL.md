@@ -1,6 +1,6 @@
 ---
 name: research-software-engineering
-description: Use this skill whenever the work involves writing, extending, refactoring, testing, packaging, releasing, or auditing scientific-computing software -- numerical methods, PDE solvers, inverse problems, optimisation, optimal experimental design, uncertainty quantification, scientific machine learning, or any code that produces numbers (not user-facing apps). Make sure to load this whenever a session will touch a Python / Julia / C++ scientific-computing codebase, EVEN IF THE USER DOES NOT MENTION IT explicitly. The skill codifies eleven disciplines as a methodology for AI-assisted scientific software development -- numerical correctness (MMS / convergence-rate tests / conservation invariants / "paper tests" guard), testing strategies for numerical code, API design for researchers (NumPy / JAX / scikit-learn / dolfinx / petsc4py idioms), performance and scaling, reproducibility infrastructure (lockfiles / containers / Zenodo handshake), CI/CD for research code, project lifecycle (script -> library -> publication -> maintenance), code-paper coupling (commit-pinning / submission tags / SWHID), launch and debug protocols adapted from fcakyon/phd-skills, and the Bridgeford et al. 2025 ten rules for AI-assisted coding in science. Borrows from and cites: Scientific Python Development Guide (BSD-3) + sp-repo-review, pyOpenSci package guide, Wilson et al. 2017 "Good Enough Practices for Scientific Computing", JOSS review criteria (with 2025 AI-disclosure requirement), BSSw.io HPC guidance, The Turing Way Research Compendia chapter, and Bridgeford et al. 2025 (CC-BY 4.0). Companion skill to `literature-survey` (papers cited as algorithm sources) and `research-paper-writing` (when the code supports a paper).
+description: Use this skill whenever a session will touch a scientific-computing codebase (numerical methods, PDE solvers, inverse problems, OED, UQ, scientific ML, or any code that produces numbers) in Python, Julia, C++, or other languages. Make sure to load this EVEN IF THE USER DOES NOT MENTION IT. Codifies eleven disciplines for AI-assisted scientific software development: numerical correctness (MMS, convergence-rate tests, conservation invariants, "paper tests" guard); testing strategies for numerical code; API design for researchers (NumPy / JAX / dolfinx / petsc4py idioms); performance + scaling; reproducibility infrastructure (lockfiles, Zenodo); CI/CD; project lifecycle; code-paper coupling (commit-pinning, submission tags); numerical-launch + debug protocols; and the Bridgeford et al. 2025 ten rules for AI-assisted coding in science. Cites Scientific Python Development Guide (BSD-3), pyOpenSci, Wilson et al. 2017, JOSS 2025 criteria, The Turing Way. Composes with `literature-survey` + `research-paper-writing`.
 license: MIT
 metadata:
   audience: scientific-computing software authors and contributors
@@ -148,22 +148,37 @@ When the session enters a specific phase or addresses a specific
 concern, load the matching reference. Do NOT load all references at
 once.
 
-| Phase / concern                            | Reference to load                                     |
-|:-------------------------------------------|:------------------------------------------------------|
-| Numerical correctness, MMS, convergence    | `references/01-numerical-correctness.md`              |
-| Test design for numerical code             | `references/02-testing-for-numerical-code.md`         |
-| API design / refactoring decisions         | `references/03-api-design-for-researchers.md` (PR2)   |
-| Performance / GPU / MPI                    | `references/04-performance-and-scaling.md` (PR4)      |
-| Lockfiles / Zenodo / FAIR / CITATION.cff   | `references/05-reproducibility-infrastructure.md` (PR2) |
-| pyproject / pre-commit / nox / actions     | `references/06-ci-cd-for-research-code.md` (PR4)      |
-| Lifecycle / extraction / abandonment       | `references/07-project-lifecycle.md` (PR4)            |
-| Code-paper coupling / submission tags      | `references/08-code-paper-coupling.md` (PR2)          |
-| Launching a long numerical run             | `references/09-launch-checklist-numerical.md` (PR4)   |
-| Debugging numerical failures               | `references/10-debug-protocol-numerical.md` (PR4)     |
-| Working with AI on scientific code         | `references/11-ai-assisted-coding-rules.md`           |
+| Phase / concern                            | Reference to load                                |
+|:-------------------------------------------|:-------------------------------------------------|
+| Numerical correctness, MMS, convergence    | `references/01-numerical-correctness.md`         |
+| Test design for numerical code             | `references/02-testing-for-numerical-code.md`    |
+| Working with AI on scientific code         | `references/11-ai-assisted-coding-rules.md`      |
 
-(Items marked PR2 / PR4 are planned in subsequent shipments; the four
-unmarked references are in this skill's first cut.)
+### Planned references (not yet shipped)
+
+The following references are designed but not yet shipped. The
+universal principles + AI-assisted-coding rules above cover the
+underlying discipline; specialised content arrives in PR2 + PR4
+per the audit's sequencing. Do NOT try to load these references
+yet -- the files do not exist.
+
+| Phase / concern                            | Planned reference (not loadable yet)               | Ship target |
+|:-------------------------------------------|:---------------------------------------------------|:------------|
+| API design / refactoring decisions         | `references/03-api-design-for-researchers.md`      | PR2         |
+| Lockfiles / Zenodo / FAIR / CITATION.cff   | `references/05-reproducibility-infrastructure.md`  | PR2         |
+| Code-paper coupling / submission tags      | `references/08-code-paper-coupling.md`             | PR2         |
+| Performance / GPU / MPI                    | `references/04-performance-and-scaling.md`         | PR4         |
+| pyproject / pre-commit / nox / actions     | `references/06-ci-cd-for-research-code.md`         | PR4         |
+| Lifecycle / extraction / abandonment       | `references/07-project-lifecycle.md`               | PR4         |
+| Launching a long numerical run             | `references/09-launch-checklist-numerical.md`      | PR4         |
+| Debugging numerical failures               | `references/10-debug-protocol-numerical.md`        | PR4         |
+
+In the meantime, when one of the planned phases comes up, fall back
+on: (a) the universal principles + AI-assisted-coding rules in this
+SKILL.md; (b) the cited upstream references (Scientific Python
+Development Guide, JOSS criteria, etc.); (c) the
+`research-software-engineering` skill's `references/01` and `02`
+which cover correctness + testing in depth.
 
 ## Workflow rules
 
@@ -265,6 +280,20 @@ mlflow / wandb, Snakemake / Nextflow, Zenodo, Software Heritage,
 JuliaBesties/BestieTemplate.jl). The audit identified a clear gap:
 no agent-skill targeted scientific-computing software methodology;
 this skill is the first cut at filling that gap. Currently ships
-`SKILL.md` + four references; remaining seven references and a
-companion `templates/software-skeleton/` are planned in subsequent
-shipments per the audit's PR1-PR4 sequencing.*
+`SKILL.md` + 3 references (01-numerical-correctness,
+02-testing-for-numerical-code, 11-ai-assisted-coding-rules); the
+companion `templates/software-skeleton/` (with bootstrap.sh
+delegating to scientific-python/cookie | NLeSC/python-template |
+CU-DBMI/template-uv-python-research-software | JuliaBesties/BestieTemplate.jl
++ MULTI-LANGUAGE.md guidance) shipped 2026-05-13. The remaining 7
+references (03 API design, 04 performance, 05 reproducibility infra,
+06 CI/CD, 07 lifecycle, 08 code-paper coupling, 09 numerical-launch,
+10 numerical-debug) are planned in PR2 + PR4 per the audit's
+sequencing. Revised 2026-05-14 (post-fresh-audit: trimmed workflow
+table to only the 3 ship-ready references; moved the 8 unshipped
+references to a clearly-marked "Planned references (not yet
+shipped)" section with explicit "do NOT try to load these" warning;
+fixed footer count "four references" -> "3 references"; replaced
+"templates/software-skeleton/ planned" with "shipped 2026-05-13";
+compressed description from 1725 chars to ~1024 chars to fit the
+OpenCode skill-spec limit of 1024 chars per AGENTS.md Section 8).*
