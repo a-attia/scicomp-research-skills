@@ -237,6 +237,16 @@ When the user invokes this skill, the agent should:
   collection-log templates above embody these conventions; load the
   human-facing-doc-authoring skill when authoring or revising either
   artefact and you want the cross-cutting checklist.
+- `~/.scicomp-research-skills/skills/agent-resource-discipline/SKILL.md`
+  -- a literature-survey pass typically processes many PDFs and
+  iterates across sessions, so it is one of the heaviest token
+  consumers in this ecosystem. Load this skill (and in particular its
+  `references/pdf-lifecycle.md` and `references/persistent-memory.md`)
+  at the start of any non-trivial literature pass: it codifies the
+  one-shot pdftotext + survey-note-first lookup pattern, the
+  context-window budget for handling many references, and the first-/
+  last-action index-update protocol that makes a multi-session pass
+  cheap.
 
 ---
 
@@ -245,4 +255,8 @@ workflow developed for the rl-oed paper (14 references verified across
 3 sections of the paper's plan-of-record). Revised 2026-05-13 (added
 Workflow rule #6 + See-also pointer to human-facing-doc-authoring
 skill, since survey notes and the collection log are human-facing
-artefacts).*
+artefacts). Revised 2026-05-13 (added See-also pointer to
+agent-resource-discipline skill, since a literature-survey pass is
+PDF-heavy + multi-session and therefore benefits explicitly from the
+PDF-lifecycle + persistent-memory + context-window-budget protocols
+that skill codifies).*
