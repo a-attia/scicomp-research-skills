@@ -60,10 +60,12 @@ Two checkouts of this repository exist on each machine:
   - Per-project `AGENTS.md` files reference paths like
     `~/.scicomp-research-skills/skills/<name>/SKILL.md`.
 
-Set up the canonical checkout on a fresh machine via:
+Set up the canonical checkout on a fresh machine via (try SSH first;
+fall back to HTTPS if SSH keys are not configured for GitHub):
 
 ```bash
-git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+  || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
 ~/.scicomp-research-skills/bin/install.sh
 ```
 
@@ -555,10 +557,30 @@ logical step.
 
 The skill's `references/migration-prompts.md` file contains
 ready-to-paste prompts for each scenario + sub-case, plus a
-"discovery prompt" for users unsure which scenario applies. The
-shortest discovery prompt:
+"discovery prompt" for users unsure which scenario applies.
+
+Every prompt begins with the same **prerequisite-check block** so
+the agent can install the framework if it is not yet installed
+(rather than failing opaquely on the "load skill" step). Discovery
+prompt:
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 I have an existing project at <path> that I want to adopt the
 scicomp-research-skills framework on. I'm not sure whether I have
 prior agentic instructions or not. Load the project-onboarding
