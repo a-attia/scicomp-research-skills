@@ -1,6 +1,6 @@
 # notes/ index
 
-This directory holds three kinds of working notes for the paper:
+This directory holds working notes for the paper:
 
 - **`survey_<citekey>.md`** -- one per literature reference (citekey
   matches `../references/bibliography.bib`). Each ~30-50 lines: claim,
@@ -12,9 +12,18 @@ This directory holds three kinds of working notes for the paper:
 - **`section_<N>.md`** -- one per draft paper section (research notes
   aggregating the relevant survey-note action items + experiment results
   + figure references).
+- **`agent_feedback.md`** -- the per-project feedback channel into the
+  upstream `scicomp-research-skills` repository. The agent appends
+  observations here when a skill rule was insufficient, a workaround
+  was needed, or a useful pattern was discovered. Roll-up procedure
+  (sanitise + file an upstream issue) lives in
+  `~/.scicomp-research-skills/CONTRIBUTING.md`.
 
-This README is the index over the survey notes only. Update tables
-below as new notes are added.
+This README is the index over the **survey notes** only. The other
+three kinds (`impl_*.md`, `section_*.md`, `agent_feedback.md`) are
+self-indexing; they get their own per-file structure described in
+the upstream `human-facing-doc-authoring` skill's reference files.
+Update the tables below as new survey notes are added.
 
 ## Status (YYYY-MM-DD)
 

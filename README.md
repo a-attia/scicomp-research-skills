@@ -36,6 +36,7 @@ conventions, so any markdown-aware coding agent can consume it
   - [Refreshing the canonical checkout](#refreshing-the-canonical-checkout)
   - [Reconciling after `install.sh` changes](#reconciling-after-installsh-changes)
   - [Removing what `install.sh` created](#removing-what-installsh-created)
+- [Feedback from real projects](#feedback-from-real-projects)
 - [Extending this repository](#extending-this-repository)
 - [Pulling updates from upstream](#pulling-updates-from-upstream)
 - [Provenance and licence](#provenance-and-licence)
@@ -363,6 +364,31 @@ Every action (preview or actual) is appended to
 `~/.scicomp-research-skills.uninstall.log` for later audit.
 
 ---
+
+## Feedback from real projects
+
+This repository improves only when real research projects use it and
+report back. Three layers exist for that, at increasing levels of
+effort:
+
+1. **Per-project feedback journal** -- every project bootstrapped
+   from `templates/paper-skeleton/` ships with a
+   `notes/agent_feedback.md` file. The agent (per
+   `agent-resource-discipline/references/persistent-memory.md`)
+   appends entries to this file when a skill rule was insufficient,
+   a workaround was needed, or a useful pattern was discovered. No
+   friction; never leaves the project repo.
+2. **GitHub issues** -- when a journal entry seems to deserve action,
+   it's promoted to an issue here using one of three templates in
+   `.github/ISSUE_TEMPLATE/` (skill-bug, skill-improvement-from-
+   experience, new-skill-proposal). Each template prompts for the
+   evidence the maintainer needs.
+3. **Pull requests** -- for changes whose shape is already clear, open
+   a PR directly. PRs that cite specific journal entries move faster
+   than abstract "this seems like a good idea" PRs.
+
+The full procedure (entry triggers, sanitisation rules, what evidence
+each kind of change needs) is in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Extending this repository
 
