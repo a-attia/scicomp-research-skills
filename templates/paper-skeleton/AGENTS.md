@@ -35,6 +35,18 @@ Load on demand, not all at once:
   give the agent persistent memory across sessions via the project's
   indices (PLAN.md status, `_collection_log.md`, `notes/README.md`).
 
+### Available but not loaded by default
+
+The following skills are available and load on demand for specific
+non-routine tasks; do NOT load them at session start unless the user
+asks for the matching task.
+
+- `~/.scicomp-research-skills/skills/project-onboarding/SKILL.md`
+  -- only load if the user wants to migrate this project to a
+  different framework structure, or asks about adopting additional
+  framework features. Not relevant for routine drafting / experiment
+  / reviewer-response work.
+
 ---
 
 ## Project facts

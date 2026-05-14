@@ -146,6 +146,7 @@ files, not automatically.
 | `skills/human-facing-doc-authoring/` | Author or revise any human-facing project doc (README.md, PLAN.md, survey notes, collection logs, rebuttal drafts) -- audience split, two-tier structure, cross-references. | added here |
 | `skills/agent-resource-discipline/` | Reduce token / quota / context-window consumption + improve cross-session memory (tool selection, parallelism, targeted reads, PDF lifecycle, persistent-memory protocol, context-window budget, web-fetch caching). | added here |
 | `skills/research-software-engineering/` | Methodology for AI-assisted scientific-computing software development -- numerical correctness (MMS / convergence-rate tests / "paper tests" guard), testing strategies for numerical code, API design for researchers, reproducibility infra, code-paper coupling, plus the Bridgeford et al. 2025 ten rules condensed agent-actionably. | added here |
+| `skills/project-onboarding/` | Adopt the framework on an EXISTING project (rather than starting from scratch). Covers two scenarios -- (1) no prior agentic work; (2) existing AGENTS.md / CLAUDE.md / .cursorrules / etc. -- with worked examples, an inventory-before-acting audit procedure, and a conflict-resolution mechanism for when project conventions disagree with framework universal conventions. | added here |
 
 When new skills are added, append a row to this table.
 
@@ -484,6 +485,101 @@ Items expected to be added to `templates/` over time:
 When you ship one of these, append it to the templates index in
 Section 5 and add a corresponding sub-section to Section 11 above.
 
+## 12. Adopting on an existing project
+
+Section 11 covers the from-scratch case ("I'm starting a new
+paper / software / rebuttal"). The realistic case more often is
+"I already have a project; help me adopt the framework on it."
+That's what this section + the
+`skills/project-onboarding/` skill cover.
+
+When a user asks any of:
+
+- "I have an existing project; help me start using these skills on
+  it."
+- "Migrate this repo to use the scicomp-research-skills framework."
+- "I already have a `CLAUDE.md` (or `.cursorrules` or `AGENTS.md`);
+  how do I integrate it with this framework?"
+- "Adopt these skills on top of my existing work."
+
+... the agent should load the
+`skills/project-onboarding/SKILL.md` skill and walk the user through
+the audit-then-plan-then-execute workflow it codifies.
+
+### Two scenarios + sub-cases
+
+The skill's decision tree distinguishes:
+
+- **Scenario 1**: existing project, NO prior agentic instructions
+  (no `AGENTS.md` / `CLAUDE.md` / `.cursorrules` at the repo root).
+  Sub-cases: 1.A empty-ish repo; 1.B mature repo with substantial
+  existing structure; 1.C non-standard layout.
+- **Scenario 2**: existing project, WITH prior agentic instructions
+  (one or more `AGENTS.md` / `CLAUDE.md` / `.cursorrules` /
+  `GEMINI.md` / `CONVENTIONS.md` / `AGENT.md` files at the repo
+  root). Sub-cases: 2.A one agent-file format; 2.B multiple
+  agent-file formats; 2.C agent-file with substantive project
+  content; 2.D conflicting conventions between the existing
+  agent-file and the framework's universal conventions
+  (root `AGENTS.md` Section 6).
+
+### Universal migration workflow
+
+Regardless of scenario, the migration follows five steps:
+
+1. **Audit** -- inventory the existing project. Read-only step;
+   nothing gets written. Output: a migration plan document
+   (typically a temporary `notes/_migration_<date>.md`).
+2. **Plan** -- the agent proposes specific file moves, content
+   merges, new files to add, conflicts to resolve. The user
+   reviews + approves before any writes.
+3. **Execute** -- one commit per logical migration step.
+4. **Verify** -- run the framework's first-action protocol on the
+   migrated project; check that AGENTS.md / PLAN.md / cross-refs /
+   no leaks all hold.
+5. **Document** -- append an entry to `notes/agent_feedback.md`
+   summarising the onboarding session.
+
+### Core principle (from the skill)
+
+**Existing project content is the user's work. The agent's job is
+to preserve it, surface any conflicts to the user explicitly, and
+migrate content into the canonical layout -- not to replace
+existing files with template defaults.**
+
+Concretely: audit before acting; move rather than overwrite;
+surface conflicts explicitly; never auto-delete; one commit per
+logical step.
+
+### Ready-to-paste prompts
+
+The skill's `references/migration-prompts.md` file contains
+ready-to-paste prompts for each scenario + sub-case, plus a
+"discovery prompt" for users unsure which scenario applies. The
+shortest discovery prompt:
+
+```text
+I have an existing project at <path> that I want to adopt the
+scicomp-research-skills framework on. I'm not sure whether I have
+prior agentic instructions or not. Load the project-onboarding
+skill from
+~/.scicomp-research-skills/skills/project-onboarding/SKILL.md
+and its references/existing-project-audit.md. Inspect the project
+state, classify which scenario applies, and propose a migration
+plan. Do NOT make any changes yet.
+```
+
+### Conflict resolution mechanism
+
+When the existing project's conventions disagree with the
+framework's universal conventions (Section 6 above), the resolution
+mechanism is the per-project AGENTS.md "Project-specific
+overrides" section. That section is the formal home for approved
+deviations -- the framework's universal rules are defaults, not
+commandments, and per-project AGENTS.md MAY override them per
+Section 3 of this file. The full procedure is in the skill's
+`references/conflict-resolution.md`.
+
 ---
 
-*Created 2026-05-13 by clone-and-diverge from Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent config, dual-licensed LICENSE, single-sourced per-project boilerplate via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a new project"). Revised 2026-05-13 (added project-readme-authoring skill + Section 6 README-vs-AGENTS.md audience split convention). Revised 2026-05-13 (renamed project-readme-authoring -> human-facing-doc-authoring; generalised scope to all human-facing docs incl. PLAN.md, notes/survey_*.md, references/_collection_log.md, etc.; expanded universal convention; added per-doc-type structure files for plan / notes / audit-log). Revised 2026-05-13 (added agent-resource-discipline skill + Section 6 universal one-liners for tool selection / parallelism / targeted reads / re-use-prior-work / persistent-memory; codifies PDF lifecycle, web-fetch caching, context-window budget, first-action/last-action protocols). Revised 2026-05-13 (added upstream-feedback channel: CONTRIBUTING.md + .github/ISSUE_TEMPLATE/ + per-project notes/agent_feedback.md template + Section 6 universal one-liner pointing at it; the per-project feedback channel + the agent-resource-discipline skill's recording rules close the loop between project sessions and upstream skill improvements). Revised 2026-05-13 (added research-software-engineering skill -- first cut: SKILL.md + references/01-numerical-correctness.md + references/02-testing-for-numerical-code.md + references/11-ai-assisted-coding-rules.md, per the prior-art audit's PR1 sequencing; remaining 7 references + companion templates/software-skeleton/ planned for PR2-PR4). Revised 2026-05-13 (shipped templates/software-skeleton/ as PR3 ahead of audit's original PR2; AGENTS.md / PLAN.md / README.md / CITATION.cff with Zenodo handshake / .gitignore / experiments/README.md / figures/README.md / notes/README.md + agent_feedback.md / references/_collection_log.md / .github/ISSUE_TEMPLATE/{numerical-correctness-regression, api-ergonomics, performance-regression}.md / bootstrap.sh delegating to scientific-python/cookie | NLeSC/python-template | CU-DBMI/template-uv-python-research-software; AGENTS.md Section 5 templates table updated; AGENTS.md Section 11.B replaced "not yet shipped" stub with full 7-step walkthrough at parity with paper-skeleton's 11.A; templates roadmap pruned to remove the now-shipped software-skeleton entry). Maintained by A. Attia.*
+*Created 2026-05-13 by clone-and-diverge from Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent config, dual-licensed LICENSE, single-sourced per-project boilerplate via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a new project"). Revised 2026-05-13 (added project-readme-authoring skill + Section 6 README-vs-AGENTS.md audience split convention). Revised 2026-05-13 (renamed project-readme-authoring -> human-facing-doc-authoring; generalised scope to all human-facing docs incl. PLAN.md, notes/survey_*.md, references/_collection_log.md, etc.; expanded universal convention; added per-doc-type structure files for plan / notes / audit-log). Revised 2026-05-13 (added agent-resource-discipline skill + Section 6 universal one-liners for tool selection / parallelism / targeted reads / re-use-prior-work / persistent-memory; codifies PDF lifecycle, web-fetch caching, context-window budget, first-action/last-action protocols). Revised 2026-05-13 (added upstream-feedback channel: CONTRIBUTING.md + .github/ISSUE_TEMPLATE/ + per-project notes/agent_feedback.md template + Section 6 universal one-liner pointing at it; the per-project feedback channel + the agent-resource-discipline skill's recording rules close the loop between project sessions and upstream skill improvements). Revised 2026-05-13 (added research-software-engineering skill -- first cut: SKILL.md + references/01-numerical-correctness.md + references/02-testing-for-numerical-code.md + references/11-ai-assisted-coding-rules.md, per the prior-art audit's PR1 sequencing; remaining 7 references + companion templates/software-skeleton/ planned for PR2-PR4). Revised 2026-05-13 (shipped templates/software-skeleton/ as PR3 ahead of audit's original PR2; AGENTS.md / PLAN.md / README.md / CITATION.cff with Zenodo handshake / .gitignore / experiments/README.md / figures/README.md / notes/README.md + agent_feedback.md / references/_collection_log.md / .github/ISSUE_TEMPLATE/{numerical-correctness-regression, api-ergonomics, performance-regression}.md / bootstrap.sh delegating to scientific-python/cookie | NLeSC/python-template | CU-DBMI/template-uv-python-research-software; AGENTS.md Section 5 templates table updated; AGENTS.md Section 11.B replaced "not yet shipped" stub with full 7-step walkthrough at parity with paper-skeleton's 11.A; templates roadmap pruned to remove the now-shipped software-skeleton entry). Revised 2026-05-13 (added project-onboarding skill: SKILL.md + references/{existing-project-audit, scenario-1-no-agentic-work, scenario-2-existing-agentic-files, conflict-resolution, migration-prompts}.md, addressing the realistic case of adopting the framework on an existing project; AGENTS.md Section 5 updated; new Section 12 'Adopting on an existing project' added; ready-to-paste prompts for both scenarios + sub-cases provided; per-project AGENTS.md template in templates/{paper,software}-skeleton/ updated with project-onboarding in skills-to-load list; README.md gains an 'Adopting on an existing project' section). Maintained by A. Attia.*

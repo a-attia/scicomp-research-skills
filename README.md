@@ -32,6 +32,10 @@ conventions, so any markdown-aware coding agent can consume it
   - [A. Research paper (canonical workflow)](#a-research-paper-canonical-workflow)
   - [B. Research software project](#b-research-software-project)
   - [C. Reviewer response / rebuttal](#c-reviewer-response--rebuttal)
+- [Adopting on an existing project](#adopting-on-an-existing-project)
+  - [Discovery prompt](#discovery-prompt)
+  - [Scenario 1 -- no prior agentic work](#scenario-1----no-prior-agentic-work)
+  - [Scenario 2 -- existing agentic instructions](#scenario-2----existing-agentic-instructions)
 - [Maintenance](#maintenance)
   - [Refreshing the canonical checkout](#refreshing-the-canonical-checkout)
   - [Reconciling after `install.sh` changes](#reconciling-after-installsh-changes)
@@ -360,6 +364,141 @@ For the full agent-facing walkthrough including the roadmap of
 upcoming templates, see [`AGENTS.md`](AGENTS.md) Section 11.
 
 ---
+
+## Adopting on an existing project
+
+The previous section ([Starting a new project](#starting-a-new-project-in-detail))
+covers the from-scratch case. The realistic case is more often "I
+already have a paper / library / analysis repo with months of work
+in it; help me adopt the framework on top of that, without losing
+anything."
+
+The framework handles this via the
+[`project-onboarding`](skills/project-onboarding/SKILL.md) skill,
+which walks the agent through an **inventory-before-acting**
+workflow: it audits the existing repo, produces a migration plan
+for your review, and only then executes the plan one commit at a
+time. It never silently overwrites existing content; conflicts
+between your conventions and the framework's defaults get surfaced
+to you for explicit decision.
+
+The skill covers two top-level scenarios:
+
+- **Scenario 1**: existing project, NO prior agentic instructions
+  (no `AGENTS.md` / `CLAUDE.md` / `.cursorrules` at the repo root).
+- **Scenario 2**: existing project, WITH prior agentic instructions
+  (one or more agent-files already present).
+
+Each scenario has sub-cases (empty-ish vs mature vs non-standard
+layout for Scenario 1; one vs many agent-files vs substantive
+existing content vs conflicting conventions for Scenario 2). The
+full taxonomy + worked examples + ready-to-paste prompts live in
+the skill's `references/` folder.
+
+### Discovery prompt
+
+If you're not sure which scenario applies, paste the following
+into your agent client as the first message of a fresh session
+(replace `<path-to-project>` with your project's path):
+
+```text
+I have an existing project at <path-to-project> that I want to
+adopt the scicomp-research-skills framework on. I'm not sure
+whether I have prior agentic instructions or not.
+
+Load the project-onboarding skill from
+~/.scicomp-research-skills/skills/project-onboarding/SKILL.md
+and its references/existing-project-audit.md. Inspect the project
+state, classify which scenario applies, and propose a migration
+plan. Do NOT make any changes yet.
+```
+
+The agent will inventory your repo, classify the scenario, and
+present a plan for your review.
+
+### Scenario 1 -- no prior agentic work
+
+You have an existing project but no `AGENTS.md` / `CLAUDE.md` /
+`.cursorrules` at the repo root. Use this prompt:
+
+```text
+I have an existing <paper / software-library / mixed> project at
+<path>. I have NOT used any agentic tooling on it yet -- no
+AGENTS.md, no CLAUDE.md, no .cursorrules.
+
+Load the project-onboarding skill from
+~/.scicomp-research-skills/skills/project-onboarding/SKILL.md
+plus its references/scenario-1-no-agentic-work.md and
+references/existing-project-audit.md.
+
+Run the audit, produce a migration plan, walk me through it. Do
+NOT make any file changes until I approve.
+```
+
+The agent will:
+
+1. Inventory your existing structure.
+2. Classify which sub-case applies (1.A empty-ish; 1.B mature
+   with substantial structure; 1.C non-standard layout).
+3. Produce a migration plan tailored to that sub-case, proposing
+   one logical commit per step (typical: 5-10 commits for a
+   moderate-complexity repo).
+4. Wait for your approval before executing.
+
+### Scenario 2 -- existing agentic instructions
+
+You have an existing project with one or more agent-files at the
+repo root (`CLAUDE.md`, `.cursorrules`, `GEMINI.md`, etc.). The
+content there is valuable; we preserve it. Use this prompt:
+
+```text
+I have an existing <paper / software-library> project at <path>
+that already has <list your agent files, e.g. "CLAUDE.md and
+.cursorrules"> at the repo root. I want to adopt the
+scicomp-research-skills framework while preserving all of the
+content I've already captured.
+
+Load the project-onboarding skill from
+~/.scicomp-research-skills/skills/project-onboarding/SKILL.md
+plus:
+- references/existing-project-audit.md
+- references/scenario-2-existing-agentic-files.md
+- references/conflict-resolution.md
+
+Read all my existing agent-files. Classify their content (generic
+rules subsumed by framework conventions / conflicting / additional
+project-specific facts / plan-of-record content). Produce a
+migration plan that consolidates everything into a single
+per-project AGENTS.md plus PLAN.md, with the existing agent-files
+becoming symlinks to AGENTS.md so my agent client still finds them.
+
+Include a content-check table verifying every line of every
+original file is either migrated, dropped (with reason), or
+flagged for my decision.
+
+Do NOT make any changes until I review the plan + content-check
+table.
+```
+
+The agent will:
+
+1. Read all your agent-files.
+2. Classify their content (per the table in the skill's
+   `references/scenario-2-existing-agentic-files.md`).
+3. Identify conflicts (between your files; between your files and
+   the framework's conventions) and surface them for your
+   decision.
+4. Produce a content-check table proving nothing was lost.
+5. Wait for your approval before executing.
+
+### Full reference
+
+For sub-case-specific prompts (1.A / 1.B / 1.C / 2.A / 2.B / 2.C
+/ 2.D), the full audit procedure, the conflict-resolution
+mechanism (per-project AGENTS.md "Project-specific overrides"
+section), and worked examples, see
+[`AGENTS.md`](AGENTS.md) Section 12 and the
+[`project-onboarding`](skills/project-onboarding/SKILL.md) skill.
 
 ## Maintenance
 
