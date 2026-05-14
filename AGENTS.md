@@ -139,10 +139,11 @@ following the [OpenCode skills](https://opencode.ai/docs/skills/) and
 conventions. Skills are loaded **on demand** by per-project `AGENTS.md`
 files, not automatically.
 
-| Skill                       | Purpose                                                                                                  | Origin                          |
-|:----------------------------|:---------------------------------------------------------------------------------------------------------|:--------------------------------|
-| `skills/research-paper-writing/`  | Section-by-section paper drafting, paragraph-clarity check, claim-evidence alignment, adversarial review. | upstream (Master-cai)         |
-| `skills/literature-survey/` | bibtex + PDF + pdftotext + per-paper survey-note + collection-log workflow for heavy-literature papers.   | added here                      |
+| Skill                              | Purpose                                                                                                  | Origin                  |
+|:-----------------------------------|:---------------------------------------------------------------------------------------------------------|:------------------------|
+| `skills/research-paper-writing/`   | Section-by-section paper drafting, paragraph-clarity check, claim-evidence alignment, adversarial review. | upstream (Master-cai)  |
+| `skills/literature-survey/`        | bibtex + PDF + pdftotext + per-paper survey-note + collection-log workflow for heavy-literature papers.   | added here              |
+| `skills/human-facing-doc-authoring/` | Author or revise any human-facing project doc (README.md, PLAN.md, survey notes, collection logs, rebuttal drafts) -- audience split, two-tier structure, cross-references. | added here |
 
 When new skills are added, append a row to this table.
 
@@ -179,6 +180,20 @@ overrides them.
   enforced.
 - **No unilateral commits**: agents do not create git commits unless the
   user explicitly requests it.
+- **Human-facing vs agent-facing docs**: every project keeps two
+  parallel families of documents with explicitly different audiences.
+  **Agent-facing** (`AGENTS.md`, per-skill `SKILL.md` files) are
+  telegraphic, structured, machine-parseable. **Human-facing**
+  (`README.md`, `PLAN.md`, `notes/survey_*.md`,
+  `references/_collection_log.md`, `notes/section_*.md`,
+  `notes/impl_*.md`, rebuttal drafts, ...) are narrative, indexed,
+  date-stamped where appropriate, and designed to be scanned. Do NOT
+  treat human-facing docs as downstream renderings of `AGENTS.md`;
+  they have different jobs. **Whenever the agent will produce or
+  substantially revise a document a human is expected to read for
+  review or reference, load the `human-facing-doc-authoring`
+  skill** -- it codifies the universal conventions and points at
+  per-doc-type structural skeletons.
 
 ## 7. Per-project AGENTS.md boilerplate
 
@@ -356,4 +371,4 @@ Section 5 and add a corresponding sub-section to Section 11 above.
 
 ---
 
-*Created 2026-05-13 by clone-and-diverge from Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent config, dual-licensed LICENSE, single-sourced per-project boilerplate via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a new project"). Maintained by A. Attia.*
+*Created 2026-05-13 by clone-and-diverge from Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent config, dual-licensed LICENSE, single-sourced per-project boilerplate via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a new project"). Revised 2026-05-13 (added project-readme-authoring skill + Section 6 README-vs-AGENTS.md audience split convention). Revised 2026-05-13 (renamed project-readme-authoring -> human-facing-doc-authoring; generalised scope to all human-facing docs incl. PLAN.md, notes/survey_*.md, references/_collection_log.md, etc.; expanded universal convention; added per-doc-type structure files for plan / notes / audit-log). Maintained by A. Attia.*
