@@ -62,6 +62,14 @@ This is the canonical machine-readable provenance record. Fill in
 EVERY field; placeholders for "unknown" should be explicit (`null`
 or `"unknown"`), not omitted.
 
+> **Cross-stamp**: this schema is intentionally near-identical to the
+> one in
+> [`templates/paper-skeleton/experiments/README.md`](https://github.com/a-attia/scicomp-research-skills/tree/main/templates/paper-skeleton/experiments/README.md);
+> the paper-skeleton variant adds two paper-specific fields
+> (`code.library_repo`, `linked_paper_figure`). If you change one
+> schema, change both to keep them in sync; reviewers + downstream
+> tools may consume either.
+
 ```json
 {
   "run_id": "20260513_finite-element_linear-quad-mesh32",
