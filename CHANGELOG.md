@@ -14,6 +14,36 @@ formatted as a chronological list rather than a prose footer.
 
 ## 2026-05-14
 
+- **AI co-authorship attribution: default flipped from OFF to ON.**
+  Root AGENTS.md Section 6.3 previously said "no `Co-Authored-By`
+  trailers by default; per-project AGENTS.md MAY override to add
+  them" (inherited from the Master-cai upstream's stance). Flipped
+  to "default = ON; per-project AGENTS.md MAY override to omit" on
+  the rationale that (a) the agent IS doing substantive work in
+  most sessions; (b) the JOSS 2025+ AI-Usage Disclosure norm makes
+  per-commit attribution increasingly expected; (c) Bridgeford et
+  al. 2025 R9 ("AI wrote it" is never an accountability defence)
+  is about *responsibility*, not *attribution* -- the trailer
+  records who participated, it doesn't shift accountability.
+  Changes:
+  - Root AGENTS.md Section 6.3 rewrote the "Commit messages" /
+    "AI co-authorship attribution" rules accordingly.
+  - templates/paper-skeleton/.gitmessage + templates/software-skeleton/.gitmessage
+    (new) ship the Co-Authored-By: Claude trailer pre-wired; new
+    projects activate via `git config --local commit.template
+    .gitmessage` after bootstrap.
+  - This repo's own CONTRIBUTING.md simplified -- the
+    "Maintainer-policy override" section was added in the previous
+    commit (when the framework default was OFF + this repo
+    overrode); now removed since this repo follows the framework
+    default.
+  - skills/project-onboarding/references/conflict-resolution.md
+    Conflict D (AI co-authorship attribution) rewritten to reflect
+    the polarity flip. Now describes "default = ON" + lists the
+    common reasons for an override (institutional policy
+    prohibits naming AI; AI involvement is rare enough that
+    per-commit attribution is noise; conference / journal
+    compliance constraint).
 - **Post-fresh-audit cleanup**:
   - HIGH: compressed 3 over-long skill descriptions
     (`research-software-engineering`, `project-onboarding`,

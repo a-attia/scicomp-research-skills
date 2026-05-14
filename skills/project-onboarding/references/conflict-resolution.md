@@ -171,16 +171,52 @@ enforced", so this is a soft conflict.
 
 ### Conflict D: AI co-authorship attribution
 
-**Framework**: "no `Co-Authored-By` trailers" + "agents do not
-create git commits unless the user explicitly requests it".
+**Framework** (root AGENTS.md Section 6.3): default = ON.
+Substantive AI assistance gets a
+`Co-Authored-By: Claude <noreply@anthropic.com>` trailer per
+Anthropic Claude Code's documented convention. The two
+`templates/{paper,software}-skeleton/` ship a `.gitmessage` template
+pre-wired with the trailer; new projects activate it via
+`git config --local commit.template .gitmessage` after bootstrap.
 
-**Common deviations**:
-- Project policy requires explicit AI-co-authorship trailer
-  (e.g. for compliance with funder rules).
-- Project requires AI-generated code to be marked with a comment.
+**Common deviations** (per-project AGENTS.md MAY override the
+default to omit trailers):
 
-**Standard resolution**: usually (b) -- the deviation is justified
-(funder compliance, IRB requirements, etc.); record + apply.
+- **Institutional policy prohibits naming AI tools in commit logs**
+  (rare but increasingly seen at risk-averse organisations).
+- **AI involvement is so rare in this project that per-commit
+  attribution is noise rather than signal** (e.g. a long-running
+  human-led project where AI helps maybe once a month -- the
+  trailer becomes meaningless rather than informative).
+- **Compliance constraint** -- specific conference / journal forbids
+  AI authorship attribution + the project's submission strategy
+  needs to comply.
+
+**Standard resolution**:
+
+- For the common case (project follows the framework default; AI
+  trailers ON): no override needed; activate the `.gitmessage`
+  template + commit normally.
+- For the override case (project wants trailers OFF): use option
+  (b) per the conflict-resolution procedure -- record the override
+  in per-project AGENTS.md "Project-specific overrides" with the
+  rationale (institutional policy / compliance constraint / signal
+  ratio); delete the project's `.gitmessage` file (or remove the
+  trailer line from it); document in the project's CONTRIBUTING.md
+  if it has one.
+
+**Note on the polarity flip**: this framework's rule used to be
+"default = no trailers" (inherited from the Master-cai upstream).
+Flipped to "default = ON" on 2026-05-14 because (a) the agent IS
+doing substantive work in most sessions; (b) the JOSS 2025+
+AI-Usage Disclosure norm makes per-commit attribution increasingly
+expected; (c) Bridgeford et al. 2025 R9 ("AI wrote it" is never an
+accountability defence) is about *responsibility*, not
+*attribution* -- the human committer is responsible regardless of
+whether the trailer is present, so the trailer doesn't shift
+accountability + has no downside other than per-commit noise. (c)
+is the key insight -- previously we conflated R9 (responsibility)
+with the trailer rule (attribution); the two are independent.
 
 ### Conflict E: file-edit tool preference
 
@@ -292,4 +328,9 @@ the override surface.
 
 ---
 
-*Created 2026-05-13 by A. Attia.*
+*Created 2026-05-13 by A. Attia. Revised 2026-05-14: rewrote
+Conflict D (AI co-authorship attribution) to reflect the framework
+default flip from "no Co-Authored-By trailers by default" to
+"Co-Authored-By trailer ON by default; per-project override may
+omit". The polarity flip is documented in the rewritten Conflict D
+section + in CHANGELOG.md.*

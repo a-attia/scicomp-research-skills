@@ -192,13 +192,13 @@ For changes whose shape is already clear:
    shell scripts. (CI runs this on push.)
 6. Commit with a conventional-commit-style message
    (`feat:` / `fix:` / `docs:` / `chore:` / `ci:`). For commits
-   produced with substantive AI assistance, add a
-   `Co-Authored-By: Claude <noreply@anthropic.com>` trailer per the
-   maintainer-policy override below. (The framework default in
-   root `AGENTS.md` Section 6.3 is no `Co-Authored-By` trailers;
-   this repository overrides because most of its content was
-   produced through extended AI-assisted sessions and we want the
-   attribution to be visible per-commit.)
+   produced with substantive AI assistance, include a
+   `Co-Authored-By: Claude <noreply@anthropic.com>` trailer per
+   the framework default in root `AGENTS.md` Section 6.3
+   ("AI co-authorship attribution (default = ON)"). The repo ships
+   a `.gitmessage` template with the trailer pre-wired; activate it
+   on a fresh clone via `git config --local commit.template
+   .gitmessage`.
 7. Open a PR against `main` referencing the issue (if any) and
    citing the journal entries that motivated the change.
 
@@ -246,43 +246,14 @@ These are the universal conventions from
 - **No emojis** in code, code comments, code docstrings, or
   production docs (unless the user explicitly requests them).
 - **Commit messages**: conventional-commit style preferred
-  (`feat: ...`, `fix: ...`, `docs: ...`). For AI-assisted commits in
-  THIS repo specifically, see the maintainer-policy override below.
+  (`feat: ...`, `fix: ...`, `docs: ...`). Include a
+  `Co-Authored-By: Claude <noreply@anthropic.com>` trailer for
+  AI-assisted commits per the framework default in root
+  `AGENTS.md` Section 6.3 (the `.gitmessage` template at the repo
+  root has it pre-wired -- activate via
+  `git config --local commit.template .gitmessage`).
 - **No unilateral commits**: agents do not create commits unless the
   user explicitly requests them.
-
-### Maintainer-policy override: AI co-authorship attribution
-
-This repository **overrides** the framework default in root
-`AGENTS.md` Section 6.3 (which says no `Co-Authored-By` trailers).
-Override:
-
-- **Decided**: 2026-05-14.
-- **Override**: commits produced with substantive AI assistance
-  (Claude via OpenCode / Claude Code) include the trailer
-  `Co-Authored-By: Claude <noreply@anthropic.com>`.
-- **Rationale**: most of the framework's content was produced
-  through extended AI-assisted sessions; per-commit attribution
-  makes the AI assistance visible to anyone reading `git log`,
-  consistent with the JOSS 2025+ AI-Usage Disclosure norm and with
-  Anthropic's documented Claude Code convention. The framework
-  default (no trailers) remains correct for projects where the
-  human committer is solely responsible per Bridgeford et al. 2025
-  R9; this repo deviates because AI authorship here is the rule,
-  not the exception.
-- **Scope**: all commits to `scicomp-research-skills` itself. Does
-  NOT propagate to projects bootstrapped FROM the framework --
-  those follow the framework default unless they record their own
-  override.
-- **How to apply**: configure git's commit template:
-  ```bash
-  git config --local commit.template ~/.config/git/scicomp-research-skills.template
-  # or, repo-local file:
-  git config --local commit.template .gitmessage
-  ```
-  Then add the trailer line to that template file. Or include the
-  trailer manually at the bottom of each commit message (with a
-  blank line before it).
 
 For human-facing documents specifically (any document a human is
 expected to read for review or reference -- README.md, PLAN.md,

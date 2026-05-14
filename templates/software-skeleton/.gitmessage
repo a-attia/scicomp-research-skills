@@ -1,0 +1,37 @@
+# <Library short name> commit message template.
+#
+# Lines beginning with '#' are stripped from the final commit message.
+#
+# Conventional-commit prefix examples (from root scicomp-research-skills
+# AGENTS.md Section 6.3):
+#   feat: <new feature / new public API>
+#   fix:  <bug fix / numerical-correctness fix>
+#   docs: <documentation change>
+#   chore: <housekeeping; CI / dependency bumps>
+#   refactor: <reorg without behaviour change>
+#   test: <test additions / changes>
+#   perf: <performance improvement>
+#
+# After the subject line + blank line, write the body explaining WHY
+# the change was made (the diff already shows WHAT). Reference issues
+# / PRs / journal entries / impl-notes that motivated the change. For
+# numerical-correctness fixes, cite the source of the corrected
+# expected value (analytical / MMS / reference impl / benchmark /
+# invariant / asymptotic) per
+# research-software-engineering/references/01-numerical-correctness.md.
+#
+# The Co-Authored-By trailer below records substantive AI assistance
+# per the framework's default (root AGENTS.md Section 6.3 "AI
+# co-authorship attribution (default = ON)"). Delete the trailer for
+# human-only commits. Per-project AGENTS.md "Project-specific
+# overrides" may flip the default if your project has a reason to
+# omit trailers; if so, delete this template line + the trailer below.
+#
+# To use this template, run once after bootstrap:
+#   git config --local commit.template .gitmessage
+#
+# More on git trailers: https://git-scm.com/docs/git-interpret-trailers
+
+
+
+Co-Authored-By: Claude <noreply@anthropic.com>
