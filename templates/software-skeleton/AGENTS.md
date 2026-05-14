@@ -90,10 +90,24 @@ in use, key collaborators, specific external dependencies that need
 care, current development phase, known gotchas. The agent benefits
 from knowing these without reading PLAN.md cover-to-cover.)
 
-- **Language**: <Python 3.11+ / Julia 1.10+ / C++17 / mixed>
-- **Build backend**: <hatchling / setuptools / scikit-build-core / poetry / uv-managed>
-- **Environment manager**: <uv / pixi / conda / pip-tools>
-- **Test framework**: <pytest / unittest / pytest+hypothesis>
+The bracketed defaults below assume **Python** -- the template's
+documented default. If you bootstrapped via `./bootstrap.sh julia` or
+are using a non-Python / mixed language, replace the Python defaults
+with your language's equivalents and record the deviation in
+"Project-specific overrides" above. See [`MULTI-LANGUAGE.md`](MULTI-LANGUAGE.md)
+for the placeholder-translation table.
+
+- **Language**: <Python 3.11+ / Julia 1.10+ / C++17 / Rust 1.75+ /
+  Fortran 2018+ / mixed -- pick what applies>
+- **Build / packaging**: <hatchling / setuptools / scikit-build-core /
+  poetry / uv-managed for Python; Project.toml + Pkg.jl for Julia;
+  CMake / Meson / vcpkg for C++; Cargo for Rust; fpm / Make for
+  Fortran>
+- **Environment manager**: <uv / pixi / conda / pip-tools for Python;
+  Pkg.jl for Julia; vcpkg / Conan for C++; Cargo for Rust>
+- **Test framework**: <pytest / unittest / pytest+hypothesis for
+  Python; Test.jl + TestItemRunner.jl + Aqua.jl for Julia; Catch2 /
+  GoogleTest for C++; cargo test for Rust>
 - **Mathematical conventions**: <e.g. row-major arrays, 0-based indexing,
   positive-definite-A sign convention for the discrete Laplacian, SI units
   throughout, ...>

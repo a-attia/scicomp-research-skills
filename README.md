@@ -299,12 +299,24 @@ git init
 #    .github/ISSUE_TEMPLATE/, bootstrap.sh).
 cp -R ~/.scicomp-research-skills/templates/software-skeleton/. .
 
-# 3. Run bootstrap.sh to add the package layer (pyproject, src/, tests/,
-#    docs/, CI, pre-commit) by delegating to one of three upstream
-#    community templates. Pick the one matching your style:
-./bootstrap.sh cookie    # scientific-python/cookie (BSD-3, default)
-./bootstrap.sh nlesc     # NLeSC/python-template (Apache-2.0, FAIR-aware)
-./bootstrap.sh uv-cu     # CU-DBMI/template-uv-python-research-software (BSD-3, uv-first)
+# 3. Run bootstrap.sh to add the package layer (build manifest, src/,
+#    tests/, docs/, CI, pre-commit / equivalent linters) by delegating
+#    to one of the bundled upstream community templates. Pick the one
+#    matching your language + style:
+
+# Python (default; best-supported):
+./bootstrap.sh cookie    # scientific-python/cookie (BSD-3)
+./bootstrap.sh nlesc     # NLeSC/python-template (Apache-2.0; FAIR-aware)
+./bootstrap.sh uv-cu     # CU-DBMI/template-uv-python-research-software (BSD-3; uv-first)
+
+# Julia:
+# ./bootstrap.sh julia   # JuliaBesties/BestieTemplate.jl (MPL-2.0)
+
+# C++ / Rust / Fortran / MATLAB / Mathematica: don't run bootstrap.sh.
+# Use your community's standard scaffolding (cmake init / cargo new /
+# fpm new / etc.); the paper-coupling layer in this template applies
+# regardless of language. See templates/software-skeleton/MULTI-LANGUAGE.md
+# for the per-language placeholder-translation table.
 
 # Bootstrap requires `copier`:
 #   pipx install copier   # OR:   uv tool install copier
@@ -315,16 +327,19 @@ cp -R ~/.scicomp-research-skills/templates/software-skeleton/. .
 #    - README.md   -> install + quick example + experiments + pinned deps
 #    - CITATION.cff -> author list, license, Zenodo handshake (instructions
 #                      baked in as comments)
+#    For non-Python projects, also adapt the Python-default placeholders
+#    in README.md / PLAN.md / AGENTS.md per
+#    templates/software-skeleton/MULTI-LANGUAGE.md.
 
 # 5. (One-time per machine) verify the canonical checkout is fresh:
 ~/.scicomp-research-skills/bin/refresh.sh
 
-# 6. Verify the repo passes Scientific Python's repo-review:
+# 6. (Python only) verify the repo passes Scientific Python's repo-review:
 uvx sp-repo-review[cli] .
 
 # 7. First commit.
 git add .
-git commit -m "chore: bootstrap from scicomp-research-skills/templates/software-skeleton/ + cookie upstream"
+git commit -m "chore: bootstrap from scicomp-research-skills/templates/software-skeleton/ + <upstream> upstream"
 ```
 
 Now open the project in your agent client. The agent will:
