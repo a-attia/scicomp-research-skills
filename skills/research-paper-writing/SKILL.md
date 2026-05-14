@@ -147,6 +147,28 @@ discipline for *what to load while writing*.
 
 ---
 
+## Note on this skill's references/ files
+
+The references files under `references/` (abstract.md, conclusion.md,
+experiments.md, introduction.md, method.md, paper-review.md,
+related-work.md, examples/) are **vendored from the upstream
+[Master-cai/Research-Paper-Writing-Skills](https://github.com/Master-cai/Research-Paper-Writing-Skills)
+repository at commit 9ee5edd** (see ATTRIBUTION.md). They are
+deliberately preserved without per-file date-stamp footers -- our
+universal "every plan-of-record-style document ends with a date-stamp
+footer" convention (root AGENTS.md Section 6) does not apply to
+upstream-imported reference content; modifying the upstream files to
+add footers would create false revision history.
+
+When upstream evolves the references files, we may selectively
+cherry-pick changes (per ATTRIBUTION.md "Pulling updates from
+upstream"). When we substantially modify a reference file, we will
+add a `*Revised YYYY-MM-DD by A. Attia: <note>.*` footer to that
+specific file at that point. Until then the upstream provenance is
+authoritative.
+
+---
+
 *Revised 2026-05-13: added "Adjacent human-facing documents" section
 pointing at the human-facing-doc-authoring skill for meta-docs
 (PLAN.md, section/impl notes, README, rebuttal) that this skill does
@@ -154,4 +176,8 @@ not directly govern. Revised 2026-05-13: added "Resource discipline
 for paper-writing sessions" section pointing at the
 agent-resource-discipline skill for the cross-cutting context-window /
 persistent-memory protocol that complements this skill's Execution
-Rule #7.*
+Rule #7. Revised 2026-05-14 (post-fresh-audit): documented the
+deliberate exception from the universal date-stamp-footer convention
+for upstream-vendored references files (the eight files under
+references/ that were imported from Master-cai upstream and have not
+been substantially modified).*

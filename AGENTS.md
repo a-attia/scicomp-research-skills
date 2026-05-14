@@ -165,7 +165,10 @@ into a fresh project directory and customise.
 ## 6. Universal conventions
 
 These conventions apply unless a per-project `AGENTS.md` explicitly
-overrides them.
+overrides them. Grouped by topic for scanability; the rules within
+each group are independent.
+
+### 6.1 Code style + content encoding
 
 - **Encoding**: ASCII only in code, code comments, and code-style
   docstrings. Markdown documentation MAY use non-ASCII for readability
@@ -173,19 +176,46 @@ overrides them.
 - **Math notation**: prefer LaTeX inside markdown via MathJax (`$...$`
   for inline, `$$...$$` for display). Avoid ASCII-art math in production
   documentation.
-- **Date-stamping**: every plan-of-record-style document (PLAN.md,
-  AGENTS.md, any skill file) ends with a `*Created YYYY-MM-DD. Revised
-  YYYY-MM-DD (note about the revision). Maintained by <name>.*` footer.
+- **No emojis**: in code, code comments, code docstrings, and production
+  documentation, unless the user explicitly requests them.
 - **Code references**: when citing a specific function or block in code,
   use `path/to/file:line_number` format so the user can navigate
   directly.
-- **No emojis**: in code, code comments, code docstrings, and production
-  documentation, unless the user explicitly requests them.
+
+### 6.2 Document hygiene
+
+- **Date-stamping**: every plan-of-record-style document (PLAN.md,
+  AGENTS.md, any skill file) ends with a `*Created YYYY-MM-DD. Revised
+  YYYY-MM-DD (note about the revision). Maintained by <name>.*` footer.
+  Exception: upstream-vendored content keeps its own provenance + does
+  not get fake revision footers (see e.g. the note in
+  `skills/research-paper-writing/SKILL.md` "Note on this skill's
+  references/ files").
+- **Human-facing vs agent-facing docs**: every project keeps two
+  parallel families of documents with explicitly different audiences.
+  **Agent-facing** (`AGENTS.md`, per-skill `SKILL.md` files) are
+  telegraphic, structured, machine-parseable. **Human-facing**
+  (`README.md`, `PLAN.md`, `notes/survey_*.md`,
+  `references/_collection_log.md`, `notes/section_*.md`,
+  `notes/impl_*.md`, rebuttal drafts, ...) are narrative, indexed,
+  date-stamped where appropriate, and designed to be scanned. Do NOT
+  treat human-facing docs as downstream renderings of `AGENTS.md`;
+  they have different jobs. **Whenever the agent will produce or
+  substantially revise a document a human is expected to read for
+  review or reference, load the `human-facing-doc-authoring`
+  skill** -- it codifies the universal conventions and points at
+  per-doc-type structural skeletons.
+
+### 6.3 Git + commit discipline
+
 - **Commit messages**: no `Co-Authored-By` trailers. Conventional commit
   style preferred (`feat: ...`, `fix: ...`, `docs: ...`) but not
   enforced.
 - **No unilateral commits**: agents do not create git commits unless the
   user explicitly requests it.
+
+### 6.4 Agent tool discipline
+
 - **Tool selection**: prefer dedicated tools over Bash equivalents.
   Use `Read` (not `cat`/`head`/`tail`), `Grep` (not `bash grep`/`rg`),
   `Glob` (not `find`/`ls -R`), `Edit` (not `sed`/`awk`), `Write` (not
@@ -199,6 +229,9 @@ overrides them.
   explicit `offset`+`limit`, or `Grep` first to locate the relevant
   section, before `Read`-ing the whole file. The default 2000-line
   limit is for skimming, not for routine consumption.
+
+### 6.5 Memory + persistence (across turns + across sessions)
+
 - **Re-use prior work before generating new work**: before reading a
   source PDF or paper for the second time (this session OR a future
   session), check whether `notes/survey_<citekey>.md` already
@@ -215,29 +248,19 @@ overrides them.
   load the `agent-resource-discipline` skill** for the full
   resource-budget protocol (PDF lifecycle, web-fetch caching,
   context-window budget, ...).
+
+### 6.6 Upstream feedback channel
+
 - **Upstream feedback channel**: every project bootstrapped from
-  `templates/paper-skeleton/` ships with a `notes/agent_feedback.md`
-  file. Append an entry there whenever a skill rule was insufficient,
-  a workaround was needed, or a useful pattern was discovered (full
-  trigger list + entry format in `agent-resource-discipline/`
-  references/persistent-memory.md). Mention every entry you append
-  in your response to the user. The file is the per-project channel
-  that feeds the upstream `scicomp-research-skills` repo's
-  improvement loop (roll-up procedure in CONTRIBUTING.md).
-- **Human-facing vs agent-facing docs**: every project keeps two
-  parallel families of documents with explicitly different audiences.
-  **Agent-facing** (`AGENTS.md`, per-skill `SKILL.md` files) are
-  telegraphic, structured, machine-parseable. **Human-facing**
-  (`README.md`, `PLAN.md`, `notes/survey_*.md`,
-  `references/_collection_log.md`, `notes/section_*.md`,
-  `notes/impl_*.md`, rebuttal drafts, ...) are narrative, indexed,
-  date-stamped where appropriate, and designed to be scanned. Do NOT
-  treat human-facing docs as downstream renderings of `AGENTS.md`;
-  they have different jobs. **Whenever the agent will produce or
-  substantially revise a document a human is expected to read for
-  review or reference, load the `human-facing-doc-authoring`
-  skill** -- it codifies the universal conventions and points at
-  per-doc-type structural skeletons.
+  `templates/paper-skeleton/` OR `templates/software-skeleton/` ships
+  with a `notes/agent_feedback.md` file. Append an entry there
+  whenever a skill rule was insufficient, a workaround was needed, or
+  a useful pattern was discovered (full trigger list + entry format
+  in `agent-resource-discipline/references/persistent-memory.md`).
+  Mention every entry you append in your response to the user. The
+  file is the per-project channel that feeds the upstream
+  `scicomp-research-skills` repo's improvement loop (roll-up
+  procedure in CONTRIBUTING.md).
 
 ## 7. Per-project AGENTS.md boilerplate
 
@@ -636,4 +659,93 @@ Section 3 of this file. The full procedure is in the skill's
 
 ---
 
-*Created 2026-05-13 by clone-and-diverge from Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent config, dual-licensed LICENSE, single-sourced per-project boilerplate via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a new project"). Revised 2026-05-13 (added project-readme-authoring skill + Section 6 README-vs-AGENTS.md audience split convention). Revised 2026-05-13 (renamed project-readme-authoring -> human-facing-doc-authoring; generalised scope to all human-facing docs incl. PLAN.md, notes/survey_*.md, references/_collection_log.md, etc.; expanded universal convention; added per-doc-type structure files for plan / notes / audit-log). Revised 2026-05-13 (added agent-resource-discipline skill + Section 6 universal one-liners for tool selection / parallelism / targeted reads / re-use-prior-work / persistent-memory; codifies PDF lifecycle, web-fetch caching, context-window budget, first-action/last-action protocols). Revised 2026-05-13 (added upstream-feedback channel: CONTRIBUTING.md + .github/ISSUE_TEMPLATE/ + per-project notes/agent_feedback.md template + Section 6 universal one-liner pointing at it; the per-project feedback channel + the agent-resource-discipline skill's recording rules close the loop between project sessions and upstream skill improvements). Revised 2026-05-13 (added research-software-engineering skill -- first cut: SKILL.md + references/01-numerical-correctness.md + references/02-testing-for-numerical-code.md + references/11-ai-assisted-coding-rules.md, per the prior-art audit's PR1 sequencing; remaining 7 references + companion templates/software-skeleton/ planned for PR2-PR4). Revised 2026-05-13 (shipped templates/software-skeleton/ as PR3 ahead of audit's original PR2; AGENTS.md / PLAN.md / README.md / CITATION.cff with Zenodo handshake / .gitignore / experiments/README.md / figures/README.md / notes/README.md + agent_feedback.md / references/_collection_log.md / .github/ISSUE_TEMPLATE/{numerical-correctness-regression, api-ergonomics, performance-regression}.md / bootstrap.sh delegating to scientific-python/cookie | NLeSC/python-template | CU-DBMI/template-uv-python-research-software; AGENTS.md Section 5 templates table updated; AGENTS.md Section 11.B replaced "not yet shipped" stub with full 7-step walkthrough at parity with paper-skeleton's 11.A; templates roadmap pruned to remove the now-shipped software-skeleton entry). Revised 2026-05-13 (added project-onboarding skill: SKILL.md + references/{existing-project-audit, scenario-1-no-agentic-work, scenario-2-existing-agentic-files, conflict-resolution, migration-prompts}.md, addressing the realistic case of adopting the framework on an existing project; AGENTS.md Section 5 updated; new Section 12 'Adopting on an existing project' added; ready-to-paste prompts for both scenarios + sub-cases provided; per-project AGENTS.md template in templates/{paper,software}-skeleton/ updated with project-onboarding in skills-to-load list; README.md gains an 'Adopting on an existing project' section). Revised 2026-05-13 (templates/software-skeleton/ multi-language: paper-coupling layer is language-agnostic; bootstrap.sh adds `julia` option delegating to JuliaBesties/BestieTemplate.jl; new MULTI-LANGUAGE.md inside the template explains which placeholders are Python defaults vs language-agnostic + provides per-language quick references for Julia / C++ / Rust / Fortran / MATLAB / Mathematica + mixed-language projects + the placeholder-translation table; template's AGENTS.md / PLAN.md / README.md flag Python defaults explicitly with cross-references to MULTI-LANGUAGE.md; AGENTS.md Section 5 templates row + Section 11.B bootstrap step updated). Maintained by A. Attia.*
+*Created 2026-05-13 by clone-and-diverge from
+Master-cai/Research-Paper-Writing-Skills @ 9ee5edd.*
+
+*Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent
+config, dual-licensed LICENSE, single-sourced per-project boilerplate
+via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a
+new project").*
+
+*Revised 2026-05-13 (added project-readme-authoring skill + Section 6
+README-vs-AGENTS.md audience split convention).*
+
+*Revised 2026-05-13 (renamed project-readme-authoring ->
+human-facing-doc-authoring; generalised scope to all human-facing docs
+incl. PLAN.md, notes/survey_*.md, references/_collection_log.md, etc.;
+expanded universal convention; added per-doc-type structure files for
+plan / notes / audit-log).*
+
+*Revised 2026-05-13 (added agent-resource-discipline skill + Section 6
+universal one-liners for tool selection / parallelism / targeted reads
+/ re-use-prior-work / persistent-memory; codifies PDF lifecycle,
+web-fetch caching, context-window budget, first-action/last-action
+protocols).*
+
+*Revised 2026-05-13 (added upstream-feedback channel: CONTRIBUTING.md +
+.github/ISSUE_TEMPLATE/ + per-project notes/agent_feedback.md template
++ Section 6 universal one-liner pointing at it; the per-project
+feedback channel + the agent-resource-discipline skill's recording
+rules close the loop between project sessions and upstream skill
+improvements).*
+
+*Revised 2026-05-13 (added research-software-engineering skill -- first
+cut: SKILL.md + references/01-numerical-correctness.md +
+references/02-testing-for-numerical-code.md +
+references/11-ai-assisted-coding-rules.md, per the prior-art audit's
+PR1 sequencing; remaining 7 references + companion
+templates/software-skeleton/ planned for PR2-PR4).*
+
+*Revised 2026-05-13 (shipped templates/software-skeleton/ as PR3 ahead
+of audit's original PR2; AGENTS.md / PLAN.md / README.md / CITATION.cff
+with Zenodo handshake / .gitignore / experiments/README.md /
+figures/README.md / notes/README.md + agent_feedback.md /
+references/_collection_log.md / .github/ISSUE_TEMPLATE/{numerical-correctness-regression,
+api-ergonomics, performance-regression}.md / bootstrap.sh delegating to
+scientific-python/cookie | NLeSC/python-template |
+CU-DBMI/template-uv-python-research-software; AGENTS.md Section 5
+templates table updated; AGENTS.md Section 11.B replaced "not yet
+shipped" stub with full 7-step walkthrough at parity with
+paper-skeleton's 11.A; templates roadmap pruned to remove the
+now-shipped software-skeleton entry).*
+
+*Revised 2026-05-13 (added project-onboarding skill: SKILL.md +
+references/{existing-project-audit, scenario-1-no-agentic-work,
+scenario-2-existing-agentic-files, conflict-resolution,
+migration-prompts}.md, addressing the realistic case of adopting the
+framework on an existing project; AGENTS.md Section 5 updated; new
+Section 12 'Adopting on an existing project' added; ready-to-paste
+prompts for both scenarios + sub-cases provided; per-project AGENTS.md
+template in templates/{paper,software}-skeleton/ updated with
+project-onboarding in skills-to-load list; README.md gains an
+'Adopting on an existing project' section).*
+
+*Revised 2026-05-13 (templates/software-skeleton/ multi-language:
+paper-coupling layer is language-agnostic; bootstrap.sh adds `julia`
+option delegating to JuliaBesties/BestieTemplate.jl; new
+MULTI-LANGUAGE.md inside the template explains which placeholders are
+Python defaults vs language-agnostic + provides per-language quick
+references for Julia / C++ / Rust / Fortran / MATLAB / Mathematica +
+mixed-language projects + the placeholder-translation table;
+template's AGENTS.md / PLAN.md / README.md flag Python defaults
+explicitly with cross-references to MULTI-LANGUAGE.md; AGENTS.md
+Section 5 templates row + Section 11.B bootstrap step updated).*
+
+*Revised 2026-05-14 (post-fresh-audit cleanup: HIGH = compressed 3
+over-long skill descriptions to <=1024 chars per OpenCode skill-spec
+limit codified in Section 8; MEDIUM = trimmed
+research-software-engineering workflow table to 3 ship-ready
+references + 'Planned references' subsection for the 8 unshipped;
+Section 7 acknowledges both paper-skeleton + software-skeleton
+AGENTS.md as canonical with raised 50-150 line target; ATTRIBUTION.md
+de-staled "templates/software-skeleton/ planned" framing; Section 6
+sub-grouped into 6.1-6.6 for scanability + reformatted this footer
+into a multi-paragraph italic block; LOW = paper-skeleton brought to
+parity with software-skeleton via CITATION.cff + experiments/README.md
++ figures/README.md + .github/ISSUE_TEMPLATE/{reviewer-comment-followup,
+experiment-rerun-needed, figure-update-needed}.md; missing template
+README footers added; documented the deliberate date-stamp-footer
+exception for upstream-vendored research-paper-writing references in
+that skill's SKILL.md).*
+
+*Maintained by A. Attia.*
