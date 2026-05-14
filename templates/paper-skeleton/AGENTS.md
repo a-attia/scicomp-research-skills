@@ -22,6 +22,12 @@ Load on demand, not all at once:
   alignment + adversarial review.
 - `~/.scicomp-research-skills/skills/literature-survey/SKILL.md`
   -- bibtex + PDF + pdftotext + survey-note workflow for the bibliography.
+- `~/.scicomp-research-skills/skills/human-facing-doc-authoring/SKILL.md`
+  -- load whenever authoring or substantially revising any
+  human-facing project doc (README.md, PLAN.md, `notes/survey_*.md`,
+  `references/_collection_log.md`, rebuttal drafts, ...). The
+  human/agent audience split is universal; this skill codifies the
+  conventions and per-doc-type skeletons.
 
 ---
 
