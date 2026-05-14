@@ -1,0 +1,121 @@
+# =============================================================================
+# CITATION.cff -- machine-readable citation metadata for this library.
+#
+# Format spec: https://citation-file-format.github.io/
+# Reference: Druskat et al. (2021), CFF format documentation.
+#
+# WHEN TO REVISE THIS FILE:
+#   - When a new release is tagged (update `version` and `date-released`).
+#   - When the author list changes.
+#   - When a Zenodo DOI is issued (see "Zenodo handshake" below).
+#
+# ZENODO HANDSHAKE (do once at first release):
+#   1. Sign in to Zenodo (https://zenodo.org) with the GitHub account that
+#      owns this repo.
+#   2. Settings -> GitHub -> flip the toggle for this repo to ON.
+#   3. Tag the first release in this repo (`git tag v0.1.0 && git push --tags`)
+#      and publish a GitHub Release (Releases tab -> Draft a new release ->
+#      pick the tag).
+#   4. Zenodo will detect the GitHub Release within ~1 minute and mint a DOI
+#      for that version. It also creates a "concept DOI" that always points
+#      at the latest version.
+#   5. Copy both DOIs into this file's `identifiers` block (below) and into
+#      README.md.
+#   6. From now on, every tagged GitHub Release auto-archives to Zenodo with
+#      a fresh per-version DOI.
+#
+# RECOMMENDED VALIDATION:
+#   $ pip install cffconvert
+#   $ cffconvert --validate
+#
+#   To regenerate the BibTeX form (used in README.md):
+#   $ cffconvert -f bibtex
+# =============================================================================
+
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+
+title: "<library-name>: <one-line description>"
+
+abstract: >-
+  <One paragraph describing what this library does, suitable for a Zenodo
+  abstract. Keep to ~3-5 sentences. Mention the headline contribution +
+  the audience.>
+
+# -----------------------------------------------------------------------------
+# Author list. Required: family-names + given-names. Strongly recommended:
+# orcid + affiliation. Order = author order as you'd want it cited.
+# -----------------------------------------------------------------------------
+
+authors:
+  - family-names: "<Last name>"
+    given-names: "<First name(s)>"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+    affiliation: "<Institution>"
+    email: "<optional>"
+  # Add more authors below as needed.
+  # - family-names: "..."
+  #   given-names: "..."
+  #   orcid: "..."
+  #   affiliation: "..."
+
+# -----------------------------------------------------------------------------
+# Version + release date. UPDATE THESE on every release.
+# -----------------------------------------------------------------------------
+
+version: "<0.1.0>"
+date-released: "<YYYY-MM-DD>"
+
+# -----------------------------------------------------------------------------
+# Repository URLs. Set after the repo is created.
+# -----------------------------------------------------------------------------
+
+repository-code: "https://github.com/<org>/<repo>"
+url: "https://github.com/<org>/<repo>"
+
+# -----------------------------------------------------------------------------
+# License. SPDX identifier (https://spdx.org/licenses/). Common choices:
+# MIT, BSD-3-Clause, Apache-2.0, GPL-3.0-or-later, MPL-2.0.
+# -----------------------------------------------------------------------------
+
+license: "<MIT>"
+
+# -----------------------------------------------------------------------------
+# Zenodo DOIs. Fill in AFTER the Zenodo handshake (see header).
+# -----------------------------------------------------------------------------
+
+# identifiers:
+#   - type: doi
+#     value: "10.5281/zenodo.NNNNNNNN"   # CONCEPT DOI (always latest version)
+#     description: "Concept DOI for all versions"
+#   - type: doi
+#     value: "10.5281/zenodo.MMMMMMMM"   # PER-VERSION DOI for THIS version
+#     description: "DOI for version <0.1.0>"
+
+# -----------------------------------------------------------------------------
+# Keywords + subject classifications (optional; helpful for discoverability).
+# -----------------------------------------------------------------------------
+
+keywords:
+  - "scientific computing"
+  - "<add 3-5 domain-specific keywords>"
+
+# -----------------------------------------------------------------------------
+# If this library has an associated paper, list it under preferred-citation
+# so academic citation tools cite the paper instead of the bare software.
+# Comment out if no associated paper.
+# -----------------------------------------------------------------------------
+
+# preferred-citation:
+#   type: article
+#   authors:
+#     - family-names: "<Last name>"
+#       given-names: "<First name(s)>"
+#       orcid: "..."
+#   title: "<Paper title>"
+#   year: <YYYY>
+#   journal: "<Journal name>"
+#   volume: <NN>
+#   issue: <N>
+#   doi: "10.NNNN/<paper-doi>"
+#   url: "https://doi.org/10.NNNN/<paper-doi>"

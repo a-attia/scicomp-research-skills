@@ -1,0 +1,105 @@
+# =============================================================================
+# .gitignore for a research-software project bootstrapped from
+# scicomp-research-skills/templates/software-skeleton/
+#
+# This complements (does not replace) the .gitignore that the upstream
+# scientific-python/cookie / NLeSC / CU-DBMI template will lay down. After
+# running bootstrap.sh, you will likely have TWO sets of ignore patterns;
+# either merge them or keep this file's research-paper-specific patterns
+# distinct.
+# =============================================================================
+
+# ----------------------------------------------------------------------------
+# Per-experiment artifacts (tracked: scripts + metadata + small results).
+# ----------------------------------------------------------------------------
+
+# Large outputs from experiment runs. Adjust per project: small numerical
+# results (a few KB) are usually worth tracking; multi-GB simulation dumps
+# are not.
+experiments/*/output/
+experiments/*/checkpoints/
+experiments/*/raw/
+
+# Generated figures (under figures/, the FINAL versions are tracked;
+# intermediate / draft / preview figures are not).
+figures/_drafts/
+figures/_preview/
+
+# ----------------------------------------------------------------------------
+# Algorithmic-source PDF cache (mirrors the paper-skeleton's references/pdf/
+# layout; PDFs are typically large and copyright-restricted).
+# ----------------------------------------------------------------------------
+
+references/pdf/
+references/pdf/.txt/
+
+# ----------------------------------------------------------------------------
+# Documentation builds (Sphinx / mkdocs / etc.) -- the upstream template
+# also covers most of these but listing here for safety.
+# ----------------------------------------------------------------------------
+
+docs/_build/
+docs/site/
+docs/.cache/
+
+# ----------------------------------------------------------------------------
+# Notebook outputs -- if the project uses notebooks, prefer to strip outputs
+# via nbstripout / jupytext rather than tracking them. The upstream template
+# may or may not configure this; we add the safety net here.
+# ----------------------------------------------------------------------------
+
+# Uncomment if you want to ignore .ipynb_checkpoints (most upstream templates
+# already do):
+# .ipynb_checkpoints/
+
+# ----------------------------------------------------------------------------
+# Cache + compiled-Python (most upstream templates cover these; safety net).
+# ----------------------------------------------------------------------------
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+.tox/
+.nox/
+htmlcov/
+
+# ----------------------------------------------------------------------------
+# Editor / OS metadata.
+# ----------------------------------------------------------------------------
+
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# ----------------------------------------------------------------------------
+# Direnv / local environment.
+# ----------------------------------------------------------------------------
+
+.envrc
+.env
+.python-version
+
+# ----------------------------------------------------------------------------
+# Virtual environments.
+# ----------------------------------------------------------------------------
+
+.venv/
+venv/
+env/
+
+# ----------------------------------------------------------------------------
+# Build artifacts.
+# ----------------------------------------------------------------------------
+
+build/
+dist/
+*.egg-info/
+*.egg
