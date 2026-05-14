@@ -220,9 +220,20 @@ each group are independent.
 
 ### 6.3 Git + commit discipline
 
-- **Commit messages**: no `Co-Authored-By` trailers. Conventional commit
-  style preferred (`feat: ...`, `fix: ...`, `docs: ...`) but not
-  enforced.
+- **Commit messages**: conventional commit style preferred
+  (`feat: ...`, `fix: ...`, `docs: ...`) but not enforced.
+- **AI co-authorship attribution**: by default, no `Co-Authored-By`
+  trailers (the human committer is solely responsible per Bridgeford
+  et al. 2025 R9 -- "AI wrote it" is never an accountability defence).
+  Per-project `AGENTS.md` files MAY override this in their
+  "Project-specific overrides" section if the project has a specific
+  reason to record AI assistance per-commit (funder requirement,
+  journal AI-disclosure policy, institutional mandate, team
+  preference). When overridden, the conventional trailer form is
+  `Co-Authored-By: Claude <noreply@anthropic.com>` per Anthropic
+  Claude Code's documented convention. This very repo
+  (`scicomp-research-skills`) overrides per CONTRIBUTING.md
+  "Maintainer-policy override".
 - **No unilateral commits**: agents do not create git commits unless the
   user explicitly requests it.
 
