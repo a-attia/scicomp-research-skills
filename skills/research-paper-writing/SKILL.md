@@ -118,9 +118,35 @@ for the conventions and per-doc-type structural skeletons. Use BOTH
 skills together: paper-writing for the paper draft, human-facing for
 any meta-doc.
 
+## Resource discipline for paper-writing sessions
+
+A paper-writing session typically iterates across multiple sections,
+re-reads many survey notes, may re-grep the paper draft repeatedly,
+and often spans multiple sessions before a section is finalised.
+Whenever the session is going to be heavy (more than ~5 file reads,
+multiple section drafts, or a span across multiple sittings), load
+`~/.scicomp-research-skills/skills/agent-resource-discipline/SKILL.md`
+at session start. In particular:
+
+- `references/persistent-memory.md` -- the first-/last-action
+  protocol that updates `notes/section_<N>.md` and `PLAN.md` status
+  fields so the next session resumes cheaply.
+- `references/context-window-budget.md` -- the rule that this skill's
+  Execution Rule #7 ("do not load all section references at once")
+  generalises to: do not load all survey notes at once, do not load
+  the full `.txt` extraction of every cited paper -- target-grep
+  instead.
+
+Both skills compose: paper-writing for *what to write*; agent-resource-
+discipline for *what to load while writing*.
+
 ---
 
 *Revised 2026-05-13: added "Adjacent human-facing documents" section
 pointing at the human-facing-doc-authoring skill for meta-docs
 (PLAN.md, section/impl notes, README, rebuttal) that this skill does
-not directly govern.*
+not directly govern. Revised 2026-05-13: added "Resource discipline
+for paper-writing sessions" section pointing at the
+agent-resource-discipline skill for the cross-cutting context-window /
+persistent-memory protocol that complements this skill's Execution
+Rule #7.*
