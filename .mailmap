@@ -1,0 +1,23 @@
+# Canonical identity mapping for git log + GitHub contributor graph.
+#
+# Format (per `git help shortlog` / https://git-scm.com/docs/gitmailmap):
+#   <canonical-name> <canonical-email>                 <old-email>
+#   Proper Name <commit@email>                         <old-email>
+#
+# When git tools (git shortlog, git log --use-mailmap, GitHub's
+# contributor graph) see a commit by an old email or name, they
+# substitute the canonical version on the LEFT.
+#
+# This file does NOT rewrite history -- past commits keep their
+# original author metadata in the object database. The mapping is
+# applied at READ time only. To include the mapping in your local
+# git log, run `git log --use-mailmap` (or set
+# `git config --global log.mailmap true` to make it the default).
+#
+# References:
+#   https://git-scm.com/docs/gitmailmap
+#   https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address
+
+# Ahmed Attia: VT email (older; used for commits 2026-05-13 and earlier
+# of this repo) -> ANL email (current canonical).
+Ahmed Attia <aattia@anl.gov> <attia@vt.edu>
