@@ -210,6 +210,15 @@ overrides them.
   load the `agent-resource-discipline` skill** for the full
   resource-budget protocol (PDF lifecycle, web-fetch caching,
   context-window budget, ...).
+- **Upstream feedback channel**: every project bootstrapped from
+  `templates/paper-skeleton/` ships with a `notes/agent_feedback.md`
+  file. Append an entry there whenever a skill rule was insufficient,
+  a workaround was needed, or a useful pattern was discovered (full
+  trigger list + entry format in `agent-resource-discipline/`
+  references/persistent-memory.md). Mention every entry you append
+  in your response to the user. The file is the per-project channel
+  that feeds the upstream `scicomp-research-skills` repo's
+  improvement loop (roll-up procedure in CONTRIBUTING.md).
 - **Human-facing vs agent-facing docs**: every project keeps two
   parallel families of documents with explicitly different audiences.
   **Agent-facing** (`AGENTS.md`, per-skill `SKILL.md` files) are
@@ -401,4 +410,4 @@ Section 5 and add a corresponding sub-section to Section 11 above.
 
 ---
 
-*Created 2026-05-13 by clone-and-diverge from Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent config, dual-licensed LICENSE, single-sourced per-project boilerplate via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a new project"). Revised 2026-05-13 (added project-readme-authoring skill + Section 6 README-vs-AGENTS.md audience split convention). Revised 2026-05-13 (renamed project-readme-authoring -> human-facing-doc-authoring; generalised scope to all human-facing docs incl. PLAN.md, notes/survey_*.md, references/_collection_log.md, etc.; expanded universal convention; added per-doc-type structure files for plan / notes / audit-log). Revised 2026-05-13 (added agent-resource-discipline skill + Section 6 universal one-liners for tool selection / parallelism / targeted reads / re-use-prior-work / persistent-memory; codifies PDF lifecycle, web-fetch caching, context-window budget, first-action/last-action protocols). Maintained by A. Attia.*
+*Created 2026-05-13 by clone-and-diverge from Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent config, dual-licensed LICENSE, single-sourced per-project boilerplate via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a new project"). Revised 2026-05-13 (added project-readme-authoring skill + Section 6 README-vs-AGENTS.md audience split convention). Revised 2026-05-13 (renamed project-readme-authoring -> human-facing-doc-authoring; generalised scope to all human-facing docs incl. PLAN.md, notes/survey_*.md, references/_collection_log.md, etc.; expanded universal convention; added per-doc-type structure files for plan / notes / audit-log). Revised 2026-05-13 (added agent-resource-discipline skill + Section 6 universal one-liners for tool selection / parallelism / targeted reads / re-use-prior-work / persistent-memory; codifies PDF lifecycle, web-fetch caching, context-window budget, first-action/last-action protocols). Revised 2026-05-13 (added upstream-feedback channel: CONTRIBUTING.md + .github/ISSUE_TEMPLATE/ + per-project notes/agent_feedback.md template + Section 6 universal one-liner pointing at it; the per-project feedback channel + the agent-resource-discipline skill's recording rules close the loop between project sessions and upstream skill improvements). Maintained by A. Attia.*

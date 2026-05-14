@@ -69,12 +69,20 @@ Before declaring a session done, in any session that produced new work:
    - Update the "Action." trailing notes per section if the action
      changed.
    - Append to "Open Questions" if new ones emerged.
-4. **Tell the user explicitly** what was updated, in the response
-   message.
+4. **Check the agent-feedback triggers** (see "Recording feedback
+   into the project's agent-feedback journal" below). If any
+   trigger fired during this session and the corresponding entry
+   was not yet appended, append it now to
+   `notes/agent_feedback.md`. This is the **upstream** deposit:
+   it funds the periodic roll-up into improvements to the
+   `scicomp-research-skills` repo itself.
+5. **Tell the user explicitly** what was updated + what feedback
+   (if any) was recorded, in the response message.
 
 Skipping any of these is the most expensive bug in this whole
 ecosystem -- it means the next session pays the same intake cost the
-current one paid.
+current one paid, AND the upstream skills repo never learns from this
+project's experience.
 
 ## Typical waste modes (and what to do instead)
 
@@ -108,6 +116,95 @@ contradicts an earlier one):
 This protocol is what makes the indices trustworthy. Without it, the
 indices drift from reality; with it, they remain the canonical
 record.
+
+## Recording feedback into the project's agent-feedback journal
+
+Per-project repos that bootstrap from
+`~/.scicomp-research-skills/templates/paper-skeleton/` ship with a
+`notes/agent_feedback.md` file. It is the per-project feedback
+channel into the upstream `scicomp-research-skills` repository --
+observations recorded here are periodically rolled up by the
+maintainer into upstream skill improvements.
+
+The agent should **append an entry** to `notes/agent_feedback.md`
+when any of the following triggers fires during a session:
+
+1. **Self-caught rationalization** -- the agent caught itself about
+   to act on a thought that's not in the
+   `agent-resource-discipline` SKILL.md "Common rationalizations +
+   rebuttals" table. The new rationalization deserves to be added
+   upstream.
+2. **Rule-application gap** -- a skill rule didn't apply cleanly
+   to the situation (the rule was ambiguous, the situation had a
+   sub-case the rule didn't address, the threshold was wrong, the
+   rule contradicted another rule).
+3. **Pattern discovery** -- a useful sub-protocol or convention
+   emerged that isn't in any current skill, AND the pattern is
+   plausibly useful in other projects (not specific to this
+   project's domain).
+4. **Workflow friction** -- a documented step felt awkward or had a
+   dead-end the docs didn't anticipate.
+5. **User-flagged** -- the user said "remember this feedback",
+   "this is worth noting", "we should improve this in the upstream
+   skills", or equivalent.
+6. **Workaround invented** -- the agent had to invent a workaround
+   that other projects would also need.
+
+### Entry format
+
+Use the skeleton from the project's `notes/agent_feedback.md`
+header. Recap:
+
+```markdown
+## YYYY-MM-DD -- <one-line title>
+
+**Project context**: <which sub-task, which session phase>.
+**Trigger**: <agent-self-caught / user-flagged / external-failure / pattern-discovered>.
+**Skill(s) involved**: <e.g. agent-resource-discipline, literature-survey>.
+**Observation**: <what happened, in 1-3 sentences>.
+**Proposed action**: <add rule X to skill Y / clarify Z / no change needed but worth noting>.
+**Evidence / minimal repro**: <a code snippet, a quoted agent message, or "happened twice this session in <context>">.
+
+Status: open
+```
+
+### Where to insert in the file
+
+Append to the end (newest at the bottom). Replace the placeholder
+`## YYYY-MM-DD -- (template entry; ...)` block on first real entry.
+
+### When NOT to record
+
+- The observation is specific to this project's domain (e.g. a
+  domain-specific notation choice). Those belong in the project's
+  PLAN.md "Open Questions" or a section note, not in
+  `agent_feedback.md`.
+- The observation is about the user's preference (e.g. "the user
+  prefers tabs over spaces in this project"). Those belong in the
+  project's `AGENTS.md` "Project-specific overrides" section.
+- The observation is purely about the project's content (e.g. "this
+  citation needs verification"). That goes in
+  `references/_collection_log.md`.
+
+The journal is for upstream-skill feedback only. Other persistent
+notes go to other files.
+
+### Surfacing the entry to the user
+
+Per the universal "no silent action" rule, every journal entry the
+agent appends should also be **mentioned in the response message**:
+"I appended an entry to `notes/agent_feedback.md` recording <one
+line>." The user then has the option to expand, edit, or remove the
+entry before the session ends.
+
+### Privacy
+
+The journal lives in the project repo; nothing leaves until the user
+explicitly rolls an entry up to a public upstream issue or PR. Until
+then it is as private as the project repo itself. Sensitive content
+(unpublished results, reviewer identities) can appear freely; the
+roll-up step in `~/.scicomp-research-skills/CONTRIBUTING.md` is
+where sanitisation happens.
 
 ## Index hierarchy
 
@@ -214,4 +311,9 @@ section codifying the Manus team's rule 4 (recitation as the simplest
 defence against the lost-in-the-middle failure mode); added "Failures
 stay in the conversation; structural failures get logged" section
 codifying Manus's rule 5 + a routing table for which audit entry
-gets which kind of structural failure.*
+gets which kind of structural failure. Revised 2026-05-13 (added
+"Recording feedback into the project's agent-feedback journal"
+section codifying the per-project feedback-channel triggers and
+entry format; added step 4 to the last-action protocol so the
+agent-feedback deposit becomes part of the routine; cross-referenced
+upstream CONTRIBUTING.md for the roll-up procedure).*
