@@ -144,6 +144,7 @@ files, not automatically.
 | `skills/research-paper-writing/`   | Section-by-section paper drafting, paragraph-clarity check, claim-evidence alignment, adversarial review. | upstream (Master-cai)  |
 | `skills/literature-survey/`        | bibtex + PDF + pdftotext + per-paper survey-note + collection-log workflow for heavy-literature papers.   | added here              |
 | `skills/human-facing-doc-authoring/` | Author or revise any human-facing project doc (README.md, PLAN.md, survey notes, collection logs, rebuttal drafts) -- audience split, two-tier structure, cross-references. | added here |
+| `skills/agent-resource-discipline/` | Reduce token / quota / context-window consumption + improve cross-session memory (tool selection, parallelism, targeted reads, PDF lifecycle, persistent-memory protocol, context-window budget, web-fetch caching). | added here |
 
 When new skills are added, append a row to this table.
 
@@ -180,6 +181,35 @@ overrides them.
   enforced.
 - **No unilateral commits**: agents do not create git commits unless the
   user explicitly requests it.
+- **Tool selection**: prefer dedicated tools over Bash equivalents.
+  Use `Read` (not `cat`/`head`/`tail`), `Grep` (not `bash grep`/`rg`),
+  `Glob` (not `find`/`ls -R`), `Edit` (not `sed`/`awk`), `Write` (not
+  `cat <<EOF`/`echo >`). Reserve Bash for actual shell operations
+  (git, package managers, build systems). Communicate with the user
+  via response text, never via `echo`/`printf`.
+- **Parallelism**: when several tool calls are independent (e.g.
+  reading three files; greping for three patterns), batch them into a
+  single message. Serialise only when one call's output feeds another.
+- **Read targeted, not bulk**: for files >300 lines, use `Read` with
+  explicit `offset`+`limit`, or `Grep` first to locate the relevant
+  section, before `Read`-ing the whole file. The default 2000-line
+  limit is for skimming, not for routine consumption.
+- **Re-use prior work before generating new work**: before reading a
+  source PDF or paper for the second time (this session OR a future
+  session), check whether `notes/survey_<citekey>.md` already
+  summarises it. Read the survey note first; only fall back to the
+  PDF / `.txt` extraction when the note doesn't answer the question.
+  Generalises: before re-deriving any fact, check whether an audit
+  log / notes file / PLAN.md section already records it.
+- **Persistent memory across sessions**: the project's indices
+  (`PLAN.md` status, `references/_collection_log.md`,
+  `notes/README.md`) ARE the persistent memory between agent sessions.
+  Read them at the start of any non-trivial session; update them at
+  the end of any session that produced new work. **When heavy
+  reading, searching, PDF handling, or web fetching is anticipated,
+  load the `agent-resource-discipline` skill** for the full
+  resource-budget protocol (PDF lifecycle, web-fetch caching,
+  context-window budget, ...).
 - **Human-facing vs agent-facing docs**: every project keeps two
   parallel families of documents with explicitly different audiences.
   **Agent-facing** (`AGENTS.md`, per-skill `SKILL.md` files) are
@@ -371,4 +401,4 @@ Section 5 and add a corresponding sub-section to Section 11 above.
 
 ---
 
-*Created 2026-05-13 by clone-and-diverge from Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent config, dual-licensed LICENSE, single-sourced per-project boilerplate via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a new project"). Revised 2026-05-13 (added project-readme-authoring skill + Section 6 README-vs-AGENTS.md audience split convention). Revised 2026-05-13 (renamed project-readme-authoring -> human-facing-doc-authoring; generalised scope to all human-facing docs incl. PLAN.md, notes/survey_*.md, references/_collection_log.md, etc.; expanded universal convention; added per-doc-type structure files for plan / notes / audit-log). Maintained by A. Attia.*
+*Created 2026-05-13 by clone-and-diverge from Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent config, dual-licensed LICENSE, single-sourced per-project boilerplate via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a new project"). Revised 2026-05-13 (added project-readme-authoring skill + Section 6 README-vs-AGENTS.md audience split convention). Revised 2026-05-13 (renamed project-readme-authoring -> human-facing-doc-authoring; generalised scope to all human-facing docs incl. PLAN.md, notes/survey_*.md, references/_collection_log.md, etc.; expanded universal convention; added per-doc-type structure files for plan / notes / audit-log). Revised 2026-05-13 (added agent-resource-discipline skill + Section 6 universal one-liners for tool selection / parallelism / targeted reads / re-use-prior-work / persistent-memory; codifies PDF lifecycle, web-fetch caching, context-window budget, first-action/last-action protocols). Maintained by A. Attia.*

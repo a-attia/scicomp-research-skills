@@ -28,6 +28,12 @@ Load on demand, not all at once:
   `references/_collection_log.md`, rebuttal drafts, ...). The
   human/agent audience split is universal; this skill codifies the
   conventions and per-doc-type skeletons.
+- `~/.scicomp-research-skills/skills/agent-resource-discipline/SKILL.md`
+  -- load at the start of any session that will involve heavy
+  reading / searching / PDF handling / multi-file editing / web
+  fetching, AND for the first-action / last-action protocols that
+  give the agent persistent memory across sessions via the project's
+  indices (PLAN.md status, `_collection_log.md`, `notes/README.md`).
 
 ---
 
