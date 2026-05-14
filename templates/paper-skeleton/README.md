@@ -81,5 +81,6 @@ upstream library into the run's metadata JSON.
 
 ---
 
-*This skeleton was generated from
-[scicomp-research-skills/templates/paper-skeleton/](https://github.com/a-attia/scicomp-research-skills/tree/main/templates/paper-skeleton).*
+*Created YYYY-MM-DD by <your name> from
+[`scicomp-research-skills/templates/paper-skeleton/README.md`](https://github.com/a-attia/scicomp-research-skills/tree/main/templates/paper-skeleton/README.md).
+Update this file's date-stamp on copy.*

@@ -313,3 +313,9 @@ BibTeX entry (auto-generated from CITATION.cff):
 
 This project is licensed under the <licence>; see [`LICENSE`](LICENSE)
 for the full text.
+
+---
+
+*Created YYYY-MM-DD by <your name> from
+[`scicomp-research-skills/templates/software-skeleton/README.md`](https://github.com/a-attia/scicomp-research-skills/tree/main/templates/software-skeleton/README.md).
+Update this file's date-stamp on copy.*

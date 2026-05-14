@@ -1,0 +1,143 @@
+# =============================================================================
+# CITATION.cff -- machine-readable citation metadata for the SUPPORTING
+# repository of this paper (code + data + experiments + figures), distinct
+# from the paper's own DOI.
+#
+# Format spec: https://citation-file-format.github.io/
+#
+# WHY A PAPER REPO HAS A CITATION.cff:
+#   The paper has its own DOI from the publishing journal. THIS repository
+#   contains the supporting code, data-processing scripts, experiment-run
+#   metadata, and figure-generation scripts. Future researchers reproducing
+#   the paper's results will reach for THIS repository, not the paper PDF.
+#   The CITATION.cff lets them cite this repository correctly + lets Zenodo
+#   mint a DOI for the repository at submission time, distinct from the
+#   paper's DOI but linkable to it via `preferred-citation` (below).
+#
+# WHEN TO REVISE THIS FILE:
+#   - When the paper is submitted (tag v0.1-paper-submission; Zenodo
+#     mints a per-version DOI; copy here).
+#   - When the paper is accepted / published (add the published-paper DOI
+#     under preferred-citation).
+#   - When the author list changes.
+#
+# ZENODO HANDSHAKE (do once at first release / submission):
+#   1. Sign in to Zenodo (https://zenodo.org) with the GitHub account that
+#      owns this repo.
+#   2. Settings -> GitHub -> flip the toggle for this repo to ON.
+#   3. Tag the submission commit (`git tag v0.1-paper-submission && git push --tags`)
+#      and publish a GitHub Release (Releases tab -> Draft a new release ->
+#      pick the tag).
+#   4. Zenodo will detect the GitHub Release within ~1 minute and mint a DOI
+#      for that version. It also creates a "concept DOI" that always points
+#      at the latest version.
+#   5. Copy both DOIs into this file's `identifiers` block (below) and
+#      cite the Zenodo DOI in the paper alongside the paper's own DOI.
+#   6. From now on, every tagged GitHub Release (rebuttal version,
+#      camera-ready, post-publication corrections) auto-archives to
+#      Zenodo with a fresh per-version DOI.
+#
+# RECOMMENDED VALIDATION:
+#   $ pip install cffconvert
+#   $ cffconvert --validate
+#
+#   To regenerate the BibTeX form (for citation in the paper):
+#   $ cffconvert -f bibtex
+# =============================================================================
+
+cff-version: 1.2.0
+message: >-
+  If you use the supporting code, data, or experiment scripts in this
+  repository, please cite both the paper (see `preferred-citation` below)
+  and this repository (DOI in `identifiers` below).
+
+title: "Supporting code + data for: <Paper title>"
+
+abstract: >-
+  <One paragraph describing what this REPOSITORY contains, suitable for a
+  Zenodo abstract. Mention: the paper this repo supports; what's in the
+  repo (code modules / experiments / figure scripts); how to reproduce
+  the paper's headline results from this repo. Keep to ~3-5 sentences.>
+
+# -----------------------------------------------------------------------------
+# Author list. Same as the paper's author list. Required: family-names +
+# given-names. Strongly recommended: orcid + affiliation. Order = paper
+# author order.
+# -----------------------------------------------------------------------------
+
+authors:
+  - family-names: "<Last name>"
+    given-names: "<First name(s)>"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+    affiliation: "<Institution>"
+    email: "<optional>"
+  # Add more authors below as needed.
+
+# -----------------------------------------------------------------------------
+# Version + date. UPDATE these on every tagged release.
+# -----------------------------------------------------------------------------
+
+version: "<v0.1-paper-submission>"
+date-released: "<YYYY-MM-DD>"
+
+# -----------------------------------------------------------------------------
+# Repository URLs. Set after the repo is created.
+# -----------------------------------------------------------------------------
+
+repository-code: "https://github.com/<org>/<repo>"
+url: "https://github.com/<org>/<repo>"
+
+# -----------------------------------------------------------------------------
+# License. SPDX identifier. Common choices for paper supporting repos:
+# CC-BY-4.0 (data/text); MIT or BSD-3-Clause (code); CC0-1.0 (public-
+# domain dedication). Pick what your funder / institution requires.
+# -----------------------------------------------------------------------------
+
+license: "<MIT>"
+
+# -----------------------------------------------------------------------------
+# Zenodo DOIs. Fill in AFTER the Zenodo handshake (see header).
+# -----------------------------------------------------------------------------
+
+# identifiers:
+#   - type: doi
+#     value: "10.5281/zenodo.NNNNNNNN"   # CONCEPT DOI (always latest version)
+#     description: "Concept DOI for all versions of this repository"
+#   - type: doi
+#     value: "10.5281/zenodo.MMMMMMMM"   # PER-VERSION DOI for THIS version
+#     description: "DOI for version <v0.1-paper-submission>"
+
+# -----------------------------------------------------------------------------
+# Keywords + subject classifications (helpful for Zenodo discoverability).
+# -----------------------------------------------------------------------------
+
+keywords:
+  - "<add 3-5 domain-specific keywords matching the paper's topic>"
+  - "scientific computing"
+  - "reproducibility"
+
+# -----------------------------------------------------------------------------
+# Preferred citation: the PAPER itself. When a citing tool resolves this
+# CITATION.cff, it will suggest the PAPER as the preferred citation rather
+# than the bare repository -- which is what most contexts want for an
+# academic paper.
+#
+# UPDATE this once the paper is published (add doi, journal, volume, etc.).
+# Until then, leave commented out OR set type: preprint with the arXiv DOI.
+# -----------------------------------------------------------------------------
+
+# preferred-citation:
+#   type: article
+#   authors:
+#     - family-names: "<Last name>"
+#       given-names: "<First name(s)>"
+#       orcid: "..."
+#   title: "<Paper title>"
+#   year: <YYYY>
+#   journal: "<Journal name>"
+#   volume: <NN>
+#   issue: <N>
+#   start: <NN>          # first page
+#   end: <NN>            # last page
+#   doi: "10.NNNN/<paper-doi>"
+#   url: "https://doi.org/10.NNNN/<paper-doi>"
