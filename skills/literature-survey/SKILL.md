@@ -195,6 +195,16 @@ template.
 5. **MathJax for equations.** Survey notes use MathJax (`$...$` inline,
    `$$...$$` display) for any equations transcribed from the source.
    ASCII-art math is forbidden in survey notes.
+6. **Survey notes and the collection log are HUMAN-FACING documents.**
+   Both are read by the user when drafting the paper, by co-authors
+   when re-orienting, and (sometimes) by reviewers. They follow the
+   conventions in the `human-facing-doc-authoring` skill (audience
+   split, narrative prose over telegraphic fragments, tables where
+   they aid scanning, date-stamps, no personal-path leaks). When
+   producing or substantially revising either artefact, also load
+   `~/.scicomp-research-skills/skills/human-facing-doc-authoring/SKILL.md`
+   for the universal conventions and the per-doc-type self-review
+   checklist.
 
 ## Output contract
 
@@ -222,9 +232,17 @@ When the user invokes this skill, the agent should:
 - `templates/paper-skeleton/` (in this repository, sibling of `skills/`)
   -- a starter paper-repo skeleton that pre-creates the `references/`
   and `notes/` directory structure.
+- `~/.scicomp-research-skills/skills/human-facing-doc-authoring/SKILL.md`
+  -- universal conventions for human-facing docs. The survey-note +
+  collection-log templates above embody these conventions; load the
+  human-facing-doc-authoring skill when authoring or revising either
+  artefact and you want the cross-cutting checklist.
 
 ---
 
 *Created 2026-05-13 by A. Attia. Distilled from the literature-survey
 workflow developed for the rl-oed paper (14 references verified across
-3 sections of the paper's plan-of-record).*
+3 sections of the paper's plan-of-record). Revised 2026-05-13 (added
+Workflow rule #6 + See-also pointer to human-facing-doc-authoring
+skill, since survey notes and the collection log are human-facing
+artefacts).*
