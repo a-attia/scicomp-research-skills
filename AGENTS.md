@@ -365,58 +365,32 @@ user through the steps below. The exact sequence depends on project type.
 
 ### 11.A New research paper
 
-The canonical workflow. Templates and skills are paper-ready today.
+```bash
+mkdir -p <papers-parent-dir>/<paper-short-name>
+cd       <papers-parent-dir>/<paper-short-name>
+git init
+cp -R ~/.scicomp-research-skills/templates/paper-skeleton/. .
+# Fill in <...> placeholders in AGENTS.md / PLAN.md / README.md /
+# notes/README.md / CITATION.cff (one-time per project).
+~/.scicomp-research-skills/bin/refresh.sh   # one-time per machine
+git add . && git commit -m "chore: bootstrap from scicomp-research-skills/templates/paper-skeleton"
+```
 
-1. **Create the project directory** (anywhere convenient; typically a
-   sibling of any code dependencies it references):
-   ```bash
-   mkdir -p <papers-parent-dir>/<paper-short-name>
-   cd <papers-parent-dir>/<paper-short-name>
-   git init
-   ```
-2. **Copy the paper-skeleton template** from the canonical checkout:
-   ```bash
-   cp -R ~/.scicomp-research-skills/templates/paper-skeleton/. .
-   ```
-   This brings in `AGENTS.md`, `PLAN.md`, `README.md`, `.gitignore`,
-   `references/{bibliography.bib, _collection_log.md}`, `notes/README.md`,
-   and `.gitkeep`s for `experiments/`, `figures/`, `drafts/`.
-3. **Customise the four `<...>` placeholders**:
-   - `AGENTS.md` -- fill in project name, nature, status, target venue,
-     code dependencies, citation style, collaborators.
-   - `PLAN.md` -- fill in the working title, headline contribution,
-     test case, hypothesis, survey reading list (start with stubs;
-     refine via the `literature-survey` skill).
-   - `README.md` -- fill in title, authors, target submission, pinned
-     upstream library versions, status.
-   - `notes/README.md` -- fill in the section topics matching your
-     PLAN.md sections.
-4. **Verify the agent will load the skills**. From inside the project:
-   ```bash
-   ls ~/.scicomp-research-skills/AGENTS.md      # should exist
-   ls ~/.scicomp-research-skills/skills/        # should list both skills
-   ```
-   If the canonical checkout is missing or stale, run
-   `~/.scicomp-research-skills/bin/refresh.sh` (or `install.sh` if it
-   has never been set up on this machine).
-5. **First commit**:
-   ```bash
-   git add .
-   git commit -m "chore: bootstrap from scicomp-research-skills/templates/paper-skeleton"
-   ```
-6. **Open the project in your agent client**. The agent will read
-   `AGENTS.md` first, follow it to `~/.scicomp-research-skills/AGENTS.md`,
-   then load the skills referenced (`research-paper-writing`,
-   `literature-survey`) on demand as the work proceeds.
+The template ships AGENTS.md (loads research-paper-writing +
+literature-survey + human-facing-doc-authoring + agent-resource-discipline
++ project-onboarding-on-demand), PLAN.md (paper plan-of-record skeleton),
+README.md, CITATION.cff (Zenodo handshake instructions baked in),
+.gitignore, references/{bibliography.bib, _collection_log.md} stubs,
+notes/{README.md, agent_feedback.md},
+experiments/README.md (per-run snapshot discipline including
+metadata.json schema), figures/README.md (figure-generation provenance),
+.github/ISSUE_TEMPLATE/ (paper-flavoured templates), and .gitkeep stubs.
 
-A typical first session asks the agent to:
-
-- run the `literature-survey` skill workflow on the first batch of
-  references (Steps 1-5 of that skill produce the verified bib entries +
-  per-paper survey notes);
-- then use the `research-paper-writing` skill to draft Section 1
-  (Introduction) once the survey notes for the closest competitors are
-  in place.
+For the user-facing step-by-step including post-bootstrap workflow tips,
+see [`README.md` "Adopting on an existing project"](README.md) (and
+"Starting a new project that uses this repository" -- the README is the
+canonical user-facing walkthrough; this section is the agent-facing
+condensation).
 
 ### 11.B New research software project
 
@@ -488,8 +462,7 @@ and skills are software-ready as of 2026-05-13.
    ```bash
    ~/.scicomp-research-skills/bin/refresh.sh
    ```
-6. **Verify Scientific Python repo-review** passes (catches missing
-   pyproject fields, missing pre-commit, etc.):
+6. **Verify Scientific Python repo-review** passes (Python projects):
    ```bash
    uvx sp-repo-review[cli] .
    ```
@@ -499,36 +472,13 @@ and skills are software-ready as of 2026-05-13.
    git commit -m "chore: bootstrap from scicomp-research-skills/templates/software-skeleton/ + <chosen-upstream> upstream"
    ```
 
-Now open the project in your agent client. The agent will:
-
-1. Read the project's `AGENTS.md`.
-2. Follow it to `~/.scicomp-research-skills/AGENTS.md` for shared
-   conventions.
-3. Load `skills/research-software-engineering/` (the primary skill for
-   software work) on demand. For numerical-correctness work, load
-   `references/01-numerical-correctness.md`. For test design, load
-   `references/02-testing-for-numerical-code.md`. For AI-assisted-
-   coding rules, load `references/11-ai-assisted-coding-rules.md`.
-4. Load `skills/agent-resource-discipline/` always (any non-trivial
-   software session benefits from the first-action / last-action
-   protocols).
-5. Load `skills/human-facing-doc-authoring/` whenever touching
-   README.md / PLAN.md / notes/ / experiments/README.md /
-   figures/README.md.
-6. Load `skills/literature-survey/` when adding a new algorithmic
-   reference cited in code.
-7. Load `skills/research-paper-writing/` only if this code is supporting
-   a paper draft AND the draft is also being touched in the session.
-
-A typical first session asks the agent to:
-
-- run the M1 bootstrap (verify the package scaffold, get the test suite
-  green, get pre-commit green);
-- design the first numerical method in `notes/impl_<component>.md`
-  (per the `human-facing-doc-authoring` notes-structures skeleton +
-  the `research-software-engineering` API-design principles);
-- implement the method TDD-style with MMS + convergence-rate tests
-  (per `research-software-engineering/references/02-testing-for-numerical-code.md`).
+After bootstrap, the agent loads `research-software-engineering`
+(primary skill; references 01 + 02 + 11 currently shipped) +
+`agent-resource-discipline` (always; first-/last-action protocols) +
+`human-facing-doc-authoring` (when touching docs) + `literature-survey`
+(when adding algorithmic references) on demand. Per-project AGENTS.md
+template's "Skills to load" section enumerates this; the agent does
+not need to be told inline.
 
 ### 11.C Reviewer response / rebuttal
 
@@ -672,92 +622,9 @@ Section 3 of this file. The full procedure is in the skill's
 ---
 
 *Created 2026-05-13 by clone-and-diverge from
-Master-cai/Research-Paper-Writing-Skills @ 9ee5edd.*
-
-*Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent
-config, dual-licensed LICENSE, single-sourced per-project boilerplate
-via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a
-new project").*
-
-*Revised 2026-05-13 (added project-readme-authoring skill + Section 6
-README-vs-AGENTS.md audience split convention).*
-
-*Revised 2026-05-13 (renamed project-readme-authoring ->
-human-facing-doc-authoring; generalised scope to all human-facing docs
-incl. PLAN.md, notes/survey_*.md, references/_collection_log.md, etc.;
-expanded universal convention; added per-doc-type structure files for
-plan / notes / audit-log).*
-
-*Revised 2026-05-13 (added agent-resource-discipline skill + Section 6
-universal one-liners for tool selection / parallelism / targeted reads
-/ re-use-prior-work / persistent-memory; codifies PDF lifecycle,
-web-fetch caching, context-window budget, first-action/last-action
-protocols).*
-
-*Revised 2026-05-13 (added upstream-feedback channel: CONTRIBUTING.md +
-.github/ISSUE_TEMPLATE/ + per-project notes/agent_feedback.md template
-+ Section 6 universal one-liner pointing at it; the per-project
-feedback channel + the agent-resource-discipline skill's recording
-rules close the loop between project sessions and upstream skill
-improvements).*
-
-*Revised 2026-05-13 (added research-software-engineering skill -- first
-cut: SKILL.md + references/01-numerical-correctness.md +
-references/02-testing-for-numerical-code.md +
-references/11-ai-assisted-coding-rules.md, per the prior-art audit's
-PR1 sequencing; remaining 7 references + companion
-templates/software-skeleton/ planned for PR2-PR4).*
-
-*Revised 2026-05-13 (shipped templates/software-skeleton/ as PR3 ahead
-of audit's original PR2; AGENTS.md / PLAN.md / README.md / CITATION.cff
-with Zenodo handshake / .gitignore / experiments/README.md /
-figures/README.md / notes/README.md + agent_feedback.md /
-references/_collection_log.md / .github/ISSUE_TEMPLATE/{numerical-correctness-regression,
-api-ergonomics, performance-regression}.md / bootstrap.sh delegating to
-scientific-python/cookie | NLeSC/python-template |
-CU-DBMI/template-uv-python-research-software; AGENTS.md Section 5
-templates table updated; AGENTS.md Section 11.B replaced "not yet
-shipped" stub with full 7-step walkthrough at parity with
-paper-skeleton's 11.A; templates roadmap pruned to remove the
-now-shipped software-skeleton entry).*
-
-*Revised 2026-05-13 (added project-onboarding skill: SKILL.md +
-references/{existing-project-audit, scenario-1-no-agentic-work,
-scenario-2-existing-agentic-files, conflict-resolution,
-migration-prompts}.md, addressing the realistic case of adopting the
-framework on an existing project; AGENTS.md Section 5 updated; new
-Section 12 'Adopting on an existing project' added; ready-to-paste
-prompts for both scenarios + sub-cases provided; per-project AGENTS.md
-template in templates/{paper,software}-skeleton/ updated with
-project-onboarding in skills-to-load list; README.md gains an
-'Adopting on an existing project' section).*
-
-*Revised 2026-05-13 (templates/software-skeleton/ multi-language:
-paper-coupling layer is language-agnostic; bootstrap.sh adds `julia`
-option delegating to JuliaBesties/BestieTemplate.jl; new
-MULTI-LANGUAGE.md inside the template explains which placeholders are
-Python defaults vs language-agnostic + provides per-language quick
-references for Julia / C++ / Rust / Fortran / MATLAB / Mathematica +
-mixed-language projects + the placeholder-translation table;
-template's AGENTS.md / PLAN.md / README.md flag Python defaults
-explicitly with cross-references to MULTI-LANGUAGE.md; AGENTS.md
-Section 5 templates row + Section 11.B bootstrap step updated).*
-
-*Revised 2026-05-14 (post-fresh-audit cleanup: HIGH = compressed 3
-over-long skill descriptions to <=1024 chars per OpenCode skill-spec
-limit codified in Section 8; MEDIUM = trimmed
-research-software-engineering workflow table to 3 ship-ready
-references + 'Planned references' subsection for the 8 unshipped;
-Section 7 acknowledges both paper-skeleton + software-skeleton
-AGENTS.md as canonical with raised 50-150 line target; ATTRIBUTION.md
-de-staled "templates/software-skeleton/ planned" framing; Section 6
-sub-grouped into 6.1-6.6 for scanability + reformatted this footer
-into a multi-paragraph italic block; LOW = paper-skeleton brought to
-parity with software-skeleton via CITATION.cff + experiments/README.md
-+ figures/README.md + .github/ISSUE_TEMPLATE/{reviewer-comment-followup,
-experiment-rerun-needed, figure-update-needed}.md; missing template
-README footers added; documented the deliberate date-stamp-footer
-exception for upstream-vendored research-paper-writing references in
-that skill's SKILL.md).*
-
-*Maintained by A. Attia.*
+Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Most-recent
+revision: 2026-05-14 (Path C of the over-engineering audit:
+extracted full revision history to [`CHANGELOG.md`](CHANGELOG.md);
+added [`STATUS.md`](STATUS.md) provisional-framework callout +
+wired top-of-file). See `CHANGELOG.md` for the full per-revision
+record. Maintained by A. Attia.*

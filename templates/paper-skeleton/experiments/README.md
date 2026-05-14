@@ -58,6 +58,15 @@ experiments/<run-id>/
 The canonical machine-readable provenance record. Fill in EVERY field;
 explicit `null` is better than omission.
 
+> **Cross-stamp**: this schema is intentionally near-identical to the
+> one in
+> [`templates/software-skeleton/experiments/README.md`](https://github.com/a-attia/scicomp-research-skills/tree/main/templates/software-skeleton/experiments/README.md);
+> the paper-skeleton variant adds two paper-specific fields
+> (`code.library_repo` -- the supporting code is in a sibling repo;
+> `linked_paper_figure` -- the paper-side audit trail to figures).
+> If you change one schema, change both to keep them in sync; reviewers
+> + downstream tools may consume either.
+
 ```json
 {
   "run_id": "20260513_dsac-gaussian_advdiff-d4_seed01",
