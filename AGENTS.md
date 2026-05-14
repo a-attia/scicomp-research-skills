@@ -157,6 +157,7 @@ into a fresh project directory and customise.
 | Template                       | Purpose                                                                  |
 |:-------------------------------|:-------------------------------------------------------------------------|
 | `templates/paper-skeleton/`    | Starter files for a new scientific-computing paper repo: PLAN.md skeleton, README.md skeleton, .gitignore, references/ structure stub, notes/README.md skeleton. |
+| `templates/software-skeleton/` | Starter files for a new scientific-computing software project: AGENTS.md, PLAN.md (code-milestone-flavoured), README.md (library-flavoured), CITATION.cff with Zenodo handshake instructions, .gitignore, experiments/README.md (per-run snapshot discipline), figures/README.md (provenance discipline), notes/README.md (impl + section + agent-feedback indexes), references/_collection_log.md (algorithmic-source citations), .github/ISSUE_TEMPLATE/ (numerical-correctness-regression / api-ergonomics / performance-regression). Includes bootstrap.sh that delegates package scaffolding (pyproject, pre-commit, CI) to one of three upstream community templates: scientific-python/cookie (BSD-3, default), NLeSC/python-template (Apache-2.0, FAIR-aware), CU-DBMI/template-uv-python-research-software (BSD-3, uv-first). |
 
 ## 6. Universal conventions
 
@@ -361,26 +362,103 @@ A typical first session asks the agent to:
 
 ### 11.B New research software project
 
-A dedicated `templates/software-skeleton/` is **not yet shipped**. Until
-it is, the recommended approach is:
+The canonical workflow for a research-software library / code. Templates
+and skills are software-ready as of 2026-05-13.
 
-1. Use your normal language-/framework-specific scaffolding (e.g.
-   `cookiecutter`, `cargo new`, `uv init`, etc.) to create the project.
-2. Hand-write a short `AGENTS.md` modelled on
-   `~/.scicomp-research-skills/templates/paper-skeleton/AGENTS.md`:
-   - Same Section 1-3 boilerplate (verify, read root AGENTS.md, read
-     skills, then read this file).
-   - Skills-to-load list will likely be EMPTY for now (the existing
-     skills are paper-flavoured); add skills as we ship software-flavoured
-     ones.
-   - `## Project facts` should describe the library (language, public
-     API surface, primary downstream consumers, current release).
-3. Hand-write a `PLAN.md` modelled on
-   `~/.scicomp-research-skills/templates/paper-skeleton/PLAN.md` but
-   reorganised around code milestones (M1 = bootstrap + CI, M2 = core
-   API, M3 = first user, ...) instead of paper milestones.
-4. Open an issue against this repository requesting a
-   `templates/software-skeleton/` (one of the planned future additions).
+1. **Create the project directory** (anywhere convenient; typically a
+   sibling of any paper repos that will depend on this code):
+   ```bash
+   mkdir -p <code-parent-dir>/<library-short-name>
+   cd <code-parent-dir>/<library-short-name>
+   git init
+   ```
+2. **Copy the software-skeleton template** from the canonical checkout:
+   ```bash
+   cp -R ~/.scicomp-research-skills/templates/software-skeleton/. .
+   ```
+   This brings in `AGENTS.md`, `PLAN.md`, `README.md`, `CITATION.cff`,
+   `.gitignore`, `experiments/README.md` + `.gitkeep`,
+   `figures/README.md` + `.gitkeep`, `notes/README.md` +
+   `notes/agent_feedback.md`, `references/_collection_log.md`, and
+   `.github/ISSUE_TEMPLATE/` with three issue templates
+   (numerical-correctness-regression, api-ergonomics,
+   performance-regression). Plus the `bootstrap.sh` script that runs
+   the package-scaffolding step (next).
+3. **Run `bootstrap.sh`** to add the package layer (pyproject.toml,
+   src/, tests/, docs/, GitHub Actions, pre-commit, ruff, mypy
+   configs). The script delegates to one of three upstream community
+   templates -- pick the one that best matches your style:
+   ```bash
+   ./bootstrap.sh cookie    # scientific-python/cookie (BSD-3; default)
+   ./bootstrap.sh nlesc     # NLeSC/python-template (Apache-2.0; FAIR-aware)
+   ./bootstrap.sh uv-cu     # CU-DBMI/template-uv-python-research-software (BSD-3; uv-first)
+   ```
+   Bootstrap requires `copier` (`pipx install copier` or
+   `uv tool install copier`). The upstream template will run
+   interactively, asking for project name, author, license choice, etc.
+   When it asks about overwriting any of the files we already provided
+   (AGENTS.md, PLAN.md, README.md, CITATION.cff, experiments/, figures/,
+   notes/, references/, .github/ISSUE_TEMPLATE/), **always keep our
+   versions**; the upstream template should only add the package layer.
+4. **Customise the four files containing `<...>` placeholders**:
+   - `AGENTS.md` -- fill in library name, language + framework choices,
+     mathematical conventions, status, code dependencies, paper coupling
+     (if applicable).
+   - `PLAN.md` -- fill in headline goal, scope + non-scope, public API
+     surface, architecture, milestones, numerical-correctness plan,
+     reproducibility infrastructure, design-decisions log, lifecycle
+     stage.
+   - `README.md` -- fill in install + quick example + how-experiments-
+     are-organised + coupled-paper (if applicable) + pinned-dependencies
+     + citation + authors.
+   - `CITATION.cff` -- fill in title, abstract, author list, version,
+     repository URL, license. Run the Zenodo handshake (instructions
+     baked into the file as comments).
+5. **Verify the canonical checkout is fresh** (one-time per machine):
+   ```bash
+   ~/.scicomp-research-skills/bin/refresh.sh
+   ```
+6. **Verify Scientific Python repo-review** passes (catches missing
+   pyproject fields, missing pre-commit, etc.):
+   ```bash
+   uvx sp-repo-review[cli] .
+   ```
+7. **First commit**:
+   ```bash
+   git add .
+   git commit -m "chore: bootstrap from scicomp-research-skills/templates/software-skeleton/ + <chosen-upstream> upstream"
+   ```
+
+Now open the project in your agent client. The agent will:
+
+1. Read the project's `AGENTS.md`.
+2. Follow it to `~/.scicomp-research-skills/AGENTS.md` for shared
+   conventions.
+3. Load `skills/research-software-engineering/` (the primary skill for
+   software work) on demand. For numerical-correctness work, load
+   `references/01-numerical-correctness.md`. For test design, load
+   `references/02-testing-for-numerical-code.md`. For AI-assisted-
+   coding rules, load `references/11-ai-assisted-coding-rules.md`.
+4. Load `skills/agent-resource-discipline/` always (any non-trivial
+   software session benefits from the first-action / last-action
+   protocols).
+5. Load `skills/human-facing-doc-authoring/` whenever touching
+   README.md / PLAN.md / notes/ / experiments/README.md /
+   figures/README.md.
+6. Load `skills/literature-survey/` when adding a new algorithmic
+   reference cited in code.
+7. Load `skills/research-paper-writing/` only if this code is supporting
+   a paper draft AND the draft is also being touched in the session.
+
+A typical first session asks the agent to:
+
+- run the M1 bootstrap (verify the package scaffold, get the test suite
+  green, get pre-commit green);
+- design the first numerical method in `notes/impl_<component>.md`
+  (per the `human-facing-doc-authoring` notes-structures skeleton +
+  the `research-software-engineering` API-design principles);
+- implement the method TDD-style with MMS + convergence-rate tests
+  (per `research-software-engineering/references/02-testing-for-numerical-code.md`).
 
 ### 11.C Reviewer response / rebuttal
 
@@ -397,9 +475,6 @@ Also not yet shipped as a dedicated template. Recommended interim:
 
 Items expected to be added to `templates/` over time:
 
-- `software-skeleton/` -- minimal Python research-software project
-  skeleton (`pyproject.toml`, `src/`, `tests/`, `docs/`, AGENTS.md,
-  PLAN.md tuned to code milestones).
 - `rebuttal-skeleton/` -- reviewer-response workspace (response.md,
   diff-tracking, line-by-line response template).
 - `experiment-skeleton/` -- standalone experiment / ablation workspace
@@ -411,4 +486,4 @@ Section 5 and add a corresponding sub-section to Section 11 above.
 
 ---
 
-*Created 2026-05-13 by clone-and-diverge from Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent config, dual-licensed LICENSE, single-sourced per-project boilerplate via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a new project"). Revised 2026-05-13 (added project-readme-authoring skill + Section 6 README-vs-AGENTS.md audience split convention). Revised 2026-05-13 (renamed project-readme-authoring -> human-facing-doc-authoring; generalised scope to all human-facing docs incl. PLAN.md, notes/survey_*.md, references/_collection_log.md, etc.; expanded universal convention; added per-doc-type structure files for plan / notes / audit-log). Revised 2026-05-13 (added agent-resource-discipline skill + Section 6 universal one-liners for tool selection / parallelism / targeted reads / re-use-prior-work / persistent-memory; codifies PDF lifecycle, web-fetch caching, context-window budget, first-action/last-action protocols). Revised 2026-05-13 (added upstream-feedback channel: CONTRIBUTING.md + .github/ISSUE_TEMPLATE/ + per-project notes/agent_feedback.md template + Section 6 universal one-liner pointing at it; the per-project feedback channel + the agent-resource-discipline skill's recording rules close the loop between project sessions and upstream skill improvements). Revised 2026-05-13 (added research-software-engineering skill -- first cut: SKILL.md + references/01-numerical-correctness.md + references/02-testing-for-numerical-code.md + references/11-ai-assisted-coding-rules.md, per the prior-art audit's PR1 sequencing; remaining 7 references + companion templates/software-skeleton/ planned for PR2-PR4). Maintained by A. Attia.*
+*Created 2026-05-13 by clone-and-diverge from Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Revised 2026-05-13 (post-audit cleanup: removed orphan upstream agent config, dual-licensed LICENSE, single-sourced per-project boilerplate via templates/paper-skeleton/AGENTS.md, added Section 11 "Starting a new project"). Revised 2026-05-13 (added project-readme-authoring skill + Section 6 README-vs-AGENTS.md audience split convention). Revised 2026-05-13 (renamed project-readme-authoring -> human-facing-doc-authoring; generalised scope to all human-facing docs incl. PLAN.md, notes/survey_*.md, references/_collection_log.md, etc.; expanded universal convention; added per-doc-type structure files for plan / notes / audit-log). Revised 2026-05-13 (added agent-resource-discipline skill + Section 6 universal one-liners for tool selection / parallelism / targeted reads / re-use-prior-work / persistent-memory; codifies PDF lifecycle, web-fetch caching, context-window budget, first-action/last-action protocols). Revised 2026-05-13 (added upstream-feedback channel: CONTRIBUTING.md + .github/ISSUE_TEMPLATE/ + per-project notes/agent_feedback.md template + Section 6 universal one-liner pointing at it; the per-project feedback channel + the agent-resource-discipline skill's recording rules close the loop between project sessions and upstream skill improvements). Revised 2026-05-13 (added research-software-engineering skill -- first cut: SKILL.md + references/01-numerical-correctness.md + references/02-testing-for-numerical-code.md + references/11-ai-assisted-coding-rules.md, per the prior-art audit's PR1 sequencing; remaining 7 references + companion templates/software-skeleton/ planned for PR2-PR4). Revised 2026-05-13 (shipped templates/software-skeleton/ as PR3 ahead of audit's original PR2; AGENTS.md / PLAN.md / README.md / CITATION.cff with Zenodo handshake / .gitignore / experiments/README.md / figures/README.md / notes/README.md + agent_feedback.md / references/_collection_log.md / .github/ISSUE_TEMPLATE/{numerical-correctness-regression, api-ergonomics, performance-regression}.md / bootstrap.sh delegating to scientific-python/cookie | NLeSC/python-template | CU-DBMI/template-uv-python-research-software; AGENTS.md Section 5 templates table updated; AGENTS.md Section 11.B replaced "not yet shipped" stub with full 7-step walkthrough at parity with paper-skeleton's 11.A; templates roadmap pruned to remove the now-shipped software-skeleton entry). Maintained by A. Attia.*

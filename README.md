@@ -279,21 +279,71 @@ competitors' survey notes are in place.
 
 ### B. Research software project
 
-A dedicated `templates/software-skeleton/` is **not yet shipped**. In
-the meantime:
+The canonical workflow for a research-software library / code, ready
+to use:
 
-1. Use your normal language- or framework-specific scaffolding
-   (`cookiecutter`, `cargo new`, `uv init`, ...) to create the project.
-2. Hand-write a short `AGENTS.md` modelled on
-   [`templates/paper-skeleton/AGENTS.md`](templates/paper-skeleton/AGENTS.md).
-   Keep the same Section 1-3 boilerplate; the skills-to-load list will
-   likely be empty for now.
-3. Hand-write a `PLAN.md` reorganised around code milestones (M1 =
-   bootstrap + CI, M2 = core API, M3 = first user, ...) instead of paper
-   milestones.
+```bash
+# 1. Create the project directory anywhere you keep code.
+mkdir -p <code-parent-dir>/<library-short-name>
+cd       <code-parent-dir>/<library-short-name>
+git init
 
-Track this gap (or contribute the template!) -- see
-[Extending this repository](#extending-this-repository).
+# 2. Copy the software-skeleton (paper-coupling layer: AGENTS.md, PLAN.md,
+#    README.md, CITATION.cff, experiments/, figures/, notes/, references/,
+#    .github/ISSUE_TEMPLATE/, bootstrap.sh).
+cp -R ~/.scicomp-research-skills/templates/software-skeleton/. .
+
+# 3. Run bootstrap.sh to add the package layer (pyproject, src/, tests/,
+#    docs/, CI, pre-commit) by delegating to one of three upstream
+#    community templates. Pick the one matching your style:
+./bootstrap.sh cookie    # scientific-python/cookie (BSD-3, default)
+./bootstrap.sh nlesc     # NLeSC/python-template (Apache-2.0, FAIR-aware)
+./bootstrap.sh uv-cu     # CU-DBMI/template-uv-python-research-software (BSD-3, uv-first)
+
+# Bootstrap requires `copier`:
+#   pipx install copier   # OR:   uv tool install copier
+
+# 4. Customise the four files containing <...> placeholders:
+#    - AGENTS.md   -> library name, language + framework, math conventions
+#    - PLAN.md     -> headline goal, scope, public API, milestones, design log
+#    - README.md   -> install + quick example + experiments + pinned deps
+#    - CITATION.cff -> author list, license, Zenodo handshake (instructions
+#                      baked in as comments)
+
+# 5. (One-time per machine) verify the canonical checkout is fresh:
+~/.scicomp-research-skills/bin/refresh.sh
+
+# 6. Verify the repo passes Scientific Python's repo-review:
+uvx sp-repo-review[cli] .
+
+# 7. First commit.
+git add .
+git commit -m "chore: bootstrap from scicomp-research-skills/templates/software-skeleton/ + cookie upstream"
+```
+
+Now open the project in your agent client. The agent will:
+
+1. Read the project's `AGENTS.md`.
+2. Follow it to `~/.scicomp-research-skills/AGENTS.md` for shared
+   conventions.
+3. Load `skills/research-software-engineering/` as the primary skill.
+   For numerical-correctness work, it loads
+   `references/01-numerical-correctness.md` (no "paper tests"; MMS;
+   convergence-rate tests; conservation invariants; floating-point
+   gotchas). For test design, `references/02-testing-for-numerical-code.md`
+   (3-tier suite + diagnostic tests). For AI-assisted-coding rules,
+   `references/11-ai-assisted-coding-rules.md` (Bridgeford et al. 2025
+   condensed to checklist).
+4. Always also load `skills/agent-resource-discipline/` for the
+   first-action / last-action protocols.
+5. Load `skills/human-facing-doc-authoring/` whenever touching
+   any doc a human will read for review.
+
+A typical first session: ask the agent to run the M1 bootstrap
+(verify the package scaffold + green test suite + green pre-commit),
+then design the first numerical method in `notes/impl_<component>.md`
+before writing any code, then implement TDD-style with MMS +
+convergence-rate tests.
 
 ### C. Reviewer response / rebuttal
 

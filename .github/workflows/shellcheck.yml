@@ -6,11 +6,13 @@ on:
     paths:
       - 'bin/**'
       - '.githooks/**'
+      - 'templates/**/*.sh'
       - '.github/workflows/shellcheck.yml'
   pull_request:
     paths:
       - 'bin/**'
       - '.githooks/**'
+      - 'templates/**/*.sh'
       - '.github/workflows/shellcheck.yml'
 
 jobs:
@@ -24,3 +26,8 @@ jobs:
         run: shellcheck -x bin/*.sh
       - name: Lint .githooks/*
         run: shellcheck -x .githooks/pre-commit
+      - name: Lint templates/**/*.sh
+        run: |
+          if compgen -G 'templates/**/*.sh' > /dev/null; then
+            find templates -name '*.sh' -print0 | xargs -0 shellcheck -x
+          fi
