@@ -1,0 +1,27 @@
+# scicomp-research-skills commit message template.
+#
+# Lines beginning with '#' are stripped from the final commit message.
+#
+# Conventional-commit prefix examples:
+#   feat: <new feature>
+#   fix:  <bug fix>
+#   docs: <documentation change>
+#   chore: <housekeeping; no code-behaviour change>
+#   ci:   <CI workflow change>
+#   refactor: <code reorg without behaviour change>
+#
+# After the subject line + blank line, write the body explaining WHY
+# the change was made (the diff already shows WHAT). Reference issues
+# / PRs / journal entries that motivated the change.
+#
+# The Co-Authored-By trailer below records substantive AI assistance
+# in this repo's commits per the maintainer-policy override in
+# CONTRIBUTING.md "Maintainer-policy override: AI co-authorship
+# attribution". Delete the trailer for human-only commits.
+#
+# More on git trailers: https://git-scm.com/docs/git-interpret-trailers
+# More on this repo's policy: see CONTRIBUTING.md.
+
+
+
+Co-Authored-By: Claude <noreply@anthropic.com>
