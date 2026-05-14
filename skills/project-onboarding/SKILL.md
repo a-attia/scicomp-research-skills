@@ -182,9 +182,31 @@ The user can copy any of the following into their agent's first
 message to kick off a migration. Each prompt loads this skill,
 classifies the scenario, and starts the audit.
 
+Each prompt below begins with a **prerequisite-check block** so the
+agent can install the framework if it isn't already installed
+(rather than failing opaquely on the "load skill" step). The block
+is identical across all prompts; the user always pastes ONE thing
+regardless of install state.
+
 For Scenario 1 (no prior agentic work):
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 Load the project-onboarding skill from
 ~/.scicomp-research-skills/skills/project-onboarding/SKILL.md.
 This is an existing <paper / software-library / analysis> project
@@ -196,6 +218,22 @@ step by step before executing.
 For Scenario 2 (existing agentic instructions):
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 Load the project-onboarding skill from
 ~/.scicomp-research-skills/skills/project-onboarding/SKILL.md.
 This is an existing <paper / software-library / analysis> project

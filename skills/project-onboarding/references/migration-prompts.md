@@ -30,18 +30,48 @@ the repo and tell you which scenario it sees.
 
 ## Universal preamble
 
-All prompts below assume the user has already installed the
-canonical scicomp-research-skills checkout
-(`~/.scicomp-research-skills/`) per the root `README.md` "Quick
-start". If the user hasn't, the prompt will fail at the "load skill"
-step; they should run:
+Every prompt below begins with the same **prerequisite-check block**
+that handles the case where the framework is not yet installed (or is
+stale). The block is identical across prompts -- the user always
+pastes ONE thing regardless of install state, and the agent
+auto-installs / refreshes as needed before proceeding.
 
-```bash
-git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
-~/.scicomp-research-skills/bin/install.sh
+The canonical block:
+
+```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
 ```
 
-then retry.
+The block appears at the top of every prompt below, exactly as
+written above. If you copy a prompt from elsewhere (e.g. from
+`~/.scicomp-research-skills/AGENTS.md` Section 12 or the project
+README's "Adopting on an existing project" section), make sure the
+prereq block is present; if not, prepend it manually.
+
+When you paste a prompt below, the structure the agent sees is:
+
+```text
+<PREREQUISITE CHECK block>
+
+REQUEST:
+<the scenario-specific instructions>
+```
+
+The agent runs the prereq check first, fails fast with a clear
+error if installation cannot complete, and only then executes the
+request.
 
 ---
 
@@ -51,6 +81,22 @@ Use this when you don't know whether your project is in Scenario 1
 or Scenario 2 -- the agent figures it out:
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 I have an existing project at <path-to-project> that I want to
 adopt the scicomp-research-skills framework on. I'm not sure
 whether I have prior agentic instructions or not.
@@ -77,6 +123,22 @@ whether to proceed with the plan as-is or adjust it.
 ### Prompt 1.A: empty-ish repo
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 I have an existing project at <path> that has only a few files and
 no significant directory structure. I want to start fresh using the
 scicomp-research-skills framework.
@@ -98,6 +160,22 @@ Do NOT make any changes until I confirm the plan.
 ### Prompt 1.B: mature repo with existing structure
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 I have an existing project at <path> with substantial structure
 already in place (existing src/ or code/, experiments/ or results/,
 figures/, notes/, references/, etc.). I have NOT used any agentic
@@ -130,6 +208,22 @@ explicitly approve.
 ### Prompt 1.C: non-standard layout
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 I have an existing project at <path> with a non-standard layout for
 my domain: <briefly describe the layout, e.g. "all source at repo
 root", "code/ instead of src/", "LaTeX-document-as-repo with no
@@ -164,6 +258,22 @@ Walk me through the plan. Do NOT make changes until I approve.
 ### Prompt 2.A: one agent-file format
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 I have an existing project at <path> that already has a <CLAUDE.md
 / .cursorrules / GEMINI.md / etc.> at the repo root. I want to
 adopt the scicomp-research-skills framework while preserving all of
@@ -208,6 +318,22 @@ table.
 ### Prompt 2.B: multiple agent-file formats
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 I have an existing project at <path> that already has multiple
 agent-files at the repo root: <list them, e.g. "CLAUDE.md,
 .cursorrules, GEMINI.md">. I want to consolidate into the
@@ -242,6 +368,22 @@ table.
 ### Prompt 2.C: existing agent-file with substantive project content
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 I have an existing project at <path> with a <CLAUDE.md / etc.>
 that contains substantive project-specific content (project facts,
 in-progress decisions, conventions, open questions) -- NOT just
@@ -294,6 +436,22 @@ above will surface conflicts as part of the audit; use this prompt
 to resolve them once they're surfaced):
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 The audit has surfaced one or more conflicts between my existing
 project conventions and the scicomp-research-skills framework's
 universal conventions.
@@ -328,6 +486,22 @@ naturally from it.
 ### Verify the migration succeeded
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 Run the project-onboarding skill's universal workflow Step 4
 (verification) on this project. Confirm:
 
@@ -350,6 +524,22 @@ Report what passes + what fails + any quick fixes for the failures.
 ### Document the migration in agent_feedback
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 Append an entry to notes/agent_feedback.md summarising this
 onboarding session per the agent-resource-discipline skill's
 recording protocol. Include:
@@ -369,6 +559,22 @@ session ends.
 ### Run the first-action protocol on the migrated project
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 Run the agent-resource-discipline skill's first-action protocol on
 this project. Read AGENTS.md + PLAN.md + references/_collection_log.md
 + notes/README.md (in parallel) and report the project's current

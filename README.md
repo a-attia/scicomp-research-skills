@@ -77,10 +77,12 @@ the per-project `AGENTS.md` boilerplate that wires everything together.
 ### 1. Install once per machine
 
 Clone the repository to its **canonical** location and run the
-installer:
+installer (try SSH first; fall back to HTTPS if you don't have SSH
+keys configured for GitHub):
 
 ```bash
-git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+  || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
 ~/.scicomp-research-skills/bin/install.sh
 ```
 
@@ -399,9 +401,31 @@ the skill's `references/` folder.
 
 If you're not sure which scenario applies, paste the following
 into your agent client as the first message of a fresh session
-(replace `<path-to-project>` with your project's path):
+(replace `<path-to-project>` with your project's path).
+
+Each prompt in this section starts with a **prerequisite-check
+block** that handles the case where the framework is not yet
+installed (or is stale): the agent runs the check first, installs /
+refreshes if needed, and only then executes the actual request.
+You always paste ONE thing regardless of install state.
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 I have an existing project at <path-to-project> that I want to
 adopt the scicomp-research-skills framework on. I'm not sure
 whether I have prior agentic instructions or not.
@@ -422,6 +446,22 @@ You have an existing project but no `AGENTS.md` / `CLAUDE.md` /
 `.cursorrules` at the repo root. Use this prompt:
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 I have an existing <paper / software-library / mixed> project at
 <path>. I have NOT used any agentic tooling on it yet -- no
 AGENTS.md, no CLAUDE.md, no .cursorrules.
@@ -452,6 +492,22 @@ repo root (`CLAUDE.md`, `.cursorrules`, `GEMINI.md`, etc.). The
 content there is valuable; we preserve it. Use this prompt:
 
 ```text
+PREREQUISITE CHECK (run this first):
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists.
+2. If it does NOT exist, install the framework now. Try SSH first;
+   if that fails, fall back to HTTPS:
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If both clone attempts fail, report the error to me and stop;
+   do not proceed silently.
+3. If it exists but is more than 30 days old (modification time of
+   ~/.scicomp-research-skills/AGENTS.md), suggest I run
+   `~/.scicomp-research-skills/bin/refresh.sh` and proceed regardless.
+
+REQUEST:
+
 I have an existing <paper / software-library> project at <path>
 that already has <list your agent files, e.g. "CLAUDE.md and
 .cursorrules"> at the repo root. I want to adopt the
