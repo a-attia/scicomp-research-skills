@@ -30,7 +30,7 @@ formatted as a chronological list rather than a prose footer.
     contents + agent about to do substantive work). Also added a "do
     NOT load" carve-out for tiny scratch directories where the
     onboarding overhead exceeds the project's lifetime value.
-  - **F-18 (this commit)**: both `templates/{paper,software}-skeleton/AGENTS.md`
+  - **F-18**: both `templates/{paper,software}-skeleton/AGENTS.md`
     gain an `Audience composition` field under the existing "Project
     facts" section. The field captures audience types (AI-curious /
     domain practitioners / theoreticians / engineers / hybrid),
@@ -42,6 +42,24 @@ formatted as a chronological list rather than a prose footer.
     artefacts (talk decks, posters, release announcements, rebuttals)
     skip an entire audience-discovery interview turn. Per the AmigAI
     feedback's proposal A4 "Cross-cutting framework changes" section.
+  - **F-03..F-08 (this commit)**: shipped
+    `skills/research-software-engineering/references/12-shell-and-cross-language-interop.md`
+    (~370 lines) consolidating 6 rules from the argo-anywhere project's
+    notes/agent_feedback.md: (12.1) YAML/JSON quoting on the bash/
+    Python interop boundary; (12.2) setdefault for security-defaulted
+    keys preserves the wrong default on upgraders; (12.3) error-
+    message recovery hints must themselves be tested; (12.4) test
+    stimulus must actually exercise the assertion site; (12.5)
+    shell-script unit-test mechanics (pipe-eats-exit-code; awk
+    function-body extraction fragility); (12.6) exit-summary "what
+    to do next" hints must be scope-keyed not action-keyed. Reference
+    12 moved from the SKILL.md "Planned references" table to the live
+    "Workflow table"; SKILL.md footer updated. The framework's
+    `research-software-engineering` skill now ships 4 references
+    (01, 02, 11, 12); 7 remain planned (03, 04, 05, 06, 07, 08, 09,
+    10 -- subtract 12 from the original 8-references-still-planned
+    count). Each rule cites its argo-anywhere origin + concrete
+    example.
 
 ## 2026-05-14
 

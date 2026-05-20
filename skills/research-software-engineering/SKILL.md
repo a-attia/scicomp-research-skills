@@ -148,11 +148,12 @@ When the session enters a specific phase or addresses a specific
 concern, load the matching reference. Do NOT load all references at
 once.
 
-| Phase / concern                            | Reference to load                                |
-|:-------------------------------------------|:-------------------------------------------------|
-| Numerical correctness, MMS, convergence    | `references/01-numerical-correctness.md`         |
-| Test design for numerical code             | `references/02-testing-for-numerical-code.md`    |
-| Working with AI on scientific code         | `references/11-ai-assisted-coding-rules.md`      |
+| Phase / concern                                            | Reference to load                                            |
+|:-----------------------------------------------------------|:-------------------------------------------------------------|
+| Numerical correctness, MMS, convergence                    | `references/01-numerical-correctness.md`                     |
+| Test design for numerical code                             | `references/02-testing-for-numerical-code.md`                |
+| Working with AI on scientific code                         | `references/11-ai-assisted-coding-rules.md`                  |
+| Shell-script orchestration + cross-language data interop   | `references/12-shell-and-cross-language-interop.md`          |
 
 ### Planned references (not yet shipped)
 
@@ -296,4 +297,15 @@ shipped)" section with explicit "do NOT try to load these" warning;
 fixed footer count "four references" -> "3 references"; replaced
 "templates/software-skeleton/ planned" with "shipped 2026-05-13";
 compressed description from 1725 chars to ~1024 chars to fit the
-OpenCode skill-spec limit of 1024 chars per AGENTS.md Section 8).*
+OpenCode skill-spec limit of 1024 chars per AGENTS.md Section 8).
+Revised 2026-05-17 (Session A skill-optimisation pass; F-03..F-08
+from argo-anywhere real-project feedback): shipped new reference
+`12-shell-and-cross-language-interop.md` consolidating 6 rules
+(YAML/JSON quoting on bash/Python boundary; setdefault for
+security-defaulted keys; error-message recovery hints must
+themselves be tested; test stimulus must exercise the assertion
+site; shell-script unit-test mechanics; exit-summary scope-keyed
+hints). Reference 12 moved from the "Planned references" table to
+the live workflow table. The framework's "research-software-
+engineering" skill now ships 4 references (01, 02, 11, 12); 7
+remain planned (03-10, less 12).*
