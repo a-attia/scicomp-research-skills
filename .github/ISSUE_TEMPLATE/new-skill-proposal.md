@@ -16,12 +16,18 @@ One-paragraph scope:
 
 ## Why this isn't covered by an existing skill
 
-The four shipped skills today are:
+The shipped skills today (as of 2026-05-20; see
+[`AGENTS.md` Section 5](../../AGENTS.md#5-skills-index) for current
+list) are:
 
 - `research-paper-writing` -- paper drafting + adversarial review.
 - `literature-survey` -- bib + PDF + survey-note workflow.
 - `human-facing-doc-authoring` -- README/PLAN/notes/log conventions.
 - `agent-resource-discipline` -- token / context / memory hygiene.
+- `research-software-engineering` -- numerical correctness + testing
+  + API design + reproducibility + AI-assisted-coding rules.
+- `project-onboarding` -- inventory-first migration for existing
+  projects.
 
 Explain why the proposed scope is genuinely separate from each.
 Prefer extending an existing skill where possible -- new skills add

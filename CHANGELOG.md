@@ -12,6 +12,44 @@ formatted as a chronological list rather than a prose footer.
 
 ---
 
+## 2026-05-20 (continued)
+
+- **README.md drift audit + F-20 downstream-doc-audit rule.** User
+  surfaced that README.md still claimed `STATUS (2026-05-14):
+  provisional` + `ZERO real research projects` despite Session A +
+  A.5 + 2 real-project cleanups landing in the meantime. Two
+  deliverables in one commit:
+  - **README.md updated for 2026-05-20 reality**: (a) status
+    callout date bumped + ZERO-projects claim replaced with 2
+    real-projects evidence acknowledgement + retirement-roadmap
+    pointer; (b) "What you get" section rewritten as 6-skill +
+    2-template tables with self-invalidation markers per F-17 +
+    pointer to AGENTS.md Section 5 as canonical source; (c)
+    repo-layout tree updated to show all 6 skills + 2 templates
+    + missing top-level docs (STATUS.md, CHANGELOG.md,
+    CONTRIBUTING.md, .github/ISSUE_TEMPLATE/); (d) "Software
+    projects ... don't have dedicated templates yet" contradiction
+    fixed (template exists); (e) "Feedback from real projects"
+    section mentions software-skeleton + new `_resolved/` +
+    `_archive/` convention + 4 issue templates (was 3).
+  - **F-20: new subsection L "Downstream-doc audit before commit"
+    in `skills/human-facing-doc-authoring/SKILL.md`** (~110 lines,
+    after subsection K). Codifies the meta-discipline: before
+    committing any non-trivial change, the agent enumerates a
+    standard list of drift-prone downstream docs (README,
+    STATUS, CHANGELOG, AGENTS Section 5, per-skill SKILL.md
+    footers, per-template README, issue templates, per-project
+    notes/README) + audits each + reports the audit checklist
+    visibly to the user. Composes with K: K marks WHERE drift is
+    likely; L is the cron-job that prevents drift in the first
+    place. Distinguishes trivial vs non-trivial changes (only
+    non-trivial trigger the audit). Includes separate audit
+    lists for changes to scicomp-research-skills itself vs
+    changes to per-project repos using the framework.
+    Motivated by the 2026-05-20 README.md gap as existence proof
+    (STATUS.md got updated, CHANGELOG.md got updated, README.md
+    was missed -- F-20 prevents that miss).
+
 ## 2026-05-20
 
 - **Session A.5: archive + resolved-feedback convention back-propagated

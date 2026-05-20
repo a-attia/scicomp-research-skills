@@ -11,15 +11,21 @@ the [OpenCode skills](https://opencode.ai/docs/skills/) /
 conventions, so any markdown-aware coding agent can consume it
 (OpenCode, Claude Code, Codex, Cursor, Aider, Gemini CLI, ...).
 
-> **STATUS (2026-05-14): provisional.** This framework was built in 4
-> days of intensive agent-assisted development, with extensive prior-art
-> audits but **ZERO real research projects have used it end-to-end yet**.
-> Some content is well-grounded (`research-paper-writing`,
-> `literature-survey`, `paper-skeleton`); other content is informed
-> prediction that may need pruning after real-project evidence
-> accumulates. **See [`STATUS.md`](STATUS.md) for the honest map of
-> what's tested vs speculative**, what to expect when adopting today,
-> and how the framework gets to "no-longer-provisional".
+> **STATUS (as of 2026-05-20): still provisional but accumulating
+> real-project evidence.** Built in 4 days of intensive agent-assisted
+> development (2026-05-13..2026-05-14), then exercised on 2 real
+> projects (argo-anywhere + AmigAI) during 2026-05-15..2026-05-20.
+> Session A (2026-05-17) rolled the feedback into 7 skill-tightening
+> commits; Session A.5 (2026-05-20) back-propagated the
+> archive+resolved-feedback convention from the project cleanups.
+> Well-grounded: `research-paper-writing`, `literature-survey`,
+> `paper-skeleton`, plus partially `software-skeleton` (1 real
+> codebase exercised) + `project-onboarding` (2 real onboarding
+> sessions). Other content remains informed prediction pending more
+> evidence; external-user evidence is still 0. **See
+> [`STATUS.md`](STATUS.md) for the honest map of what's tested vs
+> speculative**, the per-condition progress on the retirement
+> roadmap, and what to expect when adopting today.
 
 > **For AI agents reading this repository**: jump straight to
 > [`AGENTS.md`](AGENTS.md). That is the canonical entry point. This
@@ -59,26 +65,51 @@ conventions, so any markdown-aware coding agent can consume it
 
 ## What you get
 
-Two reusable building blocks, both loaded on demand by your agent:
+Two reusable building blocks, both loaded on demand by your agent.
+For the canonical inventory (always-current), see the
+[skills index in `AGENTS.md` Section 5](AGENTS.md#5-skills-index) +
+the templates index immediately below it; the lists here are the
+human-facing summary as of 2026-05-20.
 
 1. **Skills** -- focused workflow guides the agent loads when it
-   recognises a matching task. Currently:
-   - [`skills/literature-survey/`](skills/literature-survey/SKILL.md)
-     -- BibTeX + PDF + `pdftotext` + per-paper survey notes +
-     verification log workflow for building a trustworthy bibliography.
-   - [`skills/research-paper-writing/`](skills/research-paper-writing/SKILL.md)
-     -- section-by-section drafting, paragraph-clarity check,
-     claim-evidence alignment, adversarial self-review.
+   recognises a matching task. 6 ship today (as of 2026-05-20;
+   see [`AGENTS.md` Section 5](AGENTS.md#5-skills-index) for the
+   current count):
+
+   | Skill                              | Purpose                                                                                 |
+   |:-----------------------------------|:----------------------------------------------------------------------------------------|
+   | [`research-paper-writing`](skills/research-paper-writing/SKILL.md)         | Section-by-section drafting, paragraph-clarity check, claim-evidence alignment, adversarial self-review.       |
+   | [`literature-survey`](skills/literature-survey/SKILL.md)                   | BibTeX + PDF + `pdftotext` + per-paper survey notes + verification log workflow.                               |
+   | [`human-facing-doc-authoring`](skills/human-facing-doc-authoring/SKILL.md) | Universal conventions + per-doc-type structure for any document a human reads (README, PLAN, notes, rebuttals). |
+   | [`agent-resource-discipline`](skills/agent-resource-discipline/SKILL.md)   | Token / quota / context-window discipline; first-action / last-action protocols; persistent memory across sessions. |
+   | [`research-software-engineering`](skills/research-software-engineering/SKILL.md) | Numerical correctness + testing for numerical code + API design + reproducibility + code-paper coupling + AI-assisted-coding rules. |
+   | [`project-onboarding`](skills/project-onboarding/SKILL.md)                 | Inventory-first migration workflow for adopting the framework on an EXISTING project (with or without prior agentic instructions). |
 
 2. **Templates** -- starter scaffolds you copy into a new project, then
-   customise. Currently:
+   customise. 2 ship today (as of 2026-05-20; see
+   [`AGENTS.md` Section 5](AGENTS.md#5-skills-index) templates
+   sub-table for the current count):
+
    - [`templates/paper-skeleton/`](templates/paper-skeleton/) -- a
      ready-to-fill paper workspace with `AGENTS.md`, `PLAN.md`,
-     `README.md`, `.gitignore`, and pre-created `references/`,
-     `notes/`, `experiments/`, `figures/`, `drafts/` subdirectories.
+     `README.md`, `CITATION.cff`, `.gitignore`, pre-created
+     `references/`, `notes/`, `experiments/`, `figures/`, `drafts/`
+     subdirectories, paper-flavoured `.github/ISSUE_TEMPLATE/`, and
+     the `notes/_resolved/` + `notes/_archive/` skeleton for
+     resolved-feedback + archived-artefact bookkeeping.
+   - [`templates/software-skeleton/`](templates/software-skeleton/) --
+     same paper-coupling layer plus a `bootstrap.sh` that delegates
+     the package layer (build manifest, src/, tests/, docs/, CI) to
+     one of four bundled upstream community templates (cookie /
+     nlesc / uv-cu for Python; BestieTemplate.jl for Julia). For
+     C++/Rust/Fortran/MATLAB/Mathematica, see
+     `templates/software-skeleton/MULTI-LANGUAGE.md`.
 
-Plus the install / refresh / uninstall tooling under [`bin/`](bin/) and
-the per-project `AGENTS.md` boilerplate that wires everything together.
+Plus the install / refresh / uninstall tooling under [`bin/`](bin/),
+the per-project `AGENTS.md` boilerplate that wires everything
+together, and supporting docs ([`STATUS.md`](STATUS.md),
+[`CHANGELOG.md`](CHANGELOG.md), [`CONTRIBUTING.md`](CONTRIBUTING.md),
+[`ATTRIBUTION.md`](ATTRIBUTION.md)).
 
 ---
 
@@ -115,10 +146,12 @@ git add .
 git commit -m "chore: bootstrap from scicomp-research-skills/templates/paper-skeleton"
 ```
 
-Software projects and reviewer responses don't have dedicated templates
-yet; see
-[Starting a new project (in detail)](#starting-a-new-project-in-detail)
-below for the interim recipes.
+Software projects use [`templates/software-skeleton/`](templates/software-skeleton/)
+which also ships a `bootstrap.sh` for the package layer; see
+[B. Research software project](#b-research-software-project) below for
+the full recipe. Reviewer responses don't yet have a dedicated
+template (interim recipe in
+[C. Reviewer response / rebuttal](#c-reviewer-response--rebuttal)).
 
 ### 3. Day-to-day use
 
@@ -159,27 +192,40 @@ pick up the change (see
 
 ### Repository layout
 
-```
+```text
 scicomp-research-skills/
-├── AGENTS.md             entry point for AI agents (read this first)
-├── README.md             you are here
-├── ATTRIBUTION.md        upstream lineage and divergence notes
-├── LICENSE               MIT (dual copyright, see ATTRIBUTION.md)
+├── AGENTS.md                  entry point for AI agents (read this first)
+├── README.md                  you are here
+├── STATUS.md                  provisional-framework honesty callout
+├── CHANGELOG.md               root-AGENTS.md revision history
+├── CONTRIBUTING.md            feedback-channel + roll-up procedure
+├── ATTRIBUTION.md             upstream lineage and divergence notes
+├── LICENSE                    MIT (dual copyright, see ATTRIBUTION.md)
 │
 ├── bin/
-│   ├── install.sh        one-time setup on a new machine
-│   ├── refresh.sh        update the canonical checkout
-│   └── uninstall.sh      reverse install.sh (dry-run by default)
+│   ├── install.sh             one-time setup on a new machine
+│   ├── refresh.sh             update the canonical checkout
+│   └── uninstall.sh           reverse install.sh (dry-run by default)
 │
-├── skills/               on-demand skills (one folder per skill)
+├── skills/                    on-demand skills (one folder per skill)
+│   ├── research-paper-writing/
 │   ├── literature-survey/
-│   └── research-paper-writing/
+│   ├── human-facing-doc-authoring/
+│   ├── agent-resource-discipline/
+│   ├── research-software-engineering/
+│   └── project-onboarding/
 │
-├── templates/            starter scaffolds for new projects
-│   └── paper-skeleton/
+├── templates/                 starter scaffolds for new projects
+│   ├── paper-skeleton/
+│   └── software-skeleton/
+│
+├── .github/
+│   └── ISSUE_TEMPLATE/        skill-bug, skill-improvement-from-
+│                              experience, new-skill-proposal,
+│                              append-evidence-to-skill-proposal
 │
 └── .githooks/
-    └── pre-commit        refuses commits in the canonical checkout
+    └── pre-commit             refuses commits in the canonical checkout
 ```
 
 ### What `install.sh` actually does
@@ -642,17 +688,22 @@ report back. Three layers exist for that, at increasing levels of
 effort:
 
 1. **Per-project feedback journal** -- every project bootstrapped
-   from `templates/paper-skeleton/` ships with a
-   `notes/agent_feedback.md` file. The agent (per
+   from `templates/paper-skeleton/` or `templates/software-skeleton/`
+   ships with a `notes/agent_feedback.md` file. The agent (per
    `agent-resource-discipline/references/persistent-memory.md`)
    appends entries to this file when a skill rule was insufficient,
    a workaround was needed, or a useful pattern was discovered. No
-   friction; never leaves the project repo.
+   friction; never leaves the project repo. Both templates also
+   ship `notes/_resolved/` + `notes/_archive/` skeleton directories
+   (with `INDEX.md` each) for entries that get actioned upstream
+   (`_resolved/`) or artefacts that get filed elsewhere
+   (`_archive/`); convention added 2026-05-20 from argo-anywhere +
+   AmigAI cleanups.
 2. **GitHub issues** -- when a journal entry seems to deserve action,
-   it's promoted to an issue here using one of three templates in
+   it's promoted to an issue here using one of four templates in
    `.github/ISSUE_TEMPLATE/` (skill-bug, skill-improvement-from-
-   experience, new-skill-proposal). Each template prompts for the
-   evidence the maintainer needs.
+   experience, new-skill-proposal, append-evidence-to-skill-proposal).
+   Each template prompts for the evidence the maintainer needs.
 3. **Pull requests** -- for changes whose shape is already clear, open
    a PR directly. PRs that cite specific journal entries move faster
    than abstract "this seems like a good idea" PRs.

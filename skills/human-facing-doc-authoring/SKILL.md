@@ -245,6 +245,118 @@ maintenance burden: every commit shifts counts that other docs
 cite, and without explicit self-invalidation markers the drift
 accumulates invisibly between sessions.
 
+### L. Downstream-doc audit before commit
+
+Subsection K (self-invalidation of cited facts) addresses drift
+WITHIN a single doc. This subsection L addresses the complementary
+failure mode: **drift ACROSS docs**. When a non-trivial change
+lands (a new skill ships, a new template ships, a count changes, a
+section gets renamed, a convention changes), DOWNSTREAM docs that
+reference the changed thing become silently stale unless the
+agent audits them explicitly. K + L together: K helps the
+*next* reader recognise stale content; L prevents the content
+from becoming stale in the first place.
+
+The discipline: before committing any non-trivial change, run the
+following 3-step audit.
+
+#### Step 1: identify the change-class
+
+Classify the change as either **trivial** or **non-trivial**:
+
+- **Trivial** (no audit required): typo fixes, internal
+  reformatting, ASCII↔Unicode conversions, code-comment edits,
+  whitespace cleanups, single-word phrasings, fixing broken links.
+- **Non-trivial** (audit required): new skill / template / file;
+  removed skill / template / file; renamed section or file;
+  changed count (how many skills ship, how many references in a
+  skill, how many entries in some list); changed convention or
+  default; changed status label (planned -> shipped, deferred ->
+  active); new external dependency; new GitHub-issue template
+  category; project's first real-project bootstrap.
+
+If you cannot quickly classify a change as trivial, treat it as
+non-trivial.
+
+#### Step 2: enumerate the standard downstream docs to audit
+
+For ANY non-trivial change to this repo, the standard audit list is:
+
+| Doc                                              | Drift-prone content                                                                                                  |
+|:-------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------|
+| `README.md`                                      | "What you get" inventory; status callout; repo-layout tree; "Feedback from real projects" categories; section dates. |
+| `STATUS.md`                                      | Well-grounded / informed-prediction classification; evidence-count table; roadmap-condition progress.                |
+| `CHANGELOG.md`                                   | Per-session section; cross-references to commits.                                                                    |
+| `AGENTS.md`                                      | Section 5 skills index table; templates index table; Section 6 universal conventions when convention changes.        |
+| Per-skill `SKILL.md` footers                     | "References shipped / planned" counts; date-stamp; cross-references between skills.                                  |
+| Per-template README.md                           | "What this template ships" inventory; placeholder lists.                                                             |
+| `.github/ISSUE_TEMPLATE/*.md`                    | "The four shipped skills are ..." or similar count-bearing prose.                                                    |
+| `notes/agent_feedback.md` (per project)          | Cross-references to upstream commits / issues from prior entries.                                                    |
+
+For ANY non-trivial change to a per-project repo using this
+framework, the standard audit list reduces to:
+
+| Doc                                          | Drift-prone content                                                                          |
+|:---------------------------------------------|:---------------------------------------------------------------------------------------------|
+| `README.md`                                  | Status / current-version statements; "what this project is" headline; feature inventory.     |
+| `PLAN.md`                                    | Status section; milestone progress; "current phase" markers.                                 |
+| `AGENTS.md` Project facts                    | Status, current phase, code dependencies (especially pinned versions).                       |
+| `notes/README.md`                            | Indexes of survey / impl / section notes.                                                    |
+| `notes/_resolved/INDEX.md` (if changed)      | Entries table.                                                                               |
+| `notes/_archive/INDEX.md` (if changed)       | Entries table.                                                                               |
+
+#### Step 3: open + audit each, then update or annotate
+
+For each doc on the relevant list:
+
+1. **Open the doc + scan for content that cites the changed
+   thing.** Cross-references, counts, enumerations, status labels,
+   inventories. Use Grep when faster than Read.
+2. **If a cited fact is now stale, update it** (or apply the
+   K-rule self-invalidation marker if the update would be
+   disproportionate to the value).
+3. **If the doc is clean, note it explicitly** ("README.md
+   audited; nothing to update") so the user has a record that the
+   audit happened.
+
+The audit should be visible in the response to the user, NOT
+silent. Frame it as a checklist:
+
+```text
+Downstream-doc audit (per F-20):
+- README.md: status callout + What-you-get table updated [DONE]
+- STATUS.md: evidence-count table + retirement-condition #4 updated [DONE]
+- CHANGELOG.md: new section appended [DONE]
+- AGENTS.md skills index: no change needed (this change doesn't add/remove a skill)
+- per-skill SKILL.md footers: no change needed
+- .github/ISSUE_TEMPLATE/: no change needed (no count change)
+```
+
+#### Why this matters
+
+Without an explicit audit step, the agent treats each doc as
+independent and only updates the one it's directly editing. Real
+documentation systems are graphs, not trees: a change to one node
+often shifts edges across many. The 2026-05-20 README.md gap
+(STATUS callout still said `2026-05-14` + `ZERO real research
+projects` even after Session A + A.5 + 2 real projects) is the
+existence proof: STATUS.md got updated; CHANGELOG.md got updated;
+README.md was missed. F-20 prevents that miss.
+
+#### Cross-references
+
+- This rule composes with K (self-invalidation of cited facts):
+  K marks WHERE drift is likely; L is the cron-job that
+  prevents it.
+- For projects with substantial structural change (multi-file
+  refactor, new file format, migrated layout), additionally
+  consult the `project-onboarding` skill's `references/scenario-2-
+  existing-agentic-files.md` Scenario 2.C content-check pattern.
+- The audit list above is the DEFAULT; per-project AGENTS.md MAY
+  extend it (e.g. a CITATION.cff'd software repo might add
+  `CITATION.cff` to the per-project list; a paper repo with
+  `references/_collection_log.md` might add it).
+
 ## What goes where (audience-routing rules)
 
 When authoring or auditing a human-facing doc, ask of each piece of
@@ -446,4 +558,11 @@ When the user asks the agent to produce a human-facing doc:
 Revised 2026-05-13: renamed to `human-facing-doc-authoring` and
 generalised scope to cover all human-facing project documents (PLAN.md,
 survey notes, collection logs, rebuttal drafts, ...) -- the
-human/agent audience split is universal, not README-specific.*
+human/agent audience split is universal, not README-specific.
+Revised 2026-05-17 (Session A): added "Rewriting an existing
+substantial doc" section (F-02; ~80 lines after Authoring workflow)
++ subsection K "Self-invalidation of cited facts" (F-17; ~50 lines
+in universal conventions). Revised 2026-05-20: added subsection L
+"Downstream-doc audit before commit" (F-20; ~110 lines in universal
+conventions after K), codifying the cross-doc drift-prevention
+discipline motivated by the 2026-05-20 README.md gap.*
