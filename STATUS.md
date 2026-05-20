@@ -1,10 +1,14 @@
 # Project status -- read this before relying on the framework
 
-**As of 2026-05-14, this framework is in a deliberately provisional
-state.** It was built in 4 days of intensive agent-assisted
-development, with extensive prior-art audits at each step but
-**ZERO real research projects have used it end-to-end yet**. This
-file exists so anyone discovering the repo for the first time has
+**As of 2026-05-17, this framework is still provisional but has
+begun accumulating real-project evidence.** It was built in 4 days
+of intensive agent-assisted development (2026-05-13..2026-05-14)
+with extensive prior-art audits, then exercised on two real
+projects (argo-anywhere + AmigAI) during 2026-05-15..2026-05-17.
+Session A on 2026-05-17 rolled the feedback from both projects
+back into 7 commits of skill-content tightening (see
+[`CHANGELOG.md`](CHANGELOG.md) 2026-05-17 section). This file
+exists so anyone discovering the repo for the first time has
 honest context for what they are looking at.
 
 ---
@@ -25,7 +29,18 @@ honest context for what they are looking at.
 - **`templates/paper-skeleton/`** is the result of writing one paper
   workspace and recording what was useful. The structure works for
   scientific-computing paper repos with code + experiments + figures
-  + drafts.
+  + drafts. As of Session A (2026-05-17) the AGENTS.md template now
+  includes the `Audience composition` field surfaced by AmigAI's
+  feedback (F-18).
+
+- **`templates/software-skeleton/`** has now been exercised on one
+  real codebase (argo-anywhere); the AGENTS.md skeleton + paper-
+  coupling layer survived contact with reality. The package-layer
+  delegation to `scientific-python/cookie` worked. As of Session A
+  (2026-05-17) the AGENTS.md template includes the same `Audience
+  composition` field (F-18). The Julia / C++ / Rust / Fortran /
+  MATLAB / Mathematica branches remain informed-prediction (see
+  below).
 
 - **The basic `bin/install.sh` skill-discovery symlink wiring** for
   whichever agent client you actually use has been verified to work
@@ -46,41 +61,62 @@ honest context for what they are looking at.
   `audit-log-structures.md`) are speculation about what users will
   reach for.
 
-- **`skills/research-software-engineering/`** -- only 3 of the 11
-  designed references actually shipped (01 numerical-correctness,
-  02 testing-for-numerical-code, 11 ai-assisted-coding-rules). The
-  other 8 are spec'd but not written, and the spec may be wrong.
+- **`skills/research-software-engineering/`** -- 4 of the 11
+  designed references have shipped as of 2026-05-17 (01 numerical-
+  correctness, 02 testing-for-numerical-code, 11 ai-assisted-coding-
+  rules, 12 shell-and-cross-language-interop; the last added by
+  Session A consolidating 6 rules from argo-anywhere feedback). The
+  other 7 are spec'd but not written, and the spec may be wrong.
+  (For current count, see [`skills/research-software-engineering/SKILL.md`](skills/research-software-engineering/SKILL.md)
+  workflow table.)
 
-- **`skills/project-onboarding/`** -- the entire skill (six files,
-  ~2200 lines) is speculation about what migration scenarios look
-  like. Zero migrations have happened.
+- **`skills/project-onboarding/`** -- the skill ran on two real
+  projects (argo-anywhere, AmigAI) during 2026-05-15..2026-05-16
+  and both surfaced actionable gaps (F-12 auto-load trigger for
+  bare-of-AGENTS.md directories; F-02 content-check discipline for
+  rewriting existing substantial docs). Session A applied both
+  fixes. The remaining 5 scenario branches (1.B mature, 1.C non-
+  standard, 2.B multi-format, 2.D conflicting-conventions) are
+  still speculation.
 
-- **`templates/software-skeleton/`** including `MULTI-LANGUAGE.md` --
-  Python defaults are reasonable; Julia / C++ / Rust / Fortran /
-  MATLAB / Mathematica guidance is informed by the audit but not by
-  experience.
+- **`templates/software-skeleton/MULTI-LANGUAGE.md`** -- the Python
+  default branch has been exercised on argo-anywhere; the Julia /
+  C++ / Rust / Fortran / MATLAB / Mathematica branches remain
+  informed by the audit but not by experience.
 
 - **The 16 ready-to-paste prompts** (in
   `skills/project-onboarding/references/migration-prompts.md`,
   `skills/project-onboarding/SKILL.md`, `README.md`, `AGENTS.md`) --
-  designed but not yet pasted by a real user.
+  the bare-directory-discovery prompt was exercised on AmigAI
+  (which triggered F-12); the remaining 15 prompts have not yet
+  been pasted by a real user.
 
 - **The upstream-feedback channel** (`CONTRIBUTING.md` +
   `.github/ISSUE_TEMPLATE/` + per-project `notes/agent_feedback.md`)
-  -- infrastructure for a feedback loop that has produced 0 entries
-  so far.
+  -- has produced 2 substantive per-project journals (argo-anywhere:
+  611 lines, 6 findings; AmigAI: ~1600 lines, multiple workflow
+  gaps + 2 upstream-proposal drafts) and 3 GitHub issues (#1
+  research-monograph-writing, #2 framework-privacy-enforcement, #3
+  research-slides-authoring) as of 2026-05-17. The roll-up
+  procedure has run once (Session A); the channel works.
 
 ### Honest evidence count
 
+(As of 2026-05-17; see `CHANGELOG.md` for current counts if this
+section has drifted.)
+
 | Signal                                  | Count |
 |:----------------------------------------|------:|
-| Real research projects bootstrapped     |     0 |
-| `notes/agent_feedback.md` entries logged |    0 |
-| Issues filed against this repo           |    0 |
-| PRs from external contributors           |    0 |
-| Onboarding sessions executed             |    0 |
+| Real research projects bootstrapped     |     2 |
+| `notes/agent_feedback.md` entries logged | 2 files, ~2200 lines total |
+| New-skill proposals filed (open)         |     3 |
+| Skill-improvement issues filed           |    10 (F-02..F-19, applied in Session A) |
+| PRs from external contributors           |     0 |
+| Onboarding sessions executed             |     2 |
+| Roll-up sessions executed                |     1 (Session A, 2026-05-17) |
 
-**0 real-project sessions across all signals.**
+**2 real-project sessions; both ran by the framework author.
+External-user evidence: still 0.**
 
 ---
 
@@ -150,23 +186,65 @@ user may need to revise the rule.
 
 ---
 
+## What Session A learned (2026-05-17)
+
+The first roll-up session produced these signals about the
+framework's shape:
+
+- **Onboarding-skill auto-load is load-bearing.** AmigAI revealed
+  that without an auto-load trigger for bare-of-AGENTS.md
+  directories, the agent will skip onboarding entirely and start
+  drafting content. F-12 fixed this. Implication: skill
+  descriptions need explicit "when to load EVEN IF the user
+  doesn't ask" triggers, not just topical descriptions.
+- **Shell + cross-language interop produces the densest feedback.**
+  argo-anywhere's 6 rules all clustered in the bash/Python/YAML
+  boundary -- YAML quoting, setdefault security defaults, error-
+  message recovery hints, test stimulus, shell-script test
+  mechanics, exit-summary scope-keying. This domain is dense
+  enough to deserve its own reference (12) and likely more.
+- **Rewriting substantial docs needs a content-check discipline.**
+  argo-anywhere rewrote a README during migration without losing
+  anything visible, but with no mechanism to PROVE the negative.
+  F-02 ships the content-check-table discipline; the same pattern
+  likely applies to PLAN.md updates, paper-section rewrites,
+  rebuttal drafts.
+- **Cited facts drift, and the framework's own docs are the
+  worst offender.** Maintaining STATUS.md / CHANGELOG.md /
+  README.md consistency across 7 commits in one session is itself
+  the existence proof for F-17 (self-invalidation of cited facts).
+- **The 3 NEW-SKILL proposals from Session A all sit below the
+  evidence threshold.** Monograph (1 session), privacy (cross-
+  cutting concern not specific to one skill), slides (1 session).
+  F-19 ships an issue template that lets future sessions accumulate
+  evidence without re-opening the proposals.
+- **Audience composition belongs in per-project AGENTS.md.** AmigAI
+  surfaced that audience-discovery interview turns are wasted when
+  the audience facts can be captured once. F-18 added the field to
+  both skeleton templates.
+
 ## Roadmap to "no-longer-provisional"
 
 This file goes away when:
 
 1. At least **3 real research projects** have used the framework
-   end-to-end, with `notes/agent_feedback.md` entries showing what
-   worked + what didn't.
+   end-to-end (2 of 3 reached as of 2026-05-17: argo-anywhere +
+   AmigAI; 1 more needed).
 2. The `agent_feedback` -> `CONTRIBUTING.md` roll-up procedure has
    produced **at least 5 issues / PRs** that pruned or refined the
-   framework based on real evidence.
+   framework based on real evidence (10 of 5 reached as of
+   2026-05-17 via Session A's F-02..F-19 commits; but they were
+   all applied by the framework author rolling up his own
+   feedback. Independent feedback still needed).
 3. **At least one external user** has bootstrapped from
    `templates/{paper,software}-skeleton/` (proof the docs are
-   adequate for someone other than the original author).
-4. The 8 unshipped `research-software-engineering/` references
-   have either shipped (because real projects needed them) or been
-   formally removed from the planned-references table (because they
-   turned out not to be needed).
+   adequate for someone other than the original author). Not yet
+   reached.
+4. The 7 still-unshipped `research-software-engineering/`
+   references have either shipped (because real projects needed
+   them) or been formally removed from the planned-references
+   table (because they turned out not to be needed). 1 of 8
+   shipped as of 2026-05-17 (reference 12); 7 remain.
 
 When all four conditions hold, this file gets replaced by a normal
 "Status" section in the README and the framework is no longer
@@ -185,9 +263,15 @@ provisional.
 
 ---
 
-*Created 2026-05-14 by A. Attia. This file lives until the framework
-has accumulated enough real-project evidence to either justify or
-prune the speculative content. If you start a real project against
-the framework, please update `notes/agent_feedback.md` in your
-project + roll relevant entries up here; that's how the framework
-gets to "no-longer-provisional".*
+*Created 2026-05-14 by A. Attia. Revised 2026-05-17 (Session A
+roll-up: moved templates/software-skeleton/ AGENTS.md structure
++ project-onboarding partway from "informed prediction" to "well-
+grounded" based on argo-anywhere + AmigAI evidence; updated
+evidence-count table; updated retirement-conditions progress;
+added "What Session A learned" section). This file lives until
+the framework has accumulated enough real-project evidence -- and
+specifically enough EXTERNAL-USER evidence -- to either justify
+or prune the speculative content. If you start a real project
+against the framework, please update `notes/agent_feedback.md` in
+your project + roll relevant entries up here; that's how the
+framework gets to "no-longer-provisional".*

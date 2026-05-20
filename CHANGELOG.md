@@ -110,6 +110,33 @@ formatted as a chronological list rather than a prose footer.
     below the 3-sessions+2-projects threshold; future sessions
     will accumulate evidence via this template rather than
     editing the proposal in place.
+  - **STATUS.md honest update reflecting Session A's deliveries.**
+    Header bumped from 2026-05-14 to 2026-05-17; acknowledges
+    that argo-anywhere + AmigAI projects ran during 2026-05-15..
+    2026-05-17 and Session A rolled their feedback into 7
+    commits. "What is well-grounded": `templates/software-
+    skeleton/` AGENTS.md skeleton + paper-coupling layer moved
+    up (one real codebase exercised; Audience composition field
+    added). "What is informed prediction":
+    `research-software-engineering` updated 3->4 references
+    shipped, 8->7 planned (reference 12 added this session);
+    `project-onboarding` acknowledged 2 real onboarding sessions
+    with 5 scenario branches still speculation;
+    `MULTI-LANGUAGE.md` Python branch acknowledged as exercised;
+    1 of 16 prompts exercised; upstream-feedback channel
+    acknowledged as having produced 2 journals + 3 issues + 1
+    roll-up. Honest evidence count table updated: 2 projects, 2
+    feedback files (~2200 lines), 3 new-skill proposals open, 10
+    skill-improvement issues applied in Session A, 2 onboarding
+    sessions, 1 roll-up session; external-user evidence still 0.
+    Roadmap-to-no-longer-provisional: condition 1 at 2/3,
+    condition 2 at 10/5 (with caveat: same author rolling up own
+    feedback), condition 3 still 0, condition 4 at 1/8. New
+    "What Session A learned" section (~40 lines) captures six
+    framework-shape signals from the roll-up. Footer date-stamp
+    updated. The STATUS.md update itself follows the F-17 self-
+    invalidation discipline (parenthetical date-stamps + source
+    pointers for drifting facts).
 
 ## 2026-05-14
 
