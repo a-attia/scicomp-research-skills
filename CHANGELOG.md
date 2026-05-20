@@ -95,6 +95,21 @@ formatted as a chronological list rather than a prose footer.
     CHANGELOG.md, README.md "Current status" sections, and
     per-skill SKILL.md footers identified as the most-frequent
     drift sites.
+  - **F-19**: new `.github/ISSUE_TEMPLATE/append-evidence-to-skill-proposal.md`
+    (~50 lines, frontmatter `name: Append evidence to existing
+    skill proposal`, label `evidence`). Standardises the format
+    for adding new session/project data points to an open
+    `new-skill` proposal issue WITHOUT re-opening the proposal
+    each time. Includes a sanitised-excerpt block (for evidence
+    not linkable from a public notes/agent_feedback.md), an
+    "Updated evidence count" section (sessions / projects /
+    threshold-reached?), and a reminder to cross-link from the
+    target proposal issue so the discussion thread stays
+    synchronised. Motivated by Session A's three new-skill
+    proposals (#1 monograph, #2 privacy, #3 slides) all sitting
+    below the 3-sessions+2-projects threshold; future sessions
+    will accumulate evidence via this template rather than
+    editing the proposal in place.
 
 ## 2026-05-14
 
