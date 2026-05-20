@@ -17,7 +17,10 @@ This directory holds working notes for the paper:
   observations here when a skill rule was insufficient, a workaround
   was needed, or a useful pattern was discovered. Roll-up procedure
   (sanitise + file an upstream issue) lives in
-  `~/.scicomp-research-skills/CONTRIBUTING.md`.
+  `~/.scicomp-research-skills/CONTRIBUTING.md`. Entries that have
+  been actioned upstream are collapsed to a stub linking to their
+  full text in [`_resolved/`](_resolved/INDEX.md); see the
+  "Archive + resolution log" section below.
 
 This README is the index over the **survey notes** only. The other
 three kinds (`impl_*.md`, `section_*.md`, `agent_feedback.md`) are
@@ -81,6 +84,36 @@ but not as direct competitors:
 
 - `<citekey>` -- <one-line reason>
 
+## Archive + resolution log
+
+Two parallel sub-directories hold entries / artefacts that have moved
+out of the project's active working set but are preserved for
+traceability (convention added 2026-05-20 from real-project evidence
+on argo-anywhere + AmigAI):
+
+- **[`_resolved/INDEX.md`](_resolved/INDEX.md)** -- `agent_feedback.md`
+  entries that have been actioned upstream (codified into a
+  `scicomp-research-skills` skill / reference / template). Each
+  resolved entry's original text is preserved in
+  `_resolved/<date>_<slug>.md`; the entry's date+title stub
+  remains in `agent_feedback.md` pointing here. The index also
+  tracks "partial resolutions" -- entries whose body proposed
+  multiple things, only some of which shipped upstream.
+- **[`_archive/INDEX.md`](_archive/INDEX.md)** -- superseded /
+  filed-elsewhere artefacts (e.g. upstream-proposal drafts that
+  became GitHub issues; working-document versions that were
+  fully replaced; preprint drafts superseded by the published
+  version).
+
+The two are kept separate because "resolved upstream" and
+"superseded / filed elsewhere" are different kinds of "done" and
+conflating them loses information.
+
+When adding a new entry to either: append a row to the
+corresponding INDEX.md AND (for `_resolved/`) create the
+date-slugged file with the full original content; update the
+stub in `agent_feedback.md` to point at the new file.
+
 ## Maintenance
 
 - When a new survey note is added, append a row to all relevant
@@ -90,3 +123,6 @@ but not as direct competitors:
   relevant by-section table.
 - This README does NOT track impl notes or section notes -- those will
   get their own indexes when the first impl/section notes are written.
+- For `agent_feedback.md` entries that get actioned upstream, follow
+  the archive+resolved procedure above; do NOT silently delete the
+  original (the historical record is the point).

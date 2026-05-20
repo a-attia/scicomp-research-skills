@@ -12,6 +12,55 @@ formatted as a chronological list rather than a prose footer.
 
 ---
 
+## 2026-05-20
+
+- **Session A.5: archive + resolved-feedback convention back-propagated
+  to skeleton templates.** Driven by the post-Session-A cleanup of
+  argo-anywhere + AmigAI projects, where the question "what do we do
+  with agent_feedback.md entries that have been actioned upstream + with
+  upstream-proposal drafts that became GitHub issues?" surfaced.
+  Convention: two parallel sub-directories under each project's
+  `notes/`:
+  - `notes/_resolved/<date>_<slug>.md` -- one file per actioned-
+    upstream agent_feedback entry, with a resolution-metadata
+    header (date logged, date resolved, F-ID, upstream commit,
+    original location); plus `notes/_resolved/INDEX.md` indexing
+    all of them. The entry in `agent_feedback.md` is replaced by a
+    3-line stub (date + title + RESOLVED-upstream pointer)
+    preserving chronological discoverability.
+  - `notes/_archive/<date>_<slug>.md` -- one file per superseded /
+    filed-elsewhere artefact (e.g. upstream-proposal drafts that
+    became GitHub issues; impl notes for removed components;
+    preprint versions superseded by published versions); plus
+    `notes/_archive/INDEX.md`.
+  The two are kept separate because "resolved upstream" and
+  "superseded / filed elsewhere" are different kinds of "done"
+  and conflating them loses information.
+  Files touched:
+  - `templates/paper-skeleton/notes/README.md`: new "Archive +
+    resolution log" section before "Maintenance"; agent_feedback.md
+    description updated to mention the resolved-stub convention;
+    "Maintenance" section gains a follow-the-procedure reminder.
+  - `templates/software-skeleton/notes/README.md`: same edits as
+    paper-skeleton; "Maintenance" section additionally clarifies
+    that removed-component impl notes go to `_archive/` (not
+    just status=`archived`).
+  - `templates/{paper,software}-skeleton/notes/_resolved/INDEX.md`:
+    new file (~65 lines, identical content in both templates);
+    skeleton table with "Entries" + "Partial resolutions" sections
+    + "When to add" rules.
+  - `templates/{paper,software}-skeleton/notes/_archive/INDEX.md`:
+    new file (~50 lines, identical content in both templates);
+    skeleton table + "When to add" rules.
+  Real-project evidence: argo-anywhere applied the convention to 5
+  agent_feedback entries (F-03..F-08 actioned by Session A reference
+  12) on 2026-05-20 in commit `9769e70`; AmigAI applied it to 1
+  fully-resolved entry (F-12) + 1 partially-resolved entry (F-18) +
+  2 archived upstream-proposal drafts (filed as GitHub issues #2 +
+  #3) on 2026-05-20 (AmigAI is not a git repo so no commit hash).
+  Both cleanups exercised the convention end-to-end before it was
+  back-propagated here.
+
 ## 2026-05-17
 
 - **Session A: skill-optimisation pass driven by real-project feedback
