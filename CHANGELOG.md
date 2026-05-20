@@ -12,6 +12,26 @@ formatted as a chronological list rather than a prose footer.
 
 ---
 
+## 2026-05-17
+
+- **Session A: skill-optimisation pass driven by real-project feedback
+  (argo-anywhere + AmigAI).** Applied 10 distinct findings from the
+  feedback corpus; no new infrastructure, no new skills, no new
+  templates. Goal: tighten existing skill content based on what real
+  projects actually surfaced, before any further framework expansion.
+  - **F-12 (this commit)**: `skills/project-onboarding/SKILL.md`
+    frontmatter description + "When to load this skill" section
+    rewritten to add an auto-load trigger for bare-of-AGENTS.md
+    directories whose contents look like a research project. The
+    AmigAI session went straight to drafting `slides.tex` without
+    recognising the directory as a Scenario 1.A onboarding
+    opportunity; the skill was loaded too late. Auto-load conditions
+    enumerated explicitly (no AGENTS.md + canonical framework checkout
+    exists + research-project-shaped contents + agent about to do
+    substantive work). Also added a "do NOT load" carve-out for tiny
+    scratch directories where the onboarding overhead exceeds the
+    project's lifetime value.
+
 ## 2026-05-14
 
 - **AI co-authorship attribution: default flipped from OFF to ON.**

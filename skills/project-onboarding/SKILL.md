@@ -1,6 +1,6 @@
 ---
 name: project-onboarding
-description: Use this skill whenever a user wants to adopt the scicomp-research-skills framework on an EXISTING project (paper, software library, analysis repo) rather than starting from scratch. Make sure to load this when the user says "I have an existing project; help me start using these skills" or equivalent, EVEN IF THE USER DOES NOT MENTION IT EXPLICITLY. Covers two scenarios: (1) existing project with NO prior agentic instructions; (2) existing project WITH prior agentic instructions (CLAUDE.md / .cursorrules / etc.). Each scenario has sub-cases (empty / mature / non-standard for #1; one-file / many-files / substantive-content / conflicting-conventions for #2). Provides an inventory-first migration workflow that preserves user content, surfaces conflicts via the per-project AGENTS.md "Project-specific overrides" mechanism, and never silently overwrites. Companion to root AGENTS.md Section 11 (from-scratch starts). Composes with `human-facing-doc-authoring` and `agent-resource-discipline`.
+description: Use this skill whenever a user wants to adopt the scicomp-research-skills framework on an EXISTING project (paper, software library, analysis repo) rather than starting from scratch -- OR when the agent has been asked to produce substantive project content (drafting, refactoring, planning) in a directory that has no AGENTS.md while the framework's canonical checkout (~/.scicomp-research-skills/) does exist on the machine. Make sure to load this when the user says "I have an existing project; help me start using these skills" OR when you find yourself about to do substantive work in a bare-of-AGENTS.md directory whose contents look like a research project (LaTeX sources, Python package layout, references/ + experiments/ + figures/ subdirectories, bibliography, notes). EVEN IF THE USER DOES NOT MENTION IT EXPLICITLY -- the bare-directory case is the silent failure mode that the AmigAI project surfaced. Covers two scenarios: (1) existing project with NO prior agentic instructions; (2) existing project WITH prior agentic instructions (CLAUDE.md / .cursorrules / etc.). Each scenario has sub-cases (empty / mature / non-standard for #1; one-file / many-files / substantive-content / conflicting-conventions for #2). Provides an inventory-first migration workflow that preserves user content, surfaces conflicts via the per-project AGENTS.md "Project-specific overrides" mechanism, and never silently overwrites. Companion to root AGENTS.md Section 11 (from-scratch starts). Composes with `human-facing-doc-authoring` and `agent-resource-discipline`.
 license: MIT
 metadata:
   audience: agents performing migration; users planning a migration
@@ -36,6 +36,26 @@ Load this skill when the user says any of:
 - "Adopt these skills on my existing paper / library / analysis repo."
 - "Bootstrap on top of what I already have."
 
+**Auto-load trigger (added 2026-05-17 from real-project feedback)**: also
+load this skill on the FIRST tool call into a directory when ALL of:
+
+1. The current working directory contains no `AGENTS.md` at the repo
+   root.
+2. The canonical framework checkout (`~/.scicomp-research-skills/`)
+   exists on this machine.
+3. The directory's contents look like a research project: presence of
+   any one of `*.tex`, `*.bib`, `references/`, `experiments/`,
+   `figures/`, `notes/`, `pyproject.toml`, `setup.py`, `Project.toml`,
+   `CMakeLists.txt`, `slides/`, `paper/`, `drafts/`, OR a `*.pdf` in
+   the repo root that looks like a manuscript.
+4. The agent is about to do substantive work (drafting, editing, or
+   creating content -- not just reading).
+
+The AmigAI session (May 2026) showed that without this auto-load
+trigger, the agent goes straight to drafting content (`slides.tex`)
+without recognising the directory as a Scenario 1.A onboarding
+opportunity. The skill therefore fires too late or not at all.
+
 Do NOT load this skill if:
 
 - The user is starting a NEW project from scratch -- use root
@@ -44,6 +64,9 @@ Do NOT load this skill if:
 - The user wants to update an existing scicomp-research-skills-aware
   project (refresh canonical, pull upstream changes) -- that's
   `bin/refresh.sh` + `bin/install.sh --update`, not a migration.
+- The directory is a tiny scratch space (single throwaway script;
+  a one-shot data-conversion utility) where onboarding overhead
+  would exceed the project's lifetime value.
 
 ## Core principle: preserve and migrate, never silently overwrite
 
@@ -325,4 +348,9 @@ project" workflow (root AGENTS.md Section 11 + README.md "Starting a
 new project that uses this repository") which assumes a from-scratch
 start. This skill addresses the realistic "I already have a project;
 help me adopt the framework" case, which is more common than starting
-fresh.*
+fresh. Revised 2026-05-17 (F-12 from real-project feedback -- AmigAI):
+broadened the triggering condition + frontmatter description to fire
+on bare-of-AGENTS.md directories with research-project-shaped contents,
+not only on explicit user requests. The AmigAI session showed the
+agent missing the bare-directory onboarding opportunity because the
+trigger was too narrowly worded.*
