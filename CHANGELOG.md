@@ -60,6 +60,23 @@ formatted as a chronological list rather than a prose footer.
     10 -- subtract 12 from the original 8-references-still-planned
     count). Each rule cites its argo-anywhere origin + concrete
     example.
+  - **F-02**: `skills/human-facing-doc-authoring/SKILL.md` gains a
+    "Rewriting an existing substantial doc" subsection (~80 lines)
+    inserted between the "Authoring workflow" numbered list + the
+    "Output contract" heading. Codifies a 5-step content-check-table
+    discipline for any rewrite of a substantial existing doc (>100
+    lines OR project-fact-bearing OR cross-referenced from
+    elsewhere): inventory → identify destinations → produce check
+    table → present to user for approval → execute + diff. The
+    pattern is borrowed from `project-onboarding/references/scenario-2-existing-agentic-files.md`
+    Scenario 2.C (which solves the same problem for migrating
+    CLAUDE.md → AGENTS.md); generalised here for any doc-rewrite.
+    Motivated by the argo-anywhere onboarding session (2026-05-14)
+    where a substantial README was rewritten without a discipline
+    forcing the agent to PROVE nothing was lost -- the silent
+    failure mode the content-check table makes auditable. Includes
+    explicit "when to apply" + "when NOT to apply" carve-outs to
+    avoid bureaucratic overhead on small docs.
 
 ## 2026-05-14
 

@@ -264,6 +264,98 @@ When asked to author or rewrite a human-facing doc:
    `PLAN.md`, `notes/`, code docstrings) -- listing each move in the
    response so the user can confirm.
 
+## Rewriting an existing substantial doc
+
+The authoring workflow above assumes a new doc. **Rewriting an
+existing substantial doc (a README, a PLAN.md, a long survey note,
+a paper section in `drafts/`) is a distinct workflow with a higher
+risk of silent content loss**. The argo-anywhere onboarding session
+(2026-05-14) surfaced this -- the agent rewrote a substantial
+README during migration, and although nothing was lost, there was
+no discipline forcing the agent to PROVE nothing was lost. This
+section codifies the missing discipline.
+
+The pattern is adapted from the
+[`project-onboarding`](../project-onboarding/references/scenario-2-existing-agentic-files.md)
+skill's Scenario 2.C content-check table -- which solves the same
+problem for migrating an existing `CLAUDE.md` to a per-project
+`AGENTS.md`. The pattern generalises to ANY substantial doc
+rewrite.
+
+### When to apply
+
+Apply this workflow when the rewrite target is:
+
+- An existing doc >100 lines that the user wrote (or that previous
+  agentic sessions co-authored under user direction).
+- A doc with project-specific facts the user has accumulated over
+  time + may not remember they captured.
+- A doc that other documents cross-reference (a section in PLAN.md
+  cited by experiments/<run-id>/README.md, a `notes/section_*.md`
+  cited by drafts/main.tex).
+
+Do NOT apply for: small docs (<50 lines, easy to eyeball); freshly-
+templated docs that haven't been customised; auto-generated docs
+(API reference, changelogs).
+
+### The 5-step procedure
+
+1. **Inventory the existing doc** (read-only). Output: a mental or
+   written enumeration of every distinct piece of content -- not just
+   sections, but every project-fact, every decision-rationale, every
+   cross-reference, every example. For very long docs, write this to
+   a temporary `notes/_rewrite-inventory_<doc>_<date>.md` so the
+   user can review.
+2. **Identify destinations**. For each inventory item, decide:
+   - **Keep in this doc** (preserve in the rewrite).
+   - **Move to another doc** (the item belongs elsewhere; cite where).
+   - **Drop with reason** (item is obsolete / redundant / subsumed
+     elsewhere; cite which / what).
+3. **Produce a content-check table** before any writes. Format:
+
+   ```markdown
+   | Item | Original location | New destination | Status |
+   |:---|:---|:---|:---|
+   | Project codename rationale | README.md L52-56 | new README.md "Background" section | preserved |
+   | Old deployment instructions | README.md L120-180 | drops (deployment moved to docs/deploy.md) | dropped, reason: relocated |
+   | Personal-anecdote paragraph | README.md L201-215 | drops | dropped, reason: not appropriate for README |
+   | ... | ... | ... | ... |
+   ```
+
+   Total inventory items in the original = total rows in the table.
+   Every line in the original has a row OR is explicitly dropped
+   with reason. **NO silent omission.**
+4. **Present the content-check table to the user**. The user
+   reviews + approves OR adjusts (especially the "Drop with reason"
+   rows). Only then proceed to writes.
+5. **Execute the rewrite**. After writing the new doc:
+   - Diff the inventory against the new doc to confirm every
+     "preserve" item is actually present.
+   - Report any "Move to another doc" actions that you executed
+     (so the user can confirm the cross-references still resolve).
+   - Leave the temporary `notes/_rewrite-inventory_<doc>_<date>.md`
+     in the working tree for one commit cycle (the user may want to
+     consult it post-rewrite); then delete in a follow-up commit.
+
+### Why this matters
+
+The "rewrote a README + nothing was obviously lost" case is the
+silent failure mode. Without the content-check table, neither the
+agent nor the user can prove the negative ("we didn't lose
+anything"). The table makes the proof explicit + reviewable +
+auditable.
+
+### Cross-references
+
+- This pattern is borrowed from `project-onboarding/references/scenario-2-existing-agentic-files.md`
+  (Scenario 2.C "agent-file with substantive project content") --
+  which solves the same problem for the specific case of migrating
+  an existing agent-file to AGENTS.md. The general-purpose
+  doc-rewrite version is here.
+- For rewrites that involve substantive structural change (not just
+  reorganisation), additionally consult `references/<doc-type>-structures.md`
+  for the target structure.
+
 ## Output contract
 
 When the user asks the agent to produce a human-facing doc:
