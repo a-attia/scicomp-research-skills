@@ -19,18 +19,29 @@ formatted as a chronological list rather than a prose footer.
   feedback corpus; no new infrastructure, no new skills, no new
   templates. Goal: tighten existing skill content based on what real
   projects actually surfaced, before any further framework expansion.
-  - **F-12 (this commit)**: `skills/project-onboarding/SKILL.md`
-    frontmatter description + "When to load this skill" section
-    rewritten to add an auto-load trigger for bare-of-AGENTS.md
-    directories whose contents look like a research project. The
-    AmigAI session went straight to drafting `slides.tex` without
-    recognising the directory as a Scenario 1.A onboarding
-    opportunity; the skill was loaded too late. Auto-load conditions
-    enumerated explicitly (no AGENTS.md + canonical framework checkout
-    exists + research-project-shaped contents + agent about to do
-    substantive work). Also added a "do NOT load" carve-out for tiny
-    scratch directories where the onboarding overhead exceeds the
-    project's lifetime value.
+  - **F-12**: `skills/project-onboarding/SKILL.md` frontmatter
+    description + "When to load this skill" section rewritten to add
+    an auto-load trigger for bare-of-AGENTS.md directories whose
+    contents look like a research project. The AmigAI session went
+    straight to drafting `slides.tex` without recognising the directory
+    as a Scenario 1.A onboarding opportunity; the skill was loaded too
+    late. Auto-load conditions enumerated explicitly (no AGENTS.md +
+    canonical framework checkout exists + research-project-shaped
+    contents + agent about to do substantive work). Also added a "do
+    NOT load" carve-out for tiny scratch directories where the
+    onboarding overhead exceeds the project's lifetime value.
+  - **F-18 (this commit)**: both `templates/{paper,software}-skeleton/AGENTS.md`
+    gain an `Audience composition` field under the existing "Project
+    facts" section. The field captures audience types (AI-curious /
+    domain practitioners / theoreticians / engineers / hybrid),
+    expertise level, session shape, time budget, co-presenters,
+    recording / sharing constraints (paper) OR primary user persona,
+    expertise level, use contexts, secondary audiences, release-
+    announcement channels, communication constraints (software). With
+    this field populated up-front in per-project AGENTS.md, derivative
+    artefacts (talk decks, posters, release announcements, rebuttals)
+    skip an entire audience-discovery interview turn. Per the AmigAI
+    feedback's proposal A4 "Cross-cutting framework changes" section.
 
 ## 2026-05-14
 

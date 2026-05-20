@@ -76,6 +76,21 @@ asks for the matching task.
 - **Current release**: <git tag / pip version / "pre-release">
 - **Code dependencies**: <upstream libraries this code depends on, with pin policy>
 - **Paper coupling**: <"none -- standalone library" OR "supports paper <citekey> at sibling repo `<paper-short-name>`">
+- **Audience composition** (added 2026-05-17 per F-18; useful for
+  derivative artefacts like talk decks / posters / API docs / release
+  announcements where the agent would otherwise have to interview the
+  user about audience for every session): <e.g. "primary users are
+  domain practitioners (computational mathematicians + applied
+  scientists) at intermediate-to-expert level; secondary audience is
+  AI-curious researchers via the project's release blog post; library
+  is used in a graduate-level course at <institution>">. Sub-fields
+  the agent may consult independently:
+  - **Primary user persona**: <e.g. "computational mathematician with prior PETSc / Trilinos experience">
+  - **Expertise level**: <novice / intermediate / expert / mixed>
+  - **Use contexts**: <e.g. "graduate-course teaching tool / production research code / paper-companion code / prototype">
+  - **Secondary audiences**: <e.g. "AI-curious researchers, reviewers, downstream-library consumers">
+  - **Release-announcement channels**: <e.g. "ANL internal mailing list; SciPy conference; Twitter">
+  - **Communication constraints**: <e.g. "no marketing-flavoured copy; LaTeX-quality math notation throughout">.
 
 ## Project-specific overrides
 

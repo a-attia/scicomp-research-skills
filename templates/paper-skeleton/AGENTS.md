@@ -58,6 +58,19 @@ asks for the matching task.
 - **Target venue**: <venue class>
 - **Target submission**: <date>
 - **Code dependencies**: <upstream libraries this paper depends on>
+- **Audience composition** (added 2026-05-17 per F-18; useful for
+  derivative artefacts like talk decks / posters / rebuttals where the
+  agent would otherwise have to interview the user about audience for
+  every session): <mix of audience types -- e.g. "domain
+  practitioners + AI-curious researchers; mostly intermediate
+  expertise; 30-min talk + ~10 min Q&A; single-author presentation">.
+  Sub-fields the agent may consult independently:
+  - **Audience types**: <AI-curious / domain practitioners / theoreticians / engineers / hybrid; one or more>
+  - **Expertise level**: <novice / intermediate / expert / mixed>
+  - **Session shape**: <conference talk / seminar / lab meeting / poster / one-off rebuttal / collaborator handoff / journal paper / monograph chapter>
+  - **Time budget**: <e.g. "30 min talk + 10 min Q&A">
+  - **Co-presenters / co-authors**: <names + roles if relevant; else "single-author">
+  - **Recording / sharing constraints**: <e.g. "talk recorded; slides published post-event" / "no recording; closed audience">.
 
 ## Project-specific overrides
 
