@@ -200,6 +200,51 @@ nesting visually and is far easier to scan.
 - **Date-stamp** every plan-of-record-style doc (`*Created YYYY-MM-DD.
   Revised YYYY-MM-DD (note). Maintained by <name>.*`).
 
+### K. Self-invalidation of cited facts
+
+Human-facing docs accumulate **cited facts** -- file counts ("the
+skill ships 4 references"), line counts ("AGENTS.md is ~680
+lines"), enumerations ("the three deferred items are X, Y, Z"),
+status labels ("F-03..F-08 -- shipped 2026-05-17"), commit SHAs,
+test counts, citation counts. These facts WILL drift as the
+underlying state changes; the doc that cites them becomes silently
+wrong.
+
+The discipline:
+
+1. **Avoid citing facts that will drift, when a cross-reference
+   suffices.** Instead of "the skill ships 4 references", prefer
+   "see the workflow table in `SKILL.md`" -- the table is the
+   single source of truth, and the reader who cares about the
+   exact count reads the table.
+2. **When a drifting fact MUST be cited inline** (because the
+   number itself is load-bearing for the argument: "we covered all
+   12 rules", "the budget was exceeded by 2.3x"), tag the fact with
+   a **self-invalidation marker** -- a parenthetical date-stamp +
+   source pointer:
+   ```markdown
+   ... ships 4 references (as of 2026-05-17;
+   see [`SKILL.md`](SKILL.md) workflow table for current count).
+   ```
+   The marker tells future readers (and future agents auditing the
+   doc) "this number may have drifted; check the source."
+3. **When updating a doc, audit cited facts.** Before committing a
+   doc edit, scan for inline numbers / counts / enumerations / SHAs
+   in the doc and verify each against its current source.
+   `STATUS.md`, `CHANGELOG.md`, README.md "Current status" sections,
+   and per-skill SKILL.md footers are the most-frequent drift
+   sites.
+4. **Status labels carry their own date.** "Shipped" / "planned" /
+   "deferred" / "blocked" labels must include the date the label
+   was last verified, not just the date the label was added.
+   "F-17 -- planned (as of 2026-05-17)" is correct; "F-17 --
+   planned" alone will be silently wrong by 2026-06.
+
+This rule was motivated by Session A's STATUS.md / CHANGELOG.md
+maintenance burden: every commit shifts counts that other docs
+cite, and without explicit self-invalidation markers the drift
+accumulates invisibly between sessions.
+
 ## What goes where (audience-routing rules)
 
 When authoring or auditing a human-facing doc, ask of each piece of

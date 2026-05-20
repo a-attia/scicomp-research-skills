@@ -77,6 +77,24 @@ formatted as a chronological list rather than a prose footer.
     failure mode the content-check table makes auditable. Includes
     explicit "when to apply" + "when NOT to apply" carve-outs to
     avoid bureaucratic overhead on small docs.
+  - **F-17**: `skills/human-facing-doc-authoring/SKILL.md` gains a
+    new subsection "K. Self-invalidation of cited facts" (~50
+    lines) under the universal-conventions section (between J.
+    Hygiene + the "What goes where" heading). Codifies four rules
+    for inline cited facts that will drift over time (counts,
+    enumerations, status labels, SHAs): (1) prefer cross-reference
+    over inline citation when a single source of truth exists;
+    (2) when inline citation is load-bearing, tag with a self-
+    invalidation marker -- parenthetical date-stamp + source
+    pointer; (3) audit cited facts before committing any doc
+    edit; (4) status labels carry the date they were last
+    verified, not the date they were added. Motivated by Session
+    A's own STATUS.md / CHANGELOG.md maintenance burden where
+    every commit shifts counts that other docs cite, with no
+    mechanism to flag the drift between sessions. STATUS.md,
+    CHANGELOG.md, README.md "Current status" sections, and
+    per-skill SKILL.md footers identified as the most-frequent
+    drift sites.
 
 ## 2026-05-14
 
