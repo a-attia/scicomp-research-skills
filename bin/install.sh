@@ -16,9 +16,17 @@
 #      content.
 #   4. Creates agent-specific user-home SKILLS-DIRECTORY symlinks pointing
 #      at this repo's skills/ folder, so any agent that auto-discovers
-#      skills from a user-level directory (~/.config/opencode/skills/,
-#      ~/.claude/skills/, ~/.codex/skills/, ~/.agents/skills/, ~/.gemini/skills/)
-#      sees this repo's skills automatically.
+#      skills from a user-level directory sees this repo's skills
+#      automatically. Paths (verified against vendor docs 2026-06):
+#        ~/.config/opencode/skills/  (OpenCode, native)
+#        ~/.claude/skills/           (Claude Code, native)
+#        ~/.agents/skills/           (CANONICAL multi-agent path: Codex CLI
+#                                     user scope, Cursor, Gemini CLI, Copilot)
+#        ~/.cursor/skills/           (Cursor user-scope native, v2.4+)
+#        ~/.copilot/skills/          (VS Code / GitHub Copilot personal skills)
+#        ~/.gemini/skills/           (Gemini CLI)
+#        ~/.codex/skills/            (Codex legacy/optional; modern Codex
+#                                     uses ~/.agents/skills above)
 #
 # With --update, additionally:
 #   5. Reports orphaned in-repo symlinks pointing at our AGENTS.md whose
@@ -147,15 +155,32 @@ echo "[4/4] user-home skills-directory symlinks:"
 SKILLS_TARGET="${REPO_ROOT_ABS}/skills"
 
 # Each entry is a user-home path that one or more agents discover skills from.
-# Codex respects $CODEX_HOME if set; we honour that and fall back to ~/.codex.
+#
+# Verified against vendor docs (2026-06):
+#   - Codex CLI user-scope skills path is $HOME/.agents/skills (per
+#     developers.openai.com/codex/skills "Where to save skills" table; the
+#     older ~/.codex/skills path is NOT the documented user-scope location).
+#   - Cursor (v2.4+) discovers skills from .agents/skills (project) and
+#     ~/.cursor/skills (user) per cursor.com/docs/skills.
+#   - VS Code / GitHub Copilot reads personal skills from ~/.copilot/skills,
+#     ~/.claude/skills, and ~/.agents/skills (per
+#     code.visualstudio.com/docs/agent-customization/agent-skills).
+#   - The .agents/skills convention is the shared, portable location across
+#     Codex CLI, Cursor, Gemini CLI, and VS Code Copilot.
+# We therefore treat ~/.agents/skills as the canonical multi-agent path and
+# add per-agent native paths alongside it.
+#
+# Codex respects $CODEX_HOME if set; we honour that for the legacy path.
 CODEX_HOME_DIR="${CODEX_HOME:-${HOME}/.codex}"
 
 USER_HOME_SKILLS_DIRS=(
   "${HOME}/.config/opencode/skills"  # OpenCode (native)
-  "${HOME}/.claude/skills"           # Claude Code (also OpenCode fallback)
-  "${CODEX_HOME_DIR}/skills"         # Codex (respects $CODEX_HOME if set)
-  "${HOME}/.agents/skills"           # agent-agnostic (also OpenCode fallback)
+  "${HOME}/.claude/skills"           # Claude Code (also OpenCode + Cursor + Copilot fallback)
+  "${HOME}/.agents/skills"           # CANONICAL multi-agent path: Codex CLI (user scope), Cursor, Gemini CLI, Copilot
+  "${HOME}/.cursor/skills"           # Cursor (user-scope native path, v2.4+)
+  "${HOME}/.copilot/skills"          # VS Code / GitHub Copilot (personal-skills native path)
   "${HOME}/.gemini/skills"           # Gemini CLI (per Master-cai's install convention)
+  "${CODEX_HOME_DIR}/skills"         # Codex legacy/optional ($CODEX_HOME or ~/.codex); modern Codex uses ~/.agents/skills above
 )
 
 for target_dir in "${USER_HOME_SKILLS_DIRS[@]}"; do
@@ -254,7 +279,7 @@ if (( UPDATE_MODE )); then
   echo "        If a previous install.sh installed a user-home skill"
   echo "        symlink (e.g. ~/.<old-agent>/skills) that this version no"
   echo "        longer creates, it will not be flagged here. Inspect manually:"
-  echo "          ls -la ~/.config/opencode/skills ~/.claude/skills ~/.codex/skills ~/.agents/skills ~/.gemini/skills 2>/dev/null"
+  echo "          ls -la ~/.config/opencode/skills ~/.claude/skills ~/.agents/skills ~/.cursor/skills ~/.copilot/skills ~/.gemini/skills ~/.codex/skills 2>/dev/null"
 fi
 
 # ----------------------------------------------------------------------
@@ -271,4 +296,4 @@ echo
 echo "Verify:"
 echo "  ls -l ${REPO_ROOT_ABS}"
 echo "  git -C ${REPO_ROOT_ABS} config core.hooksPath"
-echo "  ls -l ~/.config/opencode/skills ~/.claude/skills ~/.codex/skills ~/.agents/skills ~/.gemini/skills 2>/dev/null"
+echo "  ls -l ~/.config/opencode/skills ~/.claude/skills ~/.agents/skills ~/.cursor/skills ~/.copilot/skills ~/.gemini/skills ~/.codex/skills 2>/dev/null"

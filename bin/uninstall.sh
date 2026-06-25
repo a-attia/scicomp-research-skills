@@ -11,8 +11,9 @@
 #
 # What this does:
 #   1. Removes user-home skill-discovery symlinks created by install.sh
-#      (~/.config/opencode/skills, ~/.claude/skills, ~/.codex/skills,
-#      ~/.agents/skills, ~/.gemini/skills) -- BUT ONLY if they currently
+#      (~/.config/opencode/skills, ~/.claude/skills, ~/.agents/skills,
+#      ~/.cursor/skills, ~/.copilot/skills, ~/.gemini/skills,
+#      ~/.codex/skills) -- BUT ONLY if they currently
 #      point at THIS canonical checkout. Symlinks pointing elsewhere or
 #      real directories are left untouched.
 #   2. Removes in-repo agent-filename symlinks (CLAUDE.md, GEMINI.md,
@@ -232,9 +233,11 @@ note "[1/3] user-home skills-directory symlinks:"
 USER_HOME_SKILLS_DIRS=(
   "${HOME}/.config/opencode/skills"
   "${HOME}/.claude/skills"
-  "${CODEX_HOME_DIR}/skills"
   "${HOME}/.agents/skills"
+  "${HOME}/.cursor/skills"
+  "${HOME}/.copilot/skills"
   "${HOME}/.gemini/skills"
+  "${CODEX_HOME_DIR}/skills"
 )
 
 for d in "${USER_HOME_SKILLS_DIRS[@]}"; do

@@ -33,9 +33,51 @@ conventions, so any markdown-aware coding agent can consume it
 
 ---
 
+## Just want to start? Paste this into your agent
+
+New or existing user, paper or software project -- you don't need to
+read the rest of this README first. Open your project in your agent
+client (OpenCode, Claude Code, Codex, Cursor, ...) and paste this as
+the first message:
+
+```text
+I want to adopt the scicomp-research-skills framework
+(https://github.com/a-attia/scicomp-research-skills) in this project.
+
+1. Check whether ~/.scicomp-research-skills/AGENTS.md exists. If it
+   does NOT, install the framework now (try SSH first, fall back to
+   HTTPS):
+     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
+       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
+     ~/.scicomp-research-skills/bin/install.sh
+   If it exists but is more than 30 days old, suggest I run
+   ~/.scicomp-research-skills/bin/refresh.sh and proceed regardless.
+   If both clone attempts fail, report the error and stop.
+
+2. Read ~/.scicomp-research-skills/AGENTS.md, then load the
+   project-onboarding skill from
+   ~/.scicomp-research-skills/skills/project-onboarding/SKILL.md
+   and its references/existing-project-audit.md.
+
+3. Inspect this project, classify which onboarding scenario applies,
+   and propose a migration plan. Do NOT make any changes until I
+   approve.
+```
+
+That's it. The agent installs the framework if needed, loads the
+onboarding skill, audits your project, and proposes a plan for your
+review before touching anything.
+
+> Starting a brand-new project from scratch instead? See
+> [Quick start](#quick-start). Want the scenario-specific onboarding
+> prompts? See [Adopting on an existing project](#adopting-on-an-existing-project).
+
+---
+
 ## Contents
 
 - [What you get](#what-you-get)
+- [Client compatibility](#client-compatibility)
 - [Quick start](#quick-start)
   - [1. Install once per machine](#1-install-once-per-machine)
   - [2. Start a new project](#2-start-a-new-project)
@@ -110,6 +152,78 @@ the per-project `AGENTS.md` boilerplate that wires everything
 together, and supporting docs ([`STATUS.md`](STATUS.md),
 [`CHANGELOG.md`](CHANGELOG.md), [`CONTRIBUTING.md`](CONTRIBUTING.md),
 [`ATTRIBUTION.md`](ATTRIBUTION.md)).
+
+---
+
+## Client compatibility
+
+This repository is **client-agnostic**: it is plain markdown following
+the [`agents.md`](https://agents.md/) and
+[`SKILL.md`](https://agentskills.io) open standards, so any agent that
+reads those standards can consume it. `bin/install.sh` wires up the
+per-client discovery paths so skills and `AGENTS.md` are found
+automatically.
+
+If you have seen a third-party catalogue (e.g. `awesomeskills.dev`)
+mark Codex CLI or Cursor with a `~` ("partial / unverified") rather
+than a `✓`, that reflects that catalogue's auto-detection heuristic,
+**not** a lack of support. Both are fully supported. The matrix below
+is verified against vendor documentation (2026-06).
+
+`✓` = first-class native support; `~` = works via documented fallback
+or manual step (see notes); `n/a` = the client has no such mechanism.
+
+| Client                    | `AGENTS.md` | On-demand skills (`SKILL.md`) | How `install.sh` wires it                                                          |
+|:--------------------------|:-----------:|:-----------------------------:|:----------------------------------------------------------------------------------|
+| **OpenCode**              | ✓ native    | ✓ native (`skill` tool)       | `~/.config/opencode/skills/` symlink                                               |
+| **Claude Code**           | ✓ via `CLAUDE.md` symlink | ✓ native      | `CLAUDE.md` -> `AGENTS.md`; `~/.claude/skills/` symlink                            |
+| **Codex CLI**             | ✓ native    | ✓ native (`$skill` / `/skills`, implicit match) | `~/.agents/skills/` symlink (Codex's documented user-scope path)  |
+| **Cursor** (2.4+)         | ✓ native    | ✓ native (`.agents/skills` + `~/.cursor/skills`) | `~/.agents/skills/` + `~/.cursor/skills/` symlinks; `.cursorrules` -> `AGENTS.md` legacy fallback |
+| **VS Code / GitHub Copilot** | ✓ native (+ `.github/copilot-instructions.md`) | ✓ native (`/` slash, implicit match; VS Code, Copilot CLI, cloud agent) | `~/.agents/skills/` + `~/.copilot/skills/` symlinks |
+| **Gemini CLI**            | ✓ native (also `GEMINI.md`) | ✓ native | `GEMINI.md` -> `AGENTS.md`; `~/.agents/skills/` + `~/.gemini/skills/` symlinks     |
+| **Aider**                 | ✓ via `CONVENTIONS.md` symlink (manual `--read`) | n/a (no skills mechanism) | `CONVENTIONS.md` -> `AGENTS.md`                                  |
+| **Windsurf / Cline**      | ✓ native    | ~ paste-in only (no auto-loaded skills) | nothing extra needed for `AGENTS.md`; skills used manually                |
+| **Zed**                   | ✓ native (also `AGENT.md`) | n/a (no skills loader) | `AGENT.md` -> `AGENTS.md`                                                  |
+
+Notes:
+
+- **`~/.agents/skills/` is the canonical multi-agent path.** It is
+  Codex CLI's documented user-scope skills location and is also read
+  by Cursor, Gemini CLI, and VS Code / GitHub Copilot. `install.sh`
+  points it at this repo's `skills/`, so a single symlink covers most
+  clients; per-client native paths (`~/.cursor/skills`,
+  `~/.copilot/skills`, `~/.gemini/skills`, ...) are added alongside it.
+- **`AGENTS.md` is read natively by most modern clients** -- OpenCode,
+  Codex CLI, Cursor, VS Code / Copilot, Gemini CLI, Windsurf, Zed, and
+  more. For clients that look for a different filename (Claude Code's
+  `CLAUDE.md`, Zed's `AGENT.md`, Aider's `CONVENTIONS.md`),
+  `install.sh` creates in-repo symlinks pointing back at `AGENTS.md`.
+- **Aider needs a manual load.** Aider does not auto-discover its
+  conventions file; load it explicitly with `aider --read CONVENTIONS.md`
+  (or the `read:` key in `.aider.conf.yml`). It has no `SKILL.md`
+  mechanism, so skills are consumed only as prose if you `--read`
+  individual `SKILL.md` files. (Some third-party guides claim Aider
+  reads `AGENTS.md` natively; the official docs only document the
+  `CONVENTIONS.md` + `--read` path, so we treat that as authoritative.)
+- **Windsurf / Cline read `AGENTS.md`** but have no first-class
+  on-demand skills loader; use skills by pasting the relevant
+  `SKILL.md` content into chat when needed.
+- **`.cursorrules` is a legacy fallback.** Cursor has functionally
+  deprecated it in favour of native `AGENTS.md` + `.cursor/rules/`;
+  we keep the symlink for older Cursor versions but it is not the
+  primary path.
+- **Skill *loading* style varies.** OpenCode and Claude Code load
+  skills on demand via a first-class tool; Codex CLI, Cursor, VS Code /
+  Copilot, and Gemini CLI use progressive disclosure with explicit
+  (`$skill` / `/skills` / `/`) and implicit (`description`-matched)
+  invocation.
+- **Editor extensions / plugins.** The skills standard
+  ([agentskills.io](https://agentskills.io)) is implemented by editor
+  plugins too -- the VS Code / GitHub Copilot extension is the
+  best-documented and is first-class above. Extensions can also bundle
+  their own skills via VS Code's `chatSkills` contribution point. Any
+  plugin that reads `AGENTS.md` or discovers `.agents/skills` will pick
+  this framework up with no extra configuration.
 
 ---
 
@@ -245,13 +359,21 @@ Four idempotent steps:
    - `GEMINI.md` -> `AGENTS.md` (Gemini Code Assist)
    - `AGENT.md` -> `AGENTS.md` (Zed singular fallback)
 4. **Creates user-home skill-discovery symlinks** so agents that
-   auto-discover skills find ours:
-   - `~/.config/opencode/skills/` -> `<canonical>/skills/`
-   - `~/.claude/skills/` -> `<canonical>/skills/`
+   auto-discover skills find ours (paths verified against vendor docs,
+   2026-06):
+   - `~/.config/opencode/skills/` -> `<canonical>/skills/` (OpenCode)
+   - `~/.claude/skills/` -> `<canonical>/skills/` (Claude Code)
+   - `~/.agents/skills/` -> `<canonical>/skills/` -- the **canonical
+     multi-agent path**: Codex CLI's documented user-scope location,
+     and also read by Cursor, Gemini CLI, and VS Code Copilot
+   - `~/.cursor/skills/` -> `<canonical>/skills/` (Cursor user-scope,
+     v2.4+)
+   - `~/.copilot/skills/` -> `<canonical>/skills/` (VS Code / GitHub
+     Copilot personal skills)
+   - `~/.gemini/skills/` -> `<canonical>/skills/` (Gemini CLI)
    - `~/.codex/skills/` (or `${CODEX_HOME}/skills/`) ->
-     `<canonical>/skills/`
-   - `~/.agents/skills/` -> `<canonical>/skills/`
-   - `~/.gemini/skills/` -> `<canonical>/skills/`
+     `<canonical>/skills/` (legacy/optional Codex path; modern Codex
+     reads `~/.agents/skills/` above)
 
 The script is **safe by default**: if any target path already exists as
 a real directory or as a symlink pointing somewhere else, it warns and
