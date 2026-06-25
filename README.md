@@ -43,30 +43,16 @@ the first message:
 ```text
 I want to adopt the scicomp-research-skills framework
 (https://github.com/a-attia/scicomp-research-skills) in this project.
-
-1. Check whether ~/.scicomp-research-skills/AGENTS.md exists. If it
-   does NOT, install the framework now (try SSH first, fall back to
-   HTTPS):
-     git clone git@github.com:a-attia/scicomp-research-skills.git ~/.scicomp-research-skills \
-       || git clone https://github.com/a-attia/scicomp-research-skills.git ~/.scicomp-research-skills
-     ~/.scicomp-research-skills/bin/install.sh
-   If it exists but is more than 30 days old, suggest I run
-   ~/.scicomp-research-skills/bin/refresh.sh and proceed regardless.
-   If both clone attempts fail, report the error and stop.
-
-2. Read ~/.scicomp-research-skills/AGENTS.md, then load the
-   project-onboarding skill from
-   ~/.scicomp-research-skills/skills/project-onboarding/SKILL.md
-   and its references/existing-project-audit.md.
-
-3. Inspect this project, classify which onboarding scenario applies,
-   and propose a migration plan. Do NOT make any changes until I
-   approve.
+If the skills are not installed, install them first -- check the
+framework's README for instructions. Then load the project-onboarding
+skill, inspect this project, and propose a migration plan before
+making any changes.
 ```
 
-That's it. The agent installs the framework if needed, loads the
-onboarding skill, audits your project, and proposes a plan for your
-review before touching anything.
+That's it. The agent installs the framework if needed (the
+[install steps](#1-install-once-per-machine) are in this README),
+loads the onboarding skill, audits your project, and proposes a plan
+for your review before touching anything.
 
 > Starting a brand-new project from scratch instead? See
 > [Quick start](#quick-start). Want the scenario-specific onboarding
