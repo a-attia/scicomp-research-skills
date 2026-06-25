@@ -66,7 +66,7 @@ Load only the needed section file:
 - Method: `references/method.md`
 - Experiments: `references/experiments.md`
 - Conclusion: `references/conclusion.md`
-- Paper review (Paper Rview): `references/paper-review.md`
+- Paper review (Paper Review): `references/paper-review.md`
 - Paragraph clarity source: `references/does-my-writing-flow-source.md`
 - Example bank index: `references/examples/index.md`
 
