@@ -27,6 +27,9 @@
 #
 # Every action (preview or actual) is appended to a log file at
 # ~/.scicomp-research-skills.uninstall.log so you can audit later.
+# Terminal output is colorized for readability; the log file always
+# receives plain ASCII. Colors auto-disable when stdout is not a TTY
+# or when the NO_COLOR environment variable is set.
 #
 # This script is intended to be run inside the canonical checkout
 # location, but works in any clone of this repo.
@@ -56,6 +59,33 @@ SHOW_HELP=0
 COUNT_REMOVED=0
 COUNT_SKIPPED=0
 COUNT_WARNED=0
+
+# ----------------------------------------------------------------------
+# Presentation layer (colors + glyphs).
+#
+# Colors are enabled ONLY when stdout is an interactive terminal and
+# NO_COLOR is unset. The log file always receives plain ASCII (the
+# log_action helper is never colorized), so audit logs stay clean.
+# ----------------------------------------------------------------------
+
+if [[ -t 1 && -z "${NO_COLOR:-}" ]]; then
+  C_RESET=$'\033[0m'
+  C_BOLD=$'\033[1m'
+  C_DIM=$'\033[2m'
+  C_RED=$'\033[31m'
+  C_GREEN=$'\033[32m'
+  C_YELLOW=$'\033[33m'
+  C_BLUE=$'\033[34m'
+  C_CYAN=$'\033[36m'
+else
+  C_RESET="" C_BOLD="" C_DIM="" C_RED="" C_GREEN="" C_YELLOW="" C_BLUE="" C_CYAN=""
+fi
+
+# Status glyphs (ASCII so they render everywhere; colored only on a TTY).
+GLYPH_REMOVE="x"   # would-remove / removed
+GLYPH_SKIP="-"     # skipped / nothing to do
+GLYPH_WARN="!"     # warning
+GLYPH_OK="."       # no-op (does not exist)
 
 # ----------------------------------------------------------------------
 # Helpers.
@@ -104,9 +134,65 @@ log_action() {
 }
 
 note() {
-  # Echo to stdout AND append to log.
+  # Echo to stdout AND append to log (plain text, no color).
   echo "$1"
   log_action "$1"
+}
+
+# Width of the framed output (banner + rules + summary box).
+BOX_WIDTH=66
+
+# Print a horizontal rule of BOX_WIDTH dashes. Logs a plain copy.
+hr() {
+  local line
+  line="$(printf '%*s' "${BOX_WIDTH}" '' | tr ' ' '-')"
+  printf '%s%s%s\n' "${C_DIM}" "${line}" "${C_RESET}"
+  log_action "${line}"
+}
+
+# Print a boxed banner with a centered title. Logs a plain copy.
+banner() {
+  local title="$1"
+  local inner=$((BOX_WIDTH - 2))
+  local pad_total=$((inner - ${#title}))
+  local pad_left=$((pad_total / 2))
+  local pad_right=$((pad_total - pad_left))
+  local top bottom mid
+  top="+$(printf '%*s' "${inner}" '' | tr ' ' '-')+"
+  bottom="${top}"
+  mid="|$(printf '%*s' "${pad_left}" '')${title}$(printf '%*s' "${pad_right}" '')|"
+  printf '%s%s\n%s%s%s%s\n%s%s\n' \
+    "${C_CYAN}${C_BOLD}" "${top}" \
+    "${C_CYAN}${C_BOLD}" "${mid}" "" "${C_RESET}" \
+    "${C_CYAN}${C_BOLD}${bottom}${C_RESET}" ""
+  log_action "${top}"
+  log_action "${mid}"
+  log_action "${bottom}"
+}
+
+# Print a section header. Args: $1 = "1/3", $2 = title.
+section() {
+  local idx="$1" title="$2"
+  printf '%s%s[%s]%s %s%s%s\n' \
+    "${C_BLUE}${C_BOLD}" "" "${idx}" "${C_RESET}" \
+    "${C_BOLD}" "${title}" "${C_RESET}"
+  log_action "[${idx}] ${title}"
+}
+
+# Print an indented status line with a colored glyph.
+# Args: $1 = kind (remove|skip|warn|ok), $2 = message.
+status() {
+  local kind="$1" msg="$2"
+  local glyph color
+  case "${kind}" in
+    remove) glyph="${GLYPH_REMOVE}"; color="${C_GREEN}" ;;
+    skip)   glyph="${GLYPH_SKIP}";   color="${C_DIM}"   ;;
+    warn)   glyph="${GLYPH_WARN}";   color="${C_YELLOW}";;
+    ok)     glyph="${GLYPH_OK}";     color="${C_DIM}"   ;;
+    *)      glyph="?";               color="${C_RESET}" ;;
+  esac
+  printf '  %s%s%s %s\n' "${color}" "${glyph}" "${C_RESET}" "${msg}"
+  log_action "  ${glyph} ${msg}"
 }
 
 # Resolve a symlink to an absolute path, handling relative targets.
@@ -136,24 +222,24 @@ process_user_home_symlink() {
     resolved="$(resolve_link "${target_dir}")"
     if [[ "${resolved}" == "${SKILLS_TARGET}" ]]; then
       if (( DRY_RUN )); then
-        note "  WOULD REMOVE symlink: ${target_dir} -> ${resolved}"
+        status remove "would remove symlink  ${target_dir}"
       else
         rm "${target_dir}"
-        note "  removed symlink: ${target_dir}"
+        status remove "removed symlink       ${target_dir}"
       fi
       COUNT_REMOVED=$((COUNT_REMOVED + 1))
     else
-      note "  skip: ${target_dir} is a symlink to ${resolved} (not us)"
+      status skip "skip (points elsewhere) ${target_dir} -> ${resolved}"
       COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
     fi
   elif [[ -d "${target_dir}" ]]; then
-    note "  skip: ${target_dir} is a real directory (not created by install.sh)"
+    status skip "skip (real directory)   ${target_dir}"
     COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
   elif [[ -e "${target_dir}" ]]; then
-    note "  WARN: ${target_dir} exists but is neither a symlink nor a directory; skipping"
+    status warn "warn (not symlink/dir)  ${target_dir}"
     COUNT_WARNED=$((COUNT_WARNED + 1))
   else
-    note "  ok: ${target_dir} does not exist (nothing to remove)"
+    status ok "absent (nothing to do)  ${target_dir}"
     COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
   fi
 }
@@ -170,21 +256,21 @@ process_in_repo_symlink() {
     # We expect these to be relative symlinks pointing at AGENTS.md.
     if [[ "${resolved}" == "AGENTS.md" || "${resolved}" == "${REPO_ROOT}/AGENTS.md" ]]; then
       if (( DRY_RUN )); then
-        note "  WOULD REMOVE symlink: ${name} -> AGENTS.md"
+        status remove "would remove symlink  ${name} -> AGENTS.md"
       else
         rm "${path}"
-        note "  removed symlink: ${name}"
+        status remove "removed symlink       ${name}"
       fi
       COUNT_REMOVED=$((COUNT_REMOVED + 1))
     else
-      note "  skip: ${name} is a symlink to ${resolved} (not our AGENTS.md)"
+      status skip "skip (points elsewhere) ${name} -> ${resolved}"
       COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
     fi
   elif [[ -e "${path}" ]]; then
-    note "  WARN: ${name} exists and is NOT a symlink; skipping (not created by install.sh)"
+    status warn "warn (not a symlink)    ${name}"
     COUNT_WARNED=$((COUNT_WARNED + 1))
   else
-    note "  ok: ${name} does not exist (nothing to remove)"
+    status ok "absent (nothing to do)  ${name}"
     COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
   fi
 }
@@ -215,20 +301,38 @@ fi
 mkdir -p "$(dirname "${LOG_FILE}")"
 log_action "==== uninstall.sh invoked  REPO_ROOT=${REPO_ROOT_ABS}  DRY_RUN=${DRY_RUN}  DEEP=${DEEP}  ASSUME_YES=${ASSUME_YES} ===="
 
-note "Uninstalling from ${REPO_ROOT_ABS}"
+banner "scicomp-research-skills  uninstall"
+note ""
+
+# Mode line, colorized by severity.
 if (( DRY_RUN )); then
-  note "Mode: DRY RUN (no changes will be made). Pass -y / --confirm to actually remove."
+  printf '  %sMode%s    %s%sDRY RUN%s  (no changes will be made; pass -y / --confirm to remove)\n' \
+    "${C_BOLD}" "${C_RESET}" "${C_YELLOW}${C_BOLD}" "" "${C_RESET}"
+  log_action "  Mode    DRY RUN (no changes will be made; pass -y / --confirm to remove)"
 else
-  note "Mode: CONFIRMED removal."
+  printf '  %sMode%s    %s%sCONFIRMED%s  (changes WILL be made)\n' \
+    "${C_BOLD}" "${C_RESET}" "${C_RED}${C_BOLD}" "" "${C_RESET}"
+  log_action "  Mode    CONFIRMED (changes WILL be made)"
 fi
-note "Log file: ${LOG_FILE}"
+if (( DEEP )); then
+  printf '  %sScope%s   symlinks + git config + canonical checkout (%s--deep%s)\n' \
+    "${C_BOLD}" "${C_RESET}" "${C_BOLD}" "${C_RESET}"
+  log_action "  Scope   symlinks + git config + canonical checkout (--deep)"
+else
+  printf '  %sScope%s   symlinks only\n' "${C_BOLD}" "${C_RESET}"
+  log_action "  Scope   symlinks only"
+fi
+printf '  %sFrom%s    %s\n' "${C_BOLD}" "${C_RESET}" "${REPO_ROOT_ABS}"
+log_action "  From    ${REPO_ROOT_ABS}"
+printf '  %sLog%s     %s\n' "${C_BOLD}" "${C_RESET}" "${LOG_FILE}"
+log_action "  Log     ${LOG_FILE}"
 note ""
 
 # ----------------------------------------------------------------------
 # Phase 1: user-home skill-discovery symlinks.
 # ----------------------------------------------------------------------
 
-note "[1/3] user-home skills-directory symlinks:"
+section "1/3" "User-home skill-discovery symlinks"
 
 USER_HOME_SKILLS_DIRS=(
   "${HOME}/.config/opencode/skills"
@@ -249,7 +353,7 @@ done
 # ----------------------------------------------------------------------
 
 note ""
-note "[2/3] in-repo filename symlinks:"
+section "2/3" "In-repo filename symlinks"
 
 AGENT_FILENAME_SYMLINKS=(
   "CLAUDE.md"
@@ -269,18 +373,18 @@ done
 
 note ""
 if (( DEEP )); then
-  note "[3/3] deep uninstall: git config + canonical checkout"
+  section "3/3" "Deep uninstall: git config + canonical checkout"
 
   # 3a. git config core.hooksPath unset.
   if (( DRY_RUN )); then
-    note "  WOULD UNSET git config core.hooksPath in ${REPO_ROOT_ABS}"
+    status remove "would unset           git config core.hooksPath in ${REPO_ROOT_ABS}"
   else
     if git -C "${REPO_ROOT_ABS}" config --get core.hooksPath >/dev/null 2>&1; then
       git -C "${REPO_ROOT_ABS}" config --unset core.hooksPath
-      note "  unset git config core.hooksPath"
+      status remove "unset                 git config core.hooksPath"
       COUNT_REMOVED=$((COUNT_REMOVED + 1))
     else
-      note "  ok: git config core.hooksPath was not set"
+      status ok "absent (nothing to do)  git config core.hooksPath was not set"
       COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
     fi
   fi
@@ -289,10 +393,10 @@ if (( DEEP )); then
   CANONICAL_ABS="$(cd "${CANONICAL}" 2>/dev/null && pwd -P || echo "")"
 
   if [[ -z "${CANONICAL_ABS}" ]]; then
-    note "  ok: canonical checkout ${CANONICAL} does not exist"
+    status ok "absent (nothing to do)  canonical checkout ${CANONICAL}"
     COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
   elif [[ "${REPO_ROOT_ABS}" != "${CANONICAL_ABS}" ]]; then
-    note "  WARN: this is NOT the canonical checkout (${REPO_ROOT_ABS} vs ${CANONICAL_ABS})."
+    status warn "warn (not canonical)    ${REPO_ROOT_ABS}"
     note "        --deep can only delete the canonical checkout when run from inside it."
     note "        To delete it from elsewhere: rm -rf ${CANONICAL_ABS}"
     COUNT_WARNED=$((COUNT_WARNED + 1))
@@ -306,40 +410,47 @@ if (( DEEP )); then
     EXPECTED_CANONICAL_ABS="$(cd "${EXPECTED_CANONICAL}" 2>/dev/null && pwd -P || echo "${EXPECTED_CANONICAL}")"
 
     if [[ "${CANONICAL_ABS}" != "${EXPECTED_CANONICAL_ABS}" ]]; then
-      note "  REFUSED: ${CANONICAL_ABS} is not the expected canonical path (${EXPECTED_CANONICAL_ABS}); refusing to delete."
+      status warn "refused (unexpected path) ${CANONICAL_ABS}"
+      note "        expected ${EXPECTED_CANONICAL_ABS}; refusing to delete."
       COUNT_WARNED=$((COUNT_WARNED + 1))
     elif (( DRY_RUN )); then
-      note "  WOULD DELETE canonical checkout: ${CANONICAL_ABS}"
-      note "  (tip: dev checkouts of this repo at any other path are NOT touched)"
+      status remove "would delete checkout ${CANONICAL_ABS}"
+      printf '    %s(dev checkouts at any other path are NOT touched)%s\n' "${C_DIM}" "${C_RESET}"
+      log_action "    (dev checkouts at any other path are NOT touched)"
     else
       # Interactive confirmation unless --yes was also passed.
       if (( ! ASSUME_YES )); then
         note ""
-        echo "*** This will RECURSIVELY DELETE the canonical checkout: ${CANONICAL_ABS}"
-        echo "*** Dev checkouts of this repo at any other path are NOT touched."
-        read -r -p "Type 'DELETE' to confirm: " confirmation
+        printf '%s%s  !! This will RECURSIVELY DELETE the canonical checkout:%s\n' \
+          "${C_RED}" "${C_BOLD}" "${C_RESET}"
+        printf '%s%s     %s%s\n' "${C_RED}" "${C_BOLD}" "${CANONICAL_ABS}" "${C_RESET}"
+        printf '  %sDev checkouts of this repo at any other path are NOT touched.%s\n' \
+          "${C_DIM}" "${C_RESET}"
+        log_action "  !! This will RECURSIVELY DELETE the canonical checkout: ${CANONICAL_ABS}"
+        read -r -p "  Type 'DELETE' to confirm: " confirmation
         log_action "  interactive confirmation prompt: user typed: '${confirmation}'"
         if [[ "${confirmation}" != "DELETE" ]]; then
-          note "  ABORTED canonical-checkout deletion (confirmation did not match 'DELETE')"
+          status skip "aborted (no 'DELETE')  canonical-checkout deletion"
           COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
         else
           # We're about to delete the directory we're sitting in. cd out first.
           cd "${HOME}"
           rm -rf "${CANONICAL_ABS}"
-          note "  DELETED canonical checkout: ${CANONICAL_ABS}"
+          status remove "deleted checkout      ${CANONICAL_ABS}"
           COUNT_REMOVED=$((COUNT_REMOVED + 1))
         fi
       else
         # --yes was passed; skip the interactive prompt.
         cd "${HOME}"
         rm -rf "${CANONICAL_ABS}"
-        note "  DELETED canonical checkout: ${CANONICAL_ABS} (via -y)"
+        status remove "deleted checkout      ${CANONICAL_ABS} (via -y)"
         COUNT_REMOVED=$((COUNT_REMOVED + 1))
       fi
     fi
   fi
 else
-  note "[3/3] deep uninstall: SKIPPED (pass --deep to enable)"
+  section "3/3" "Deep uninstall"
+  status skip "skipped (pass --deep)   git config + canonical checkout"
 fi
 
 # ----------------------------------------------------------------------
@@ -347,20 +458,46 @@ fi
 # ----------------------------------------------------------------------
 
 note ""
-note "================================================================"
+hr
+
 if (( DRY_RUN )); then
-  note "Summary (DRY RUN -- no changes made):"
-  note "  Would-remove items: ${COUNT_REMOVED}"
-  note "  Skip items:         ${COUNT_SKIPPED}"
-  note "  Warnings:           ${COUNT_WARNED}"
-  note ""
-  note "To actually perform this removal, re-run with -y or --confirm:"
-  note "  $0 ${DEEP:+--deep }--confirm"
+  printf '  %sSummary%s  %s(dry run -- no changes made)%s\n' \
+    "${C_BOLD}" "${C_RESET}" "${C_YELLOW}" "${C_RESET}"
+  log_action "  Summary (dry run -- no changes made)"
+  REMOVE_LABEL="would remove"
 else
-  note "Summary:"
-  note "  Removed items: ${COUNT_REMOVED}"
-  note "  Skipped items: ${COUNT_SKIPPED}"
-  note "  Warnings:      ${COUNT_WARNED}"
+  printf '  %sSummary%s\n' "${C_BOLD}" "${C_RESET}"
+  log_action "  Summary"
+  REMOVE_LABEL="removed"
 fi
-note "================================================================"
+
+printf '    %s%s %-12s%s %s%d%s\n' \
+  "${C_GREEN}" "${GLYPH_REMOVE}" "${REMOVE_LABEL}" "${C_RESET}" "${C_BOLD}" "${COUNT_REMOVED}" "${C_RESET}"
+log_action "    ${GLYPH_REMOVE} ${REMOVE_LABEL}: ${COUNT_REMOVED}"
+printf '    %s%s %-12s%s %s%d%s\n' \
+  "${C_DIM}" "${GLYPH_SKIP}" "skipped" "${C_RESET}" "${C_BOLD}" "${COUNT_SKIPPED}" "${C_RESET}"
+log_action "    ${GLYPH_SKIP} skipped: ${COUNT_SKIPPED}"
+# Warnings line: highlight in yellow only when non-zero.
+if (( COUNT_WARNED > 0 )); then
+  printf '    %s%s %-12s %d%s\n' \
+    "${C_YELLOW}${C_BOLD}" "${GLYPH_WARN}" "warnings" "${COUNT_WARNED}" "${C_RESET}"
+else
+  printf '    %s%s %-12s%s %s%d%s\n' \
+    "${C_DIM}" "${GLYPH_WARN}" "warnings" "${C_RESET}" "${C_BOLD}" "${COUNT_WARNED}" "${C_RESET}"
+fi
+log_action "    ${GLYPH_WARN} warnings: ${COUNT_WARNED}"
+
+if (( DRY_RUN )); then
+  note ""
+  if (( DEEP )); then
+    next_cmd="$0 --deep --confirm"
+  else
+    next_cmd="$0 --confirm"
+  fi
+  printf '  %sNext%s   to apply, re-run:  %s%s%s\n' \
+    "${C_BOLD}" "${C_RESET}" "${C_CYAN}" "${next_cmd}" "${C_RESET}"
+  log_action "  Next   to apply, re-run: ${next_cmd}"
+fi
+
+hr
 log_action "==== uninstall.sh complete ===="
