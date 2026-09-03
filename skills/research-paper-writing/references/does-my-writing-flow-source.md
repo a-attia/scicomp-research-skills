@@ -1,4 +1,4 @@
-# Does My Writing Flow? 
+# Does My Writing Flow?
 
 Note: This file stores the source content extracted from the PDF, with light formatting cleanup for Markdown readability.
 

@@ -1,4 +1,4 @@
-# Module Design Example 
+# Module Design Example
 
 This example uses `%` comments as annotations.
 Each `% ...` annotation explains the paragraph(s) immediately below it.

@@ -1,6 +1,6 @@
 # Example of the Three Elements
 
-This example uses `%` comments as annotations.  
+This example uses `%` comments as annotations.<br>
 Each `% ...` annotation explains the paragraph(s) immediately below it.
 
 ```latex
