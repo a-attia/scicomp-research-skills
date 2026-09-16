@@ -189,6 +189,35 @@ nesting visually and is far easier to scan.
 - Avoid filler ("In order to ..."  -> "To ...";  "It should be noted
   that ..."  -> delete).
 
+#### Prose habits that mark a document as machine-written
+
+These are not errors. The sentence is correct, the document is useful, and
+a reader simply trusts it slightly less. They survive review because the
+author reads past them, and they return with every new draft.
+
+| Habit | Instead |
+|:---|:---|
+| A dash as punctuation, in any of its three forms | A comma, a colon, or a full stop |
+| Two or more semicolons in one sentence | Sentences, or the list it already is |
+| Sentences past about 30 words | Two sentences |
+| "It is worth noting that", "It is important to" | Delete the phrase, state the thing |
+| "Not merely X, but Y" and other escalations | Say what is true |
+| Three-part lists where two items would do | Two items |
+
+The dash is the most recognisable, and covers the ASCII double dash, the em
+dash, and the en dash equally.
+
+**Prefer a check to a habit.** These recur, and the author is the last
+person to see them:
+
+```bash
+grep -nE ' -- |\u2014|\u2013' <doc>          # dashes used as punctuation
+grep -nE '[^;]*;[^;]*;' <doc>            # two semicolons in one line
+```
+
+Exclude code blocks, tables, and quoted material before acting on the
+output: a dash inside a command or a citation is not prose.
+
 ### J. Hygiene
 
 - **No personal paths** (`/Users/<name>/`, author-specific directory
