@@ -116,6 +116,30 @@ BSD-3) with sci-computing-specific framing:
 8. **Write useful error messages.** A scientific error message
    should name the offending value, the constraint it violated, and
    the function it occurred in -- not just "ValueError".
+9. **Survey the library before extending it.** Before writing code
+   that a dependency might already provide, enumerate that
+   dependency's public surface in the relevant area -- `ls
+   src/*plot*.hpp`, the module index, `dir()`, the class list in the
+   API docs -- and state which classes or functions were considered
+   and rejected. **Reading one header is not a survey**: a positive
+   result stops the search, so the first plausible class found gets
+   mistaken for the whole API.
+
+   Two tells that this step was skipped. You are reimplementing a
+   **domain-standard quantity** -- emittance, Twiss parameters, a
+   histogram, a quadrature rule, a norm -- which mature domain
+   libraries exist largely to provide. Or you are working around a
+   **limit inferred from a single file** rather than one the library
+   documents.
+
+   The cost is not only duplicated effort. A reimplementation does
+   not know the domain conventions the library encodes, so it
+   silently computes something adjacent to what was wanted. In the
+   case that produced this rule, a hand-rolled rms emittance
+   disagreed with the library's by a factor of 2.4 because the
+   library mirrors the distribution about the symmetry axis in
+   cylindrical geometry and the reimplementation used half of it.
+   The wrong number was plausible and had nothing to contradict it.
 
 ## Universal AI-assisted-coding rules (Bridgeford et al. 2025)
 

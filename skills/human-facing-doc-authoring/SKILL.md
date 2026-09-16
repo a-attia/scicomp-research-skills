@@ -194,6 +194,24 @@ nesting visually and is far easier to scan.
 - **No personal paths** (`/Users/<name>/`, author-specific directory
   conventions). Use generic placeholders (`<projects-parent-dir>/...`)
   so the doc is publishable without per-author scrubbing.
+- **No claims that are only true on the author's machine.** This is the
+  same defect as a personal path, one level up, and it is harder to
+  spot because the sentence contains no path at all. "Built locally and
+  benchmarked", "installed and working", a directory tree showing
+  folders that exist only on one disk -- each reads as a project fact
+  and is actually a fact about one filesystem. **The author is the one
+  reader for whom the sentence is guaranteed true**, which is why
+  self-review does not catch it.
+
+  *The check:* for every factual statement about the environment, ask
+  what a reader sees after `git clone` and nothing else. Then either
+  rewrite it as an instruction ("builds from the recipe in
+  `external/README.md`") or say whose machine it describes and why that
+  matters. Gitignored directories are the usual trap: they are present
+  and populated for the author, absent for everyone else.
+
+  A doc that quotes measured numbers should also say **where they were
+  measured**, since performance figures are environment claims too.
 - **No `<TODO>` / `<INSERT>` / `<your-fork>` placeholders** that should
   have been filled in (vs ones deliberately left for users to
   substitute).
