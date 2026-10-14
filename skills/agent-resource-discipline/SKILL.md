@@ -470,7 +470,7 @@ maintaining hooks across multiple agent clients exceeds the benefit.
 ---
 
 *Created 2026-05-13 by A. Attia. Distilled from observed waste modes
-across multiple agent sessions on the rl-oed paper + this skills
+across multiple agent sessions on a research paper + this skills
 repository's own bootstrapping. Revised 2026-05-13 (post-prior-art
 audit): adopted progressive-disclosure framing + pushy description
 (Anthropic skill-creator); added "Why this matters" framing around

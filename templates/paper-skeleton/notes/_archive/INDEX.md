@@ -50,4 +50,4 @@ archive is for provenance, not for hiding still-referenced files.
 *Convention documented in
 `~/.scicomp-research-skills/templates/<paper|software>-skeleton/notes/README.md`
 "Archive + resolution log" section. Originated 2026-05-20 from real-
-project evidence on argo-anywhere + AmigAI.*
+project evidence on two projects.*

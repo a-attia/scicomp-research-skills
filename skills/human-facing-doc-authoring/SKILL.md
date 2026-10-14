@@ -473,7 +473,7 @@ When asked to author or rewrite a human-facing doc:
 The authoring workflow above assumes a new doc. **Rewriting an
 existing substantial doc (a README, a PLAN.md, a long survey note,
 a paper section in `drafts/`) is a distinct workflow with a higher
-risk of silent content loss**. The argo-anywhere onboarding session
+risk of silent content loss**. A real onboarding session
 (2026-05-14) surfaced this -- the agent rewrote a substantial
 README during migration, and although nothing was lost, there was
 no discipline forcing the agent to PROVE nothing was lost. This

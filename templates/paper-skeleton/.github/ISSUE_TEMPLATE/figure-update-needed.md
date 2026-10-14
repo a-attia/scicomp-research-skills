@@ -35,7 +35,7 @@ labels: figure
 
 Be specific. Examples:
 
-- "Add a third method (CVaR-EIG) alongside the existing two; legend
+- "Add a third method (Method C) alongside the existing two; legend
   needs new entry; colour palette extends to 3 categories."
 - "Switch from log-y to log-log scale for x in [0.01, 100] regime."
 - "Replace 200dpi PNG with vector PDF for inclusion in the final

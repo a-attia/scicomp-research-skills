@@ -8,7 +8,7 @@ This is the working directory for the journal paper
 <journal candidates>).
 
 This workspace is intentionally separated from any code dependencies
-(SciRL, PyOED, or other libraries) so paper revisions don't pollute the
+(`<library-A>`, `<library-B>`, or other libraries) so paper revisions don't pollute the
 codebase history. Code dependencies are referenced by their git commit
 hashes in experiment metadata (see `experiments/`).
 

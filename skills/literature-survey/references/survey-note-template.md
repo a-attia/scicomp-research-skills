@@ -143,33 +143,31 @@ as a finite-horizon POMDP with KL-divergence terminal reward.
 
 - **Single closest existing work in the literature.** Same problem class,
   same algorithm class (deep PG RL).
-- Our paper differs by adding distributional critics (DSAC-Gaussian, C51)
-  + risk-sensitive variants (CVaR-EIG) + per-step EIG dense reward as
-  default + multiple action-space types.
+- Our paper differs by <one-sentence statement of the extension>.
 
 ## Critical observations
 
 - Their belief representation = full information vector I_k, not a
   Gaussian sufficient statistic. They do particle/grid posterior at
-  episode end (small theta-dim friendly). Our Laplace-Gaussian gives a
-  much cheaper continuous posterior.
-- Their observation noise is multiplicative (signal-magnitude-dependent).
-  We should adopt this realism.
+  episode end (small theta-dim friendly), which limits the parameter
+  dimension they can handle.
+- Their observation noise is multiplicative (signal-magnitude-dependent),
+  a realism choice any comparison should match.
 - Their MC sample-and-freeze trick (Eq. 17 + Appendix C) is elegant
   variance reduction worth adopting.
 
 ## Action items for our paper
 
-1. Read full PDF carefully before designing our PyOEDAdvectionDiffusionEnv.
-   Match their action space, noise model, and horizons for direct
-   comparability.
+1. Read full PDF carefully before designing our advection-diffusion
+   benchmark. Match their action space, noise model, and horizons for
+   direct comparability.
 2. Cite shen2023sOED prominently in PLAN.md Section 0 and Section 1.2.
-3. Email Wanggang Shen (`wgshen` GitHub) about their reference
-   implementation.
+3. Check whether the authors' public code reproduces Table 1 before
+   relying on it as a baseline.
 
 ---
 
-*Created 2026-05-11 by A. Attia.*
+*Created YYYY-MM-DD by <author>.*
 ```
 
 ## Notes on style

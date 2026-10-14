@@ -206,21 +206,20 @@ Worked example -- excerpt of an existing `CLAUDE.md`:
 ```markdown
 # CLAUDE.md
 
-You are working on the rl-oed paper.
+You are working on the sensor-placement paper.
 
 ## Project context
 
-- Target venue: Computer Methods in Applied Mechanics and Engineering
-  (CMAME), Q1 2027 submission.
-- Closest competitor: Shen and Huan 2023 (CMAME 2023). We differ by
-  adding distributional critics + risk-sensitive variants.
+- Target venue: <journal>, submission planned for <quarter>.
+- Closest competitor: Doe and Roe 2024. We differ by replacing their
+  greedy selection with a convex relaxation.
 - Current draft phase: M5 (drafting Section 4 Method).
 
 ## Conventions
 
 - All math in MathJax (`$...$` inline, `$$...$$` display).
 - Citations via natbib + numeric.
-- Author list: Attia, Attia, Smith (alphabetical-by-last-name).
+- Author list: Author A, Author B, Author C (alphabetical-by-last-name).
 
 ## Skills loaded for this project
 
@@ -229,18 +228,17 @@ You are working on the rl-oed paper.
 
 ## In-progress decisions
 
-- D-001 (2026-04-30): adopt CVaR-EIG as the primary risk-sensitive
-  variant; defer entropy-regularised alternatives.
-- D-002 (2026-05-05): use Laplace-Gaussian belief approximation; not
-  the full information-vector representation that Shen 2023 uses
-  (their representation is too expensive for our action space).
+- D-001 (YYYY-MM-DD): adopt the A-optimal criterion as primary;
+  defer D-optimal to an appendix.
+- D-002 (YYYY-MM-DD): use a low-rank prior-covariance approximation,
+  not the dense representation Doe and Roe use (theirs is too
+  expensive for our mesh sizes).
 
 ## Current open questions
 
-- How to handle the multiplicative noise model in the
-  PyOEDAdvectionDiffusionEnv? Shen 2023 uses signal-magnitude-
-  dependent noise; we should adopt for realism but it complicates
-  the gradient estimator.
+- How to handle correlated observation noise in the
+  `HeatEquationModel`? Doe and Roe assume independent noise; we
+  should relax that for realism but it complicates the gradient.
 ```
 
 Every section here is valuable + must be preserved during migration.
@@ -289,11 +287,11 @@ in 2.C. The agent should produce a checklist:
 |:-------------------------------|:-----------------|:----------------------------------|:---------|
 | "You are working on..."        | line 3           | dropped (subsumed by AGENTS.md "Project facts: Name") | OK |
 | "## Project context"           | lines 5-12       | AGENTS.md "Project facts"         | migrated |
-| Bullet "Target venue: CMAME"   | line 7           | AGENTS.md "Project facts: Target venue" | migrated |
+| Bullet "Target venue"          | line 7           | AGENTS.md "Project facts: Target venue" | migrated |
 | Bullet "Closest competitor"    | lines 9-11       | PLAN.md "Headline Contribution: Positioning relative to prior work" | migrated |
 | ...                            | ...              | ...                               | ...      |
 | "## Current open questions"    | lines 35-42      | PLAN.md Section 11 "Open Questions" | migrated |
-| "How to handle the multiplicative noise model" | lines 37-42 | PLAN.md Section 11 item 1 | migrated |
+| "How to handle correlated observation noise" | lines 37-42 | PLAN.md Section 11 item 1 | migrated |
 
 Total lines in original: 47. Total lines accounted for: 47. None missing.
 ```

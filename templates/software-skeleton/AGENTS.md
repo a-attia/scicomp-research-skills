@@ -89,7 +89,7 @@ asks for the matching task.
   - **Expertise level**: <novice / intermediate / expert / mixed>
   - **Use contexts**: <e.g. "graduate-course teaching tool / production research code / paper-companion code / prototype">
   - **Secondary audiences**: <e.g. "AI-curious researchers, reviewers, downstream-library consumers">
-  - **Release-announcement channels**: <e.g. "ANL internal mailing list; SciPy conference; Twitter">
+  - **Release-announcement channels**: <e.g. "institutional mailing list; SciPy conference; Twitter">
   - **Communication constraints**: <e.g. "no marketing-flavoured copy; LaTeX-quality math notation throughout">.
 
 ## Project-specific overrides

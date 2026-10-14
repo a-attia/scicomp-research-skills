@@ -103,7 +103,7 @@ Many sub-sections abbreviated for the example.
 
 Sections 1.2 + 1.3 + 1.4 of `PLAN.md` -- the RL-flavoured references.
 Out of scope: Section 1.1 (OED foundations), 1.5 (PDE-OED), 1.6
-(SciRL/PyOED prior art).
+(prior art in our own software).
 
 ## Deliverables produced
 
@@ -134,8 +134,8 @@ When PLAN.md Section 1 is next revised, apply these corrections:
 
 1. Blau22's history-likelihood vector C_t (Eq. 13-14) enables Markovian
    state without storing full history. Should adopt in our environment.
-2. Closed-form CVaR over Gaussian critic: mu - sigma * phi(Phi^-1(alpha))
-   / alpha. CVaR variants downgrade from `NEW(S)` to `config-only`.
+2. One planned "new" contribution turns out to have a closed form in a
+   cited paper. Downgrade it from `NEW(S)` to `config-only`.
 
 ## Recommended next steps
 

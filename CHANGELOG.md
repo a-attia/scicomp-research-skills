@@ -16,7 +16,7 @@ formatted as a chronological list rather than a prose footer.
 
 Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-skills)
 (mirrored at https://gitlab.osti.gov/genesis/genesis-skills, commit
-`b7e8434`), run while preparing for the Genesis Mission hackathon.
+`b7e8434`).
 
 - **Recovered canonical-checkout edits.** The PDF "extraction order is
   not visual order" rung and its two rationalisation rows
@@ -59,6 +59,17 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
   Fixed the "8 missing" versus "7 remain" contradiction. Project names
   removed from STATUS.md and the README status callout at the
   maintainer's request: evidence is counted, not attributed.
+- **Project names removed from all tracked files.** Skill text,
+  skill footers, templates, worked examples and this changelog now
+  describe the projects that motivated a rule generically ("a
+  shell-tooling project", "a talk-deck project") instead of by name.
+  The worked examples in `project-onboarding` scenario 2.C and the
+  `literature-survey` survey-note and collection-log templates were
+  rewritten with fictional content. Projects bootstrapped from a
+  skeleton before this date may still carry the old example rows in
+  `notes/README.md`, `notes/_resolved/INDEX.md` and
+  `notes/_archive/INDEX.md` footers. Those rows are safe to delete.
+  Git history is unchanged.
 
 ## 2026-05-20 (continued)
 
@@ -102,7 +113,7 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
 
 - **Session A.5: archive + resolved-feedback convention back-propagated
   to skeleton templates.** Driven by the post-Session-A cleanup of
-  argo-anywhere + AmigAI projects, where the question "what do we do
+  two real projects, where the question "what do we do
   with agent_feedback.md entries that have been actioned upstream + with
   upstream-proposal drafts that became GitHub issues?" surfaced.
   Convention: two parallel sub-directories under each project's
@@ -138,26 +149,26 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
   - `templates/{paper,software}-skeleton/notes/_archive/INDEX.md`:
     new file (~50 lines, identical content in both templates);
     skeleton table + "When to add" rules.
-  Real-project evidence: argo-anywhere applied the convention to 5
+  Real-project evidence: a software project applied the convention to 5
   agent_feedback entries (F-03..F-08 actioned by Session A reference
-  12) on 2026-05-20 in commit `9769e70`; AmigAI applied it to 1
+  12) on 2026-05-20; a talk-deck project applied it to 1
   fully-resolved entry (F-12) + 1 partially-resolved entry (F-18) +
   2 archived upstream-proposal drafts (filed as GitHub issues #2 +
-  #3) on 2026-05-20 (AmigAI is not a git repo so no commit hash).
+  #3) on 2026-05-20.
   Both cleanups exercised the convention end-to-end before it was
   back-propagated here.
 
 ## 2026-05-17
 
 - **Session A: skill-optimisation pass driven by real-project feedback
-  (argo-anywhere + AmigAI).** Applied 10 distinct findings from the
+  from two real projects.** Applied 10 distinct findings from the
   feedback corpus; no new infrastructure, no new skills, no new
   templates. Goal: tighten existing skill content based on what real
   projects actually surfaced, before any further framework expansion.
   - **F-12**: `skills/project-onboarding/SKILL.md` frontmatter
     description + "When to load this skill" section rewritten to add
     an auto-load trigger for bare-of-AGENTS.md directories whose
-    contents look like a research project. The AmigAI session went
+    contents look like a research project. A talk-deck session went
     straight to drafting `slides.tex` without recognising the directory
     as a Scenario 1.A onboarding opportunity; the skill was loaded too
     late. Auto-load conditions enumerated explicitly (no AGENTS.md +
@@ -175,11 +186,11 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
     announcement channels, communication constraints (software). With
     this field populated up-front in per-project AGENTS.md, derivative
     artefacts (talk decks, posters, release announcements, rebuttals)
-    skip an entire audience-discovery interview turn. Per the AmigAI
-    feedback's proposal A4 "Cross-cutting framework changes" section.
+    skip an entire audience-discovery interview turn. Per that project's
+    feedback, proposal A4 "Cross-cutting framework changes" section.
   - **F-03..F-08 (this commit)**: shipped
     `skills/research-software-engineering/references/12-shell-and-cross-language-interop.md`
-    (~370 lines) consolidating 6 rules from the argo-anywhere project's
+    (~370 lines) consolidating 6 rules from a shell-tooling project's
     notes/agent_feedback.md: (12.1) YAML/JSON quoting on the bash/
     Python interop boundary; (12.2) setdefault for security-defaulted
     keys preserves the wrong default on upgraders; (12.3) error-
@@ -193,7 +204,7 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
     `research-software-engineering` skill now ships 4 references
     (01, 02, 11, 12); 7 remain planned (03, 04, 05, 06, 07, 08, 09,
     10 -- subtract 12 from the original 8-references-still-planned
-    count). Each rule cites its argo-anywhere origin + concrete
+    count). Each rule cites its real-project origin + concrete
     example.
   - **F-02**: `skills/human-facing-doc-authoring/SKILL.md` gains a
     "Rewriting an existing substantial doc" subsection (~80 lines)
@@ -206,7 +217,7 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
     pattern is borrowed from `project-onboarding/references/scenario-2-existing-agentic-files.md`
     Scenario 2.C (which solves the same problem for migrating
     CLAUDE.md → AGENTS.md); generalised here for any doc-rewrite.
-    Motivated by the argo-anywhere onboarding session (2026-05-14)
+    Motivated by a real onboarding session (2026-05-14)
     where a substantial README was rewritten without a discipline
     forcing the agent to PROVE nothing was lost -- the silent
     failure mode the content-check table makes auditable. Includes
@@ -247,7 +258,7 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
     editing the proposal in place.
   - **STATUS.md honest update reflecting Session A's deliveries.**
     Header bumped from 2026-05-14 to 2026-05-17; acknowledges
-    that argo-anywhere + AmigAI projects ran during 2026-05-15..
+    that two real projects ran during 2026-05-15..
     2026-05-17 and Session A rolled their feedback into 7
     commits. "What is well-grounded": `templates/software-
     skeleton/` AGENTS.md skeleton + paper-coupling layer moved

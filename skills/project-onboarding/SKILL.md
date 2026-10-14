@@ -51,7 +51,7 @@ load this skill on the FIRST tool call into a directory when ALL of:
 4. The agent is about to do substantive work (drafting, editing, or
    creating content -- not just reading).
 
-The AmigAI session (May 2026) showed that without this auto-load
+A real onboarding session (May 2026) on a talk-deck project showed that without this auto-load
 trigger, the agent goes straight to drafting content (`slides.tex`)
 without recognising the directory as a Scenario 1.A onboarding
 opportunity. The skill therefore fires too late or not at all.
@@ -348,10 +348,10 @@ project" workflow (root AGENTS.md Section 11 + README.md "Starting a
 new project that uses this repository") which assumes a from-scratch
 start. This skill addresses the realistic "I already have a project;
 help me adopt the framework" case, which is more common than starting
-fresh. Revised 2026-05-17 (F-12 from real-project feedback -- AmigAI):
+fresh. Revised 2026-05-17 (F-12 from real-project feedback):
 broadened the triggering condition + frontmatter description to fire
 on bare-of-AGENTS.md directories with research-project-shaped contents,
-not only on explicit user requests. The AmigAI session showed the
+not only on explicit user requests. A real session showed the
 agent missing the bare-directory onboarding opportunity because the
 trigger was too narrowly worded. Revised 2026-10-14: shortened the
 frontmatter description from 1560 to under 1024 characters (the

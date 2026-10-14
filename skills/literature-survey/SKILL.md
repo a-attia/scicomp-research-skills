@@ -277,7 +277,7 @@ When the user invokes this skill, the agent should:
 ---
 
 *Created 2026-05-13 by A. Attia. Distilled from the literature-survey
-workflow developed for the rl-oed paper (14 references verified across
+workflow developed for a research paper (14 references verified across
 3 sections of the paper's plan-of-record). Revised 2026-05-13 (added
 Workflow rule #6 + See-also pointer to human-facing-doc-authoring
 skill, since survey notes and the collection log are human-facing

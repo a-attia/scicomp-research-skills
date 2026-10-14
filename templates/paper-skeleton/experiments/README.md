@@ -102,7 +102,7 @@ explicit `null` is better than omission.
   "tags": ["section-5.2", "table-3", "figure-7a"],
   "linked_paper_section": "Section 5.2",
   "linked_paper_figure": "Figure 7a",
-  "result_summary": "<one sentence: e.g. 'CVaR-EIG 0.247 +/- 0.012 over 30 seeds'>"
+  "result_summary": "<one sentence: e.g. 'Method C 0.247 +/- 0.012 over 30 seeds'>"
 }
 ```
 

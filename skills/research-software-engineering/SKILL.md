@@ -323,7 +323,7 @@ fixed footer count "four references" -> "3 references"; replaced
 compressed description from 1725 chars to ~1024 chars to fit the
 OpenCode skill-spec limit of 1024 chars per AGENTS.md Section 8).
 Revised 2026-05-17 (Session A skill-optimisation pass; F-03..F-08
-from argo-anywhere real-project feedback): shipped new reference
+from real-project feedback): shipped new reference
 `12-shell-and-cross-language-interop.md` consolidating 6 rules
 (YAML/JSON quoting on bash/Python boundary; setdefault for
 security-defaulted keys; error-message recovery hints must

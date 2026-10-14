@@ -6,7 +6,7 @@ Python / Julia / C++ / Fortran / MATLAB / etc.) -- and especially
 when those shell scripts read or write structured data (YAML / JSON
 / TOML) produced by another language's standard library.
 
-This reference collects 6 rules surfaced by the `argo-anywhere`
+This reference collects 6 rules surfaced by a shell-tooling
 project's `notes/agent_feedback.md` between 2026-05-13 and 2026-05-15
 during real-project shipping of a bash-script-collection codebase.
 Each rule is a real defect or near-defect that bit the project + cost
@@ -23,7 +23,7 @@ When bash parses YAML or JSON produced by Python's `yaml.safe_dump` /
 `json.dumps`, **the quoting depends on the value's type**:
 
 - `yaml.safe_dump(default_flow_style=False)` emits plain ASCII strings
-  unquoted: `user: aattia` (no quotes around `aattia`).
+  unquoted: `user: alice` (no quotes around `alice`).
 - Numbers, booleans, null are always unquoted.
 - Strings that look like numbers / booleans / contain special
   characters are quoted: `user: "true"`, `user: "123"`, `user: "a: b"`.
@@ -37,7 +37,7 @@ characters, so `awk -F'"'` sees only 1 field.
 
 ```yaml
 # config.yaml produced by yaml.safe_dump(default_flow_style=False):
-user: aattia
+user: alice
 verbose: true
 secret_key: "abc-123"
 ```
@@ -70,7 +70,7 @@ with type-aware quoting:
 
 ### Origin
 
-argo-anywhere 2026-05-14 -- bit 2 sites in the script before being
+Real project, 2026-05-14 -- bit 2 sites in the script before being
 caught. Both were single-line `awk -F'"'` parsers reading a config
 produced by `yaml.safe_dump` (which omitted quotes from plain ASCII
 identifiers).
@@ -120,7 +120,7 @@ network access, telemetry, file-write permissions, etc.):
 
 ### Origin
 
-argo-anywhere 2026-05-14 -- caught during a code-review pass; the
+Real project, 2026-05-14 -- caught during a code-review pass; the
 project was about to ship a v2.0 where `verbose` defaulted from True
 to False (because verbose logging was leaking sensitive content to
 syslog). The `setdefault` would have silently kept upgrading users
@@ -136,11 +136,11 @@ no hint, because the user trusts them.
 
 ### Concrete example
 
-argo-anywhere's session-cleanup error message said:
+A CLI tool's session-cleanup error message said:
 
-> `argo-proxy is still running. To stop it, run: screen -S argovproxy -X quit`
+> `helper-proxy is still running. To stop it, run: screen -S helperproxy -X quit`
 
-But when `argo-proxy` had detached from its `screen` wrapper (e.g.
+But when `helper-proxy` had detached from its `screen` wrapper (e.g.
 because the wrapper crashed but the child kept running), `screen -X
 quit` returned exit 0 and did NOTHING. The user followed the hint,
 saw no error, assumed the cleanup worked, and continued. The next
@@ -154,12 +154,12 @@ For any error-message recovery hint:
    message is about. Don't test it on a clean state where the
    command happens to succeed for a different reason.
 2. **Include the verification step** in the hint:
-   > "To stop it: `screen -S argovproxy -X quit && sleep 1 && pgrep -af argo-proxy`. If `pgrep` returns anything, the detached child needs `kill -9 <pid>` directly."
+   > "To stop it: `screen -S helperproxy -X quit && sleep 1 && pgrep -af helper-proxy`. If `pgrep` returns anything, the detached child needs `kill -9 <pid>` directly."
 3. **If the recovery isn't always-applicable**, name the condition
    explicitly:
-   > "If argo-proxy is running INSIDE its screen wrapper: `screen -S
-   > argovproxy -X quit`. If it's detached (the screen wrapper
-   > crashed): `pkill -f argo-proxy`."
+   > "If helper-proxy is running INSIDE its screen wrapper: `screen -S
+   > helperproxy -X quit`. If it's detached (the screen wrapper
+   > crashed): `pkill -f helper-proxy`."
 4. **Don't suggest commands that print "nothing to do" because the
    recovery already ran**. The user will doubt the original
    diagnosis. Either suppress the redundant invocation OR explain
@@ -167,7 +167,7 @@ For any error-message recovery hint:
 
 ### Origin
 
-argo-anywhere 2026-05-14 -- the misleading hint caused a real
+Real project, 2026-05-14 -- the misleading hint caused a real
 session collision before the rule was added to project conventions.
 
 ---
@@ -182,9 +182,9 @@ never entered) -- either way, you've tested nothing.
 
 ### Concrete example
 
-argo-anywhere had a test 2b: "if `~/.argo-anywhere/config.yaml`
+The project had a test 2b: "if `~/.mytool/config.yaml`
 declares `verbose: True`, then the `status` subcommand should emit
-debug output to stderr". The test ran `argo-anywhere status` and
+debug output to stderr". The test ran `mytool status` and
 asserted on stderr containing "DEBUG:". The test PASSED. But
 `status` was a thin subcommand that NEVER read the config; the debug
 output it emitted came from the unrelated initialisation log. The
@@ -219,7 +219,7 @@ site. Three-step check:
 
 ### Origin
 
-argo-anywhere 2026-05-15 -- 2 instances in the test suite (tests 2b
+Real project, 2026-05-15 -- 2 instances in the test suite (tests 2b
 and 5b) before the rule was added; both were silently invalid
 ("passing") tests.
 
@@ -227,7 +227,7 @@ and 5b) before the rule was added; both were silently invalid
 
 ## 12.5 Shell-script unit-test mechanics: pipe-eats-exit-code; awk function-body extraction fragility
 
-Two specific shell-testing gotchas that bit argo-anywhere:
+Two specific shell-testing gotchas that bit that project:
 
 ### 12.5a Pipe eats upstream exit code
 
@@ -294,7 +294,7 @@ prematurely.
 
 ### Origin
 
-argo-anywhere 2026-05-15 -- the `awk` extraction broke on a function
+Real project, 2026-05-15 -- the `awk` extraction broke on a function
 whose body included a heredoc with a `}` line of embedded Python
 code. Caught when the extracted function failed to run; the agent
 spent ~20 minutes debugging before recognising the extraction
@@ -314,11 +314,11 @@ the user to reverse-engineer scope.
 
 ```text
 # WRONG (action-keyed):
-argo-anywhere exited. To recover, run one of:
-  argo-anywhere status
-  argo-anywhere clean
-  argo-anywhere reset --tunnel-only
-  argo-anywhere kill-screens
+mytool exited. To recover, run one of:
+  mytool status
+  mytool clean
+  mytool stop --proxy-only
+  mytool kill-sessions
 ```
 
 The user has to guess: which command matches the state I'm in? Worse,
@@ -327,13 +327,13 @@ ran -- making the user doubt the original diagnosis.
 
 ```text
 # RIGHT (scope-keyed):
-argo-anywhere exited. The following state is still active:
+mytool exited. The following state is still active:
   - SSH tunnel on localhost:5000 (started at 14:23)
-  - argo-proxy process (PID 12345)
-  - screen session 'argovproxy'
+  - helper-proxy process (PID 12345)
+  - screen session 'helperproxy'
 
-To clean up any of these, see `argo-anywhere clean --help`. To inspect
-without changing state, run `argo-anywhere status`.
+To clean up any of these, see `mytool clean --help`. To inspect
+without changing state, run `mytool status`.
 ```
 
 ### The rule
@@ -362,7 +362,7 @@ facing error message.
 
 ### Origin
 
-argo-anywhere 2026-05-15 -- the action-keyed exit summary caused
+Real project, 2026-05-15 -- the action-keyed exit summary caused
 users to run `clean` when they meant `status`, occasionally killing
 sessions they wanted to inspect.
 
@@ -402,7 +402,7 @@ Do NOT load this reference for:
 ---
 
 *Created 2026-05-17 by A. Attia. Distilled from 6 distinct findings
-(F-03 through F-08) in the argo-anywhere project's
+(F-03 through F-08) in a shell-tooling project's
 `notes/agent_feedback.md`, 2026-05-13 to 2026-05-15. Each rule
 corresponds to a real defect or near-defect the agent caught (or
 missed) during real-project work. The rules are

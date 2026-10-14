@@ -89,7 +89,7 @@ but not as direct competitors:
 Two parallel sub-directories hold entries / artefacts that have moved
 out of the project's active working set but are preserved for
 traceability (convention added 2026-05-20 from real-project evidence
-on argo-anywhere + AmigAI):
+on two projects):
 
 - **[`_resolved/INDEX.md`](_resolved/INDEX.md)** -- `agent_feedback.md`
   entries that have been actioned upstream (codified into a
