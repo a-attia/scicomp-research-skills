@@ -70,6 +70,33 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
   `notes/README.md`, `notes/_resolved/INDEX.md` and
   `notes/_archive/INDEX.md` footers. Those rows are safe to delete.
   Git history is unchanged.
+- **Privacy convention (issue #2).** New root `AGENTS.md` Section 6.7
+  "Public-surface hygiene": describe sources generically ("counted, not
+  attributed"), keep templates and examples fictional, scan before every
+  public write, surface findings rather than deciding, and treat peer
+  review as stricter. Procedure in the new
+  `agent-resource-discipline/references/public-surface-hygiene.md`
+  (threat model, scanner usage, peer-review rules, dates, cleanup).
+  Mechanism:
+  - `bin/privacy-scan.sh` checks staged additions, commit messages,
+    files or stdin (issue bodies), or every tracked file. Generic
+    patterns are always on (home paths, emails outside an allowlist,
+    IPv4, `*.local`). Personal terms come from
+    `~/.config/scicomp-research-skills/private-terms.txt`, which lives
+    outside every repository; `bin/private-terms.example.txt` documents
+    the format, which matches `git filter-repo --replace-text`.
+  - `.githooks/pre-commit` now also scans the staged additions, and the
+    new `.githooks/commit-msg` scans the message. Both block on findings.
+  - New `.github/workflows/privacy-lint.yml` runs the generic checks in
+    CI; `shellcheck.yml` now lints `commit-msg` too.
+  - All four issue templates open with a privacy checklist, ask for a
+    generic project descriptor instead of a name, and coarsen the
+    evidence date to `YYYY-MM`.
+  - `install.sh` prints how to create the personal terms file when it is
+    missing. CONTRIBUTING "Privacy / scope", `persistent-memory.md`, and
+    `human-facing-doc-authoring` rule J point at Section 6.7.
+  The six public issues that named private details were edited the
+  same day (old revisions still need deleting in the GitHub web UI).
 
 ## 2026-05-20 (continued)
 

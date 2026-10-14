@@ -5,6 +5,12 @@ title: "[evidence] #<issue-number>: <project> <date>"
 labels: evidence
 ---
 
+<!-- This tracker is public. Before submitting (AGENTS.md Section 6.7):
+- [ ] Ran `bin/privacy-scan.sh --file <this body>` and resolved every finding
+- [ ] Projects, tools, people, institutions and venues are described generically, not named
+- [ ] Nothing from a manuscript under review, and no venue + date tied to a review
+-->
+
 ## Target proposal
 
 Issue this evidence belongs to:
@@ -20,8 +26,8 @@ time.
 ## Evidence entry
 
 ```text
-Project: <project name or "private">
-Date: YYYY-MM-DD
+Project: <generic descriptor, e.g. "a software project"; never a name>
+Date: YYYY-MM
 Task: <one-line description>
 Pattern observed: <which aspect of the proposed scope showed up>
 Outcome: <how it played out without the proposed skill>

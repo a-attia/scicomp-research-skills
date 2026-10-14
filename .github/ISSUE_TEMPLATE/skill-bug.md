@@ -5,6 +5,12 @@ title: "[bug] <skill name>: <one-line description>"
 labels: bug
 ---
 
+<!-- This tracker is public. Before submitting (AGENTS.md Section 6.7):
+- [ ] Ran `bin/privacy-scan.sh --file <this body>` and resolved every finding
+- [ ] Projects, tools, people, institutions and venues are described generically, not named
+- [ ] Nothing from a manuscript under review, and no venue + date tied to a review
+-->
+
 ## Which skill
 
 Skill name (and reference file, if applicable):

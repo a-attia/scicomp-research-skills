@@ -1,6 +1,6 @@
 ---
 name: agent-resource-discipline
-description: "Use this skill at the start of any non-trivial session in this ecosystem -- the single biggest lever for reducing token / quota / context-window consumption and for keeping the agent productive across sessions. Make sure to load this whenever the work involves more than a few file reads, any PDF handling, multi-file editing, web fetching, or continuation of prior-session work, EVEN IF THE USER DOES NOT MENTION IT. Codifies five disciplines: tool selection (Read/Grep/Glob/Edit/Write over Bash equivalents); PDF lifecycle (one-shot pdftotext + survey-note-first lookup); persistent memory via the project's indices (PLAN.md / collection log / notes index); context-window budgeting; web-fetch caching. A research-flavoured operationalisation of the file-as-memory + just-in-time retrieval patterns from Anthropic's context-engineering guidance and the Manus / planning-with-files / claude-mem prior art (see \"Adjacent prior art + lineage\" inside the skill for citations)."
+description: "Use this skill at the start of any non-trivial session in this ecosystem -- the single biggest lever for reducing token / quota / context-window consumption and for keeping the agent productive across sessions. Make sure to load this whenever the work involves more than a few file reads, any PDF handling, multi-file editing, web fetching, or continuation of prior-session work, EVEN IF THE USER DOES NOT MENTION IT. Codifies six disciplines: tool selection (dedicated tools over Bash); PDF lifecycle (one-shot pdftotext + survey-note-first lookup); persistent memory via the project's indices (PLAN.md / collection log / notes index); context-window budgeting; web-fetch caching; privacy scan before any public write (commits, issues, PRs). A research-flavoured operationalisation of the file-as-memory + just-in-time retrieval patterns from Anthropic's context-engineering guidance and the Manus / planning-with-files / claude-mem prior art (see \"Adjacent prior art + lineage\" inside the skill for citations)."
 license: MIT
 metadata:
   audience: any agent operating in this ecosystem
@@ -86,10 +86,10 @@ them as a research-flavoured operationalisation of the broader
 file-as-memory + just-in-time retrieval patterns now standard in the
 agent-engineering literature.
 
-## The five disciplines
+## The six disciplines
 
 This skill loads a small SKILL.md (you are reading it) and provides
-five per-topic reference files, each loaded on demand. Each codifies
+six per-topic reference files, each loaded on demand. Each codifies
 one resource-management discipline:
 
 | Discipline               | Reference file                          | When to load                                      |
@@ -100,9 +100,10 @@ one resource-management discipline:
 | Persistent memory        | `references/persistent-memory.md`       | Start of any session on a project with PLAN.md / collection log / notes index. |
 | Context-window budget    | `references/context-window-budget.md`   | When loading multiple skills, multiple reference files, or multiple PDFs simultaneously. |
 | Web-fetch discipline     | `references/web-fetch-discipline.md`    | Whenever WebFetch is called in this session.      |
+| Public-surface hygiene   | `references/public-surface-hygiene.md`  | Before any commit, issue, PR or comment in a public repository, or any other text published outside the project. |
 
 Load only the references relevant to the current session. Do NOT load
-all five at once -- that defeats the purpose.
+all six at once -- that defeats the purpose.
 
 ## Critical rules (apply unconditionally; do not require loading a reference file)
 
@@ -462,6 +463,10 @@ maintaining hooks across multiple agent clients exceeds the benefit.
   PDFs simultaneously; when to summarise + close.
 - `references/web-fetch-discipline.md` -- cache-first; bib-fields
   before publisher page; arXiv abstract over PDF.
+- `references/public-surface-hygiene.md` -- privacy on public
+  surfaces: generic provenance, fictional examples, the
+  `bin/privacy-scan.sh` scanner and its personal terms file, peer-review
+  material, cleanup of already-published content.
 - The universal one-liners in
   `~/.scicomp-research-skills/AGENTS.md` Section 6 are a strict subset
   of the rules above; that section is what fires for agents that have
@@ -486,4 +491,7 @@ specification kept here so future work has the design ready). Revised
 2026-09-27: added two rows to "Common rationalizations + rebuttals"
 covering PDF text-extraction order vs visual order, and the prior that
 an external metadata record beats your own extraction on questions of
-title; full treatment in `references/pdf-lifecycle.md` Rung 3.*
+title; full treatment in `references/pdf-lifecycle.md` Rung 3.
+Revised 2026-10-14: added the sixth discipline, public-surface hygiene
+(`references/public-surface-hygiene.md`), backing root AGENTS.md
+Section 6.7.*

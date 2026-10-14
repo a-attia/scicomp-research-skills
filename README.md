@@ -300,7 +300,10 @@ scicomp-research-skills/
 ├── bin/
 │   ├── install.sh             one-time setup on a new machine
 │   ├── refresh.sh             update the canonical checkout
-│   └── uninstall.sh           reverse install.sh (dry-run by default)
+│   ├── uninstall.sh           reverse install.sh (dry-run by default)
+│   ├── privacy-scan.sh        check public-bound text for private
+│   │                          identifiers (AGENTS.md Section 6.7)
+│   └── private-terms.example.txt  format of the personal terms file
 │
 ├── tools/
 │   └── validate_skills.py     SKILL.md validator (vendored, BSD-2;
@@ -319,22 +322,27 @@ scicomp-research-skills/
 │   └── software-skeleton/
 │
 ├── .github/
-│   ├── workflows/             shellcheck + validate-skills CI
+│   ├── workflows/             shellcheck, validate-skills, privacy-lint CI
 │   └── ISSUE_TEMPLATE/        skill-bug, skill-improvement-from-
 │                              experience, new-skill-proposal,
 │                              append-evidence-to-skill-proposal
 │
 └── .githooks/
-    └── pre-commit             refuses commits in the canonical checkout
+    ├── pre-commit             refuses commits in the canonical checkout;
+    │                          privacy-scans the staged additions
+    └── commit-msg             privacy-scans the commit message
 ```
 
 ### What `install.sh` actually does
 
 Four idempotent steps:
 
-1. **Wires the pre-commit hook**: sets `core.hooksPath = .githooks` so
-   the hook that refuses commits in the canonical checkout becomes
-   active.
+1. **Wires the git hooks**: sets `core.hooksPath = .githooks` so the
+   hooks become active. `pre-commit` refuses commits in the canonical
+   checkout and privacy-scans what each commit adds; `commit-msg`
+   privacy-scans the message. To let the scan know your own project
+   names, create `~/.config/scicomp-research-skills/private-terms.txt`
+   from `bin/private-terms.example.txt`.
 2. **Marks scripts executable**: `chmod +x` on `bin/*.sh` and
    `.githooks/*`.
 3. **Creates in-repo filename symlinks** so agents that look for

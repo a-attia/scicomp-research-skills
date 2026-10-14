@@ -121,11 +121,27 @@ Status: open / rolled-up to issue #N / rolled-up to PR #N / wontfix.
 
 The journal lives **in the project repo**, not here. If the project
 repo is private, the journal stays private until the user explicitly
-copies an entry into a public issue or PR here. Sensitive content
-(unpublished results, reviewer identities, internal data) should
-NEVER appear in entries that get rolled up to this public repo --
-the per-project journal is the place to write naturally; the
-roll-up step is where you sanitise.
+copies an entry into a public issue or PR here. The journal is the
+place to write naturally, names and all.
+
+**Everything written to this repository is public**, and that includes
+the maintainer's own commits, not only roll-ups. Skill text, templates,
+examples, `CHANGELOG.md`, commit messages, and issue / PR bodies all
+follow [`AGENTS.md` Section 6.7](AGENTS.md#67-public-surface-hygiene-privacy):
+
+- describe the source of a lesson generically ("a software project",
+  "a talk deck"), never by name;
+- make examples and template rows fictional;
+- run `bin/privacy-scan.sh --file <body>` on any issue or PR body
+  before `gh ... --body-file <body>`. The repository's `pre-commit` and
+  `commit-msg` hooks scan commits automatically;
+- keep a personal terms file at
+  `~/.config/scicomp-research-skills/private-terms.txt` so the scan
+  knows your project names. The format is in
+  `bin/private-terms.example.txt`.
+
+Peer-review material is stricter still; see
+`skills/agent-resource-discipline/references/public-surface-hygiene.md`.
 
 ---
 
@@ -150,8 +166,9 @@ Once you've identified an entry to act on:
    `rolled-up to issue #N` (after filing) or `rolled-up to PR #N`
    so future roll-up passes skip it.
 2. File the appropriate issue or PR (see below).
-3. Sanitise the content during the roll-up step (remove project-
-   specific names, quote only the minimum reproducible context).
+3. Sanitise per [Privacy / scope](#privacy--scope): generic
+   descriptors, the minimum reproducible context, and a
+   `bin/privacy-scan.sh --file` pass on the body before filing.
 
 ---
 
@@ -188,7 +205,7 @@ For changes whose shape is already clear:
    `Revised YYYY-MM-DD (note about the revision)` line.
 4. If touching the root `AGENTS.md`, also update its date-stamp
    footer.
-5. Run `shellcheck -x bin/*.sh .githooks/pre-commit` if you touched
+5. Run `shellcheck -x bin/*.sh .githooks/pre-commit .githooks/commit-msg` if you touched
    shell scripts. (CI runs this on push.)
    If you touched a skill, run `python3 tools/validate_skills.py`
    (needs PyYAML). Errors must be fixed; warnings are advisory, since

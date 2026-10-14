@@ -7,8 +7,9 @@
 #
 # What this does:
 #   1. Configures the local git repo's core.hooksPath to point at .githooks/
-#      so the pre-commit hook (which refuses commits in the canonical
-#      checkout) is active.
+#      so the hooks are active: pre-commit (refuses commits in the
+#      canonical checkout; privacy-scans staged additions) and commit-msg
+#      (privacy-scans the message). See AGENTS.md Section 6.7.
 #   2. Makes hook scripts + bin scripts executable.
 #   3. Creates agent-specific FILENAME symlinks INSIDE the repo so agents
 #      that look for filenames other than AGENTS.md (CLAUDE.md, GEMINI.md,
@@ -293,6 +294,15 @@ else
   echo "Install complete."
 fi
 echo
+TERMS_FILE="${XDG_CONFIG_HOME:-${HOME}/.config}/scicomp-research-skills/private-terms.txt"
+if [[ ! -r "${TERMS_FILE}" ]]; then
+  echo "Privacy scan: no personal terms file at ${TERMS_FILE}."
+  echo "  The commit hooks will run generic checks only. To add your project"
+  echo "  names (kept outside every repo, never committed):"
+  echo "    mkdir -p \"$(dirname "${TERMS_FILE}")\""
+  echo "    cp ${REPO_ROOT_ABS}/bin/private-terms.example.txt \"${TERMS_FILE}\""
+  echo
+fi
 echo "Verify:"
 echo "  ls -l ${REPO_ROOT_ABS}"
 echo "  git -C ${REPO_ROOT_ABS} config core.hooksPath"

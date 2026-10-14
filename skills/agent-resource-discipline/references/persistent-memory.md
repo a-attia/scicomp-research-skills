@@ -202,9 +202,10 @@ entry before the session ends.
 The journal lives in the project repo; nothing leaves until the user
 explicitly rolls an entry up to a public upstream issue or PR. Until
 then it is as private as the project repo itself. Sensitive content
-(unpublished results, reviewer identities) can appear freely; the
-roll-up step in `~/.scicomp-research-skills/CONTRIBUTING.md` is
-where sanitisation happens.
+(unpublished results, reviewer identities) can appear freely. Anything
+that leaves the journal for a public surface follows root `AGENTS.md`
+Section 6.7 and `references/public-surface-hygiene.md`: describe the
+source generically and run `bin/privacy-scan.sh` before publishing.
 
 ## Index hierarchy
 

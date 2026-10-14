@@ -223,6 +223,10 @@ output: a dash inside a command or a citation is not prose.
 - **No personal paths** (`/Users/<name>/`, author-specific directory
   conventions). Use generic placeholders (`<projects-parent-dir>/...`)
   so the doc is publishable without per-author scrubbing.
+- **No private identifiers in a doc that will be public.** Project,
+  tool, collaborator, institution and venue names stay out of public
+  docs; describe them generically. This is root `AGENTS.md` Section 6.7,
+  and `bin/privacy-scan.sh` checks it mechanically.
 - **No claims that are only true on the author's machine.** This is the
   same defect as a personal path, one level up, and it is harder to
   spot because the sentence contains no path at all. "Built locally and

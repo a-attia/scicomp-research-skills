@@ -5,6 +5,12 @@ title: "[improve] <skill name>: <one-line description>"
 labels: enhancement
 ---
 
+<!-- This tracker is public. Before submitting (AGENTS.md Section 6.7):
+- [ ] Ran `bin/privacy-scan.sh --file <this body>` and resolved every finding
+- [ ] Projects, tools, people, institutions and venues are described generically, not named
+- [ ] Nothing from a manuscript under review, and no venue + date tied to a review
+-->
+
 ## Which skill
 
 Skill (and reference file, if applicable):
@@ -34,8 +40,8 @@ was insufficient. **Two or more is much stronger**.
 For each session, give:
 
 ```text
-Project: <project name or "private">
-Date: YYYY-MM-DD
+Project: <generic descriptor, e.g. "a software project"; never a name>
+Date: YYYY-MM
 What the agent was doing: <one-line task description>
 What rule fired (or should have): <skill section + rule>
 What went wrong: <1-3 sentences>

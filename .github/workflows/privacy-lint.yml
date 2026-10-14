@@ -1,0 +1,26 @@
+name: privacy-lint
+
+# Generic privacy checks over every tracked file: absolute home paths,
+# email addresses outside a small allowlist, IPv4 addresses, *.local
+# hostnames. CI has no personal terms list (that file lives only on each
+# maintainer's machine; see AGENTS.md Section 6.7), so this job is the
+# backstop for the generic class only.
+#
+# Run locally from the repository root:
+#   bin/privacy-scan.sh --all --generic
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  privacy-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generic privacy scan
+        run: bin/privacy-scan.sh --all --generic

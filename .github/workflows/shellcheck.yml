@@ -25,7 +25,7 @@ jobs:
       - name: Lint bin/*.sh
         run: shellcheck -x bin/*.sh
       - name: Lint .githooks/*
-        run: shellcheck -x .githooks/pre-commit
+        run: shellcheck -x .githooks/pre-commit .githooks/commit-msg
       - name: Lint templates/**/*.sh
         run: |
           if compgen -G 'templates/**/*.sh' > /dev/null; then

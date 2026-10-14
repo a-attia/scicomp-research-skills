@@ -1,0 +1,31 @@
+# private-terms.example.txt -- format reference for the personal terms
+# file read by bin/privacy-scan.sh.
+#
+# Do NOT put real terms in this file; it is committed to a public
+# repository. Copy it to the location below and edit the copy:
+#
+#   mkdir -p ~/.config/scicomp-research-skills
+#   cp bin/private-terms.example.txt ~/.config/scicomp-research-skills/private-terms.txt
+#
+# (or set SCICOMP_PRIVATE_TERMS to another path outside every repo).
+#
+# Format, one entry per line:
+#   <pattern>==><suggested generic replacement>
+#
+#   - Literal by default, matched case-insensitively.
+#   - Prefix with "regex:" for an extended regular expression.
+#   - The "==>" part is optional; it is printed as the suggestion.
+#   - Blank lines and lines starting with '#' are ignored.
+#
+# The syntax matches git filter-repo --replace-text, so the same file can
+# drive a history rewrite if one is ever needed (strip the "==>..."
+# suggestion or keep it as the replacement).
+#
+# Intentional exceptions (e.g. your own public name in footers) go in a
+# sibling file, allowed-terms.txt, one exact match per line.
+
+ExampleProject==>a software project
+Example Talk Title==>a technical talk
+regex:\bexample-tool(-[a-z]+)?\b==><tool-1>
+Jane Example==>a collaborator
+example-institute.org==><institution-domain>

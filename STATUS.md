@@ -95,6 +95,10 @@ not been tested enough to trust without thought.
   reliably. Turning them into upstream changes has happened once
   systematically (Session A, 2026-05-17) and otherwise piecemeal. See
   [What real use has shown](#what-real-use-has-shown).
+- **The privacy scan** (`bin/privacy-scan.sh` and its hooks, added
+  2026-10-14). It caught every planted case in testing and finds nothing
+  in the current files, but it has not yet run on a real contribution.
+  It only knows the names listed in each user's personal terms file.
 
 ## Evidence count
 
@@ -216,8 +220,9 @@ roll-up in May. The rest came later.
   validator now catches both.
 - **Slides and privacy keep coming back.** Slide-deck work recurs in
   the journals of several projects, and leaks of project-private detail
-  into upstream-bound text recur in several more. These are the two open
-  proposals with the most evidence (#3 and #2).
+  into upstream-bound text recur in several more. These were the two
+  open proposals with the most evidence (#3 and #2). Privacy is now
+  addressed by `AGENTS.md` Section 6.7 and the scanner (2026-10-14).
 
 ## How the framework grew this fast
 

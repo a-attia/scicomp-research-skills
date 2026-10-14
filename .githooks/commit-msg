@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+#
+# commit-msg hook for the scicomp-research-skills repository.
+#
+# Runs bin/privacy-scan.sh on the commit message. Commit messages are
+# public and, unlike files, can only be changed by rewriting history, so
+# a private identifier here is the most expensive kind to remove
+# (AGENTS.md Section 6.7).
+#
+# To bypass after checking every finding is intentional:
+#   git commit --no-verify
+
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+SCAN="${REPO_ROOT}/bin/privacy-scan.sh"
+
+[[ -x "${SCAN}" ]] || exit 0
+
+if ! "${SCAN}" --msg "$1"; then
+  echo "" >&2
+  echo "commit-msg: privacy scan found possible private identifiers in the" >&2
+  echo "commit message (listed above). Describe the source generically, e.g." >&2
+  echo "\"a software project\", and commit again." >&2
+  exit 1
+fi
+exit 0

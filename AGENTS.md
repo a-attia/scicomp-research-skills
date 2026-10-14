@@ -293,6 +293,38 @@ each group are independent.
   `scicomp-research-skills` repo's improvement loop (roll-up
   procedure in CONTRIBUTING.md).
 
+### 6.7 Public-surface hygiene (privacy)
+
+This repository, its commit messages, and its issue tracker are
+public. So is anything else the agent writes to a shared surface on
+the user's behalf. Per-project files (journals, PLAN.md, drafts) are
+private by default and may name things freely.
+
+- **Counted, not attributed.** When citing where a rule or lesson came
+  from, use a generic descriptor ("a software project", "a talk deck",
+  "a peer review"). Never name a project, tool, paper, talk,
+  collaborator, institution, internal venue, or manuscript.
+- **Never on a public surface**: collaborator names; unreleased
+  titles, results, data or code; institution-internal names;
+  absolute home paths, usernames, hostnames; any detail of a
+  manuscript under review (title, authors, ID, findings, or the venue
+  together with the date).
+- **Templates and examples are always fictional.** Templates are copied
+  into every new project and cannot be recalled.
+- **Scan before every public write.** In this repo the pre-commit and
+  commit-msg hooks run `bin/privacy-scan.sh` and block on findings.
+  For issue / PR / comment bodies, write the body to a file, run
+  `bin/privacy-scan.sh --file <body>`, then pass `--body-file`. Never
+  pass a public body inline.
+- **Surface, don't decide.** Report every finding to the user with a
+  suggested replacement. Keeping an identifier needs the user's
+  explicit approval for that identifier on that surface.
+- **Peer review is stricter.** Check the venue's AI policy before an
+  agent reads a manuscript at all.
+
+Procedure, personal-terms setup, and cleanup of already-published
+content: `agent-resource-discipline/references/public-surface-hygiene.md`.
+
 ## 7. Per-project AGENTS.md boilerplate
 
 Per-project `AGENTS.md` files should be short (target ~50-150 lines;

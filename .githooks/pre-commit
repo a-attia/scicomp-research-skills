@@ -13,6 +13,9 @@
 # confusing) or worse, you end up with diverged checkouts whose state is
 # hard to reconcile.
 #
+# It also runs bin/privacy-scan.sh on the staged additions and refuses
+# the commit if it finds private identifiers (AGENTS.md Section 6.7).
+#
 # To bypass this hook (don't): git commit --no-verify
 
 set -euo pipefail
@@ -32,6 +35,21 @@ if [[ -n "${CANONICAL_ABS}" && "${REPO_ROOT_ABS}" == "${CANONICAL_ABS}" ]]; then
   echo "If you genuinely want to commit here (rare; you almost certainly" >&2
   echo "do not), bypass with: git commit --no-verify" >&2
   exit 1
+fi
+
+# Privacy scan of the lines this commit adds (see bin/privacy-scan.sh and
+# AGENTS.md Section 6.7). Blocks the commit on any finding. To bypass
+# after checking every finding is intentional: git commit --no-verify
+SCAN="${REPO_ROOT}/bin/privacy-scan.sh"
+if [[ -x "${SCAN}" ]]; then
+  if ! "${SCAN}" --staged; then
+    echo "" >&2
+    echo "pre-commit: privacy scan found possible private identifiers in the" >&2
+    echo "staged changes (listed above). Replace them with generic descriptors," >&2
+    echo "or, if each one is intentional, add it to allowed-terms.txt or commit" >&2
+    echo "with --no-verify." >&2
+    exit 1
+  fi
 fi
 
 exit 0
