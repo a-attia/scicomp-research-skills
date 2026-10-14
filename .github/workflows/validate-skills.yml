@@ -1,0 +1,45 @@
+name: validate-skills
+
+# Static SKILL.md checks against the Agent Skills spec and the Claude
+# Code / Codex / Antigravity / Cursor loaders. Vendored validator: see
+# tools/validate_skills.py and ATTRIBUTION.md. Errors fail the job;
+# warnings are reported only (many are project-side paths that skills
+# legitimately mention, e.g. references/_collection_log.md).
+#
+# Run locally from the repository root:
+#   python3 -m pip install pyyaml
+#   python3 tools/validate_skills.py
+#   python3 tools/validate_skills.py --profile spec skills/<name>
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**'
+      - 'tools/validate_skills.py'
+      - '.github/workflows/validate-skills.yml'
+  pull_request:
+    paths:
+      - 'skills/**'
+      - 'tools/validate_skills.py'
+      - '.github/workflows/validate-skills.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PyYAML
+        run: python3 -m pip install pyyaml==6.0.2
+      - name: Validate skills
+        run: |
+          python3 tools/validate_skills.py \
+            --format github \
+            --summary "$GITHUB_STEP_SUMMARY" \
+            skills/

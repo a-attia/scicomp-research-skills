@@ -307,6 +307,10 @@ scicomp-research-skills/
 │   ├── refresh.sh             update the canonical checkout
 │   └── uninstall.sh           reverse install.sh (dry-run by default)
 │
+├── tools/
+│   └── validate_skills.py     SKILL.md validator (vendored, BSD-2;
+│                              see ATTRIBUTION.md)
+│
 ├── skills/                    on-demand skills (one folder per skill)
 │   ├── research-paper-writing/
 │   ├── literature-survey/
@@ -320,6 +324,7 @@ scicomp-research-skills/
 │   └── software-skeleton/
 │
 ├── .github/
+│   ├── workflows/             shellcheck + validate-skills CI
 │   └── ISSUE_TEMPLATE/        skill-bug, skill-improvement-from-
 │                              experience, new-skill-proposal,
 │                              append-evidence-to-skill-proposal

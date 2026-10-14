@@ -241,7 +241,8 @@ When the user invokes this skill, the agent should:
   -- a literature-survey pass typically processes many PDFs and
   iterates across sessions, so it is one of the heaviest token
   consumers in this ecosystem. Load this skill (and in particular its
-  `references/pdf-lifecycle.md` and `references/persistent-memory.md`)
+  `agent-resource-discipline/references/pdf-lifecycle.md` and
+  `agent-resource-discipline/references/persistent-memory.md`)
   at the start of any non-trivial literature pass: it codifies the
   one-shot pdftotext + survey-note-first lookup pattern, the
   context-window budget for handling many references, and the first-/

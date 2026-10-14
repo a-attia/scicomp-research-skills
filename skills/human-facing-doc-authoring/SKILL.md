@@ -479,9 +479,9 @@ README during migration, and although nothing was lost, there was
 no discipline forcing the agent to PROVE nothing was lost. This
 section codifies the missing discipline.
 
-The pattern is adapted from the
-[`project-onboarding`](../project-onboarding/references/scenario-2-existing-agentic-files.md)
-skill's Scenario 2.C content-check table -- which solves the same
+The pattern is adapted from the `project-onboarding` skill's
+`project-onboarding/references/scenario-2-existing-agentic-files.md`
+Scenario 2.C content-check table -- which solves the same
 problem for migrating an existing `CLAUDE.md` to a per-project
 `AGENTS.md`. The pattern generalises to ANY substantial doc
 rewrite.

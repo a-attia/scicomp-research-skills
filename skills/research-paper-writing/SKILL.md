@@ -133,10 +133,10 @@ multiple section drafts, or a span across multiple sittings), load
 `~/.scicomp-research-skills/skills/agent-resource-discipline/SKILL.md`
 at session start. In particular:
 
-- `references/persistent-memory.md` -- the first-/last-action
+- `agent-resource-discipline/references/persistent-memory.md` -- the first-/last-action
   protocol that updates `notes/section_<N>.md` and `PLAN.md` status
   fields so the next session resumes cheaply.
-- `references/context-window-budget.md` -- the rule that this skill's
+- `agent-resource-discipline/references/context-window-budget.md` -- the rule that this skill's
   Execution Rule #7 ("do not load all section references at once")
   generalises to: do not load all survey notes at once, do not load
   the full `.txt` extraction of every cited paper -- target-grep

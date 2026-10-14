@@ -190,6 +190,10 @@ For changes whose shape is already clear:
    footer.
 5. Run `shellcheck -x bin/*.sh .githooks/pre-commit` if you touched
    shell scripts. (CI runs this on push.)
+   If you touched a skill, run `python3 tools/validate_skills.py`
+   (needs PyYAML). Errors must be fixed; warnings are advisory, since
+   many flag project-side paths that skills mention on purpose
+   (e.g. `references/_collection_log.md`). CI runs this on push too.
 6. Commit with a conventional-commit-style message
    (`feat:` / `fix:` / `docs:` / `chore:` / `ci:`). For commits
    produced with substantive AI assistance, include a

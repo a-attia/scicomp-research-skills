@@ -51,6 +51,18 @@ git log upstream/main --oneline ^main
 # instead of upstream's research-paper-writing/ at the top level).
 ```
 
+## Vendored tooling
+
+- **`tools/validate_skills.py`** -- static SKILL.md validator (Agent
+  Skills spec + Claude Code / Codex / Antigravity / Cursor loader
+  profiles), copied unmodified from
+  [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-skills)
+  (`tools/validate_skills.py` at commit `efe5955`, 2026-09-24; also
+  mirrored at https://gitlab.osti.gov/genesis/genesis-skills).
+  **License: BSD-2-Clause, (c) 2026 ModCon**; the full licence text is
+  kept beside it at `tools/LICENSE.validate_skills` and governs that
+  file. To update, re-copy the upstream file and bump the commit here.
+
 ## Acknowledgements
 
 Sincere thanks to:
