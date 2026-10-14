@@ -34,6 +34,8 @@ list) are:
   + API design + reproducibility + AI-assisted-coding rules.
 - `project-onboarding` -- inventory-first migration for existing
   projects.
+- `research-slides-authoring` -- talk decks and posters: plan,
+  composition, visual design, render-and-look audit.
 
 Explain why the proposed scope is genuinely separate from each.
 Prefer extending an existing skill where possible -- new skills add

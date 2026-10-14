@@ -95,7 +95,7 @@ the templates index immediately below it; the lists here are the
 human-facing summary as of 2026-10-14.
 
 1. **Skills** -- focused workflow guides the agent loads when it
-   recognises a matching task. 6 ship today (as of 2026-10-14;
+   recognises a matching task. 7 ship today (as of 2026-10-14;
    see [`AGENTS.md` Section 5](AGENTS.md#5-skills-index) for the
    current count):
 
@@ -107,6 +107,7 @@ human-facing summary as of 2026-10-14.
    | [`agent-resource-discipline`](skills/agent-resource-discipline/SKILL.md)   | Token / quota / context-window discipline; first-action / last-action protocols; persistent memory across sessions. |
    | [`research-software-engineering`](skills/research-software-engineering/SKILL.md) | Numerical correctness + testing for numerical code + API design + reproducibility + code-paper coupling + AI-assisted-coding rules. |
    | [`project-onboarding`](skills/project-onboarding/SKILL.md)                 | Inventory-first migration workflow for adopting the framework on an EXISTING project (with or without prior agentic instructions). |
+   | [`research-slides-authoring`](skills/research-slides-authoring/SKILL.md)   | Talk decks and posters in any toolchain: slide plan, assertion-evidence slides, visual design, and a render-and-look audit with a page-render script. |
 
 2. **Templates** -- starter scaffolds you copy into a new project, then
    customise. 2 ship today (as of 2026-10-14; see
@@ -316,7 +317,8 @@ scicomp-research-skills/
 │   ├── human-facing-doc-authoring/
 │   ├── agent-resource-discipline/
 │   ├── research-software-engineering/
-│   └── project-onboarding/
+│   ├── project-onboarding/
+│   └── research-slides-authoring/
 │
 ├── templates/                 starter scaffolds for new projects
 │   ├── paper-skeleton/

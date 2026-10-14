@@ -119,6 +119,26 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
     Section 8 now says to run the validator, and missing footer and
     changelog entries for 2026-06-25, 2026-09-03 and 2026-09-16
     (added above).
+- **New skill: `research-slides-authoring` (issue #3, evidence #4 and
+  #5).** Talk decks and posters in any toolchain, covering content and
+  verification rather than `.pptx` file mechanics. `SKILL.md` (about
+  225 lines) gives the governing test, four principles, phase gates
+  (brief and plan approved by the user; render-and-look after every
+  visual edit), about 45 one-line rules by phase, and a
+  rationalizations table. Nine references cover discovery and brief,
+  deck structure, slide composition, visual design, render and audit,
+  Beamer, Marp, posters (provisional, one poster of evidence) and a
+  self-review checklist. `scripts/audit-pages.sh` renders chosen pages
+  at a pixel size (default 1100 px) and checks that expected headings
+  survive in the PDF text, which catches blocks an overfull slide or
+  flowed poster drops silently. The script ships with the skill rather
+  than a template, so it stays current through `refresh.sh`.
+  Evidence: about 30 sessions across four of the maintainer's projects,
+  in two independent lineages (Beamer and Marp) that reached the same
+  core rules. Rules are renumbered by phase (D, S, C, V, A, X) from the
+  proposal's R-numbers. Both skeleton `AGENTS.md` files list it under
+  "Available but not loaded by default"; `human-facing-doc-authoring`
+  points to it; CI shellchecks `skills/**/*.sh`.
 
 ## 2026-09-16
 

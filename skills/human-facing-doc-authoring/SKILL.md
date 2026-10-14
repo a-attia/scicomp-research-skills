@@ -31,6 +31,9 @@ agent itself, not a downstream tool. In this ecosystem that includes
 - Reviewer responses / rebuttals.
 - Acknowledgement / contribution / changelog files.
 
+For talk decks and posters, load `research-slides-authoring` as well;
+this skill's prose conventions still apply to slide text.
+
 **Always load this skill before** generating any of the above. Other
 skills (`literature-survey`, `research-paper-writing`) cross-reference
 this one for the structural + stylistic conventions they share.

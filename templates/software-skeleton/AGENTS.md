@@ -63,6 +63,11 @@ asks for the matching task.
   framework features. Not relevant for routine implementation /
   testing / release work.
 
+- `~/.scicomp-research-skills/skills/research-slides-authoring/SKILL.md`
+  -- load when making or revising a talk deck or poster about this
+  library (release talk, seminar, tutorial, funder briefing). Fill in
+  the "Audience composition" field below first; the skill reads it.
+
 ---
 
 ## Project facts

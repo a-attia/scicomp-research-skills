@@ -48,6 +48,11 @@ asks for the matching task.
   framework features. Not relevant for routine drafting / experiment
   / reviewer-response work.
 
+- `~/.scicomp-research-skills/skills/research-slides-authoring/SKILL.md`
+  -- load when making or revising a talk deck or poster from this
+  project (conference talk, seminar, defense, funder briefing). Fill
+  in the "Audience composition" field above first; the skill reads it.
+
 ---
 
 ## Project facts

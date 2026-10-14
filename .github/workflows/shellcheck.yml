@@ -7,12 +7,14 @@ on:
       - 'bin/**'
       - '.githooks/**'
       - 'templates/**/*.sh'
+      - 'skills/**/*.sh'
       - '.github/workflows/shellcheck.yml'
   pull_request:
     paths:
       - 'bin/**'
       - '.githooks/**'
       - 'templates/**/*.sh'
+      - 'skills/**/*.sh'
       - '.github/workflows/shellcheck.yml'
 
 jobs:
@@ -30,4 +32,9 @@ jobs:
         run: |
           if compgen -G 'templates/**/*.sh' > /dev/null; then
             find templates -name '*.sh' -print0 | xargs -0 shellcheck -x
+          fi
+      - name: Lint skills/**/*.sh
+        run: |
+          if compgen -G 'skills/*/scripts/*.sh' > /dev/null; then
+            find skills -name '*.sh' -print0 | xargs -0 shellcheck -x
           fi

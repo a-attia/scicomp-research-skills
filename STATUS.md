@@ -99,6 +99,12 @@ not been tested enough to trust without thought.
   2026-10-14). It caught every planted case in testing and finds nothing
   in the current files, but it has not yet run on a real contribution.
   It only knows the names listed in each user's personal terms file.
+- **[`research-slides-authoring`](skills/research-slides-authoring/SKILL.md)**
+  (added 2026-10-14). Its rules come from about 30 real sessions across
+  four projects in two toolchain lineages, so the content is grounded.
+  The packaging is new: the phase gates, the consolidated rule set and
+  `scripts/audit-pages.sh` have not yet been used on a real deck. The
+  poster reference rests on a single poster.
 
 ## Evidence count
 
@@ -111,15 +117,14 @@ last column before quoting them elsewhere.
 | Per-project feedback journals | 15 journals, about 8,800 lines, about 150 entries | Same |
 | Findings applied upstream from project evidence | about 17 | [`CHANGELOG.md`](CHANGELOG.md) and `git log` |
 | Systematic roll-up sessions | 1 | Session A, 2026-05-17 |
-| Open GitHub issues | 6 | 5 proposals, 2 evidence appends, less #2 (closed by the privacy convention) |
+| Open GitHub issues | 2 | Of 7 filed: #2 closed by the privacy convention, #3 to #5 by the slides skill (2026-10-14) |
 | Issues or pull requests from anyone but the maintainer | 0 | GitHub |
 | Known external users who bootstrapped a project | 0 | (1 public fork exists) |
 
-The open issues are two new-skill proposals (monograph writing #1 and
-slide authoring #3), a peer-review pair (a standing compliance
-checklist, #6, and an authorship-forensics reference, #7), and two
-evidence appends to the slides proposal (#4 and #5). The privacy
-convention proposal (#2) was implemented on 2026-10-14.
+Still open: monograph writing (#1), deferred, and a peer-review pair
+(a standing compliance checklist, #6, and an authorship-forensics
+reference, #7). Implemented on 2026-10-14: the privacy convention (#2)
+and slide authoring (#3, with evidence appends #4 and #5).
 
 ## Roadmap to "no longer provisional"
 
@@ -221,8 +226,9 @@ roll-up in May. The rest came later.
 - **Slides and privacy keep coming back.** Slide-deck work recurs in
   the journals of several projects, and leaks of project-private detail
   into upstream-bound text recur in several more. These were the two
-  open proposals with the most evidence (#3 and #2). Privacy is now
-  addressed by `AGENTS.md` Section 6.7 and the scanner (2026-10-14).
+  open proposals with the most evidence (#3 and #2). Both shipped on
+  2026-10-14: `AGENTS.md` Section 6.7 with the scanner, and the
+  `research-slides-authoring` skill.
 
 ## How the framework grew this fast
 
