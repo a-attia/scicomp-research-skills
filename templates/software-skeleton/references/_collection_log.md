@@ -34,6 +34,15 @@ considered**. The `_collection_log.md` is the audit trail; the
 entries; the `notes/survey_<citekey>.md` files (if used) hold the
 per-paper deep-read summaries.
 
+## Search log
+
+(One row per query, from Step 0 of the `literature-survey` skill:
+`references/literature-search.md`. Recording queries, hit counts and
+drop reasons is what makes the search reproducible.)
+
+| Date | Source | Query | Hits | Kept | Notes |
+|:-----|:-------|:------|-----:|-----:|:------|
+
 ## Deliverables produced
 
 (List artefacts as they are added to support the cited algorithms.)

@@ -23,6 +23,16 @@ A short paragraph describing which sections of the paper's plan-of-record
 this log covers, and what is intentionally out of scope (deferred to
 later passes).
 
+## Search log
+
+One row per query made while finding candidates (Step 0; see
+`references/literature-search.md` section 5 for the format and an
+example). Omit the section if the candidates were handed over, not
+searched for.
+
+| Date | Source | Query | Hits | Kept | Notes |
+|:-----|:-------|:------|-----:|-----:|:------|
+
 ## Deliverables produced
 
 A bulleted list of artefacts produced by this collection effort:

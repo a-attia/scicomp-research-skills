@@ -17,7 +17,7 @@ also used by `agent-resource-discipline` and codified by Anthropic's
 `skill-creator`:
 
 - **Level 1 (always in context once loaded)**: this `SKILL.md`,
-  ~200 lines. Contains the universal principles + a workflow table
+  ~340 lines. Contains the universal principles + a workflow table
   showing which reference to load for which task.
 - **Level 2 (loaded on demand by name)**: the `references/*.md`
   files -- one per discipline. Loaded only when a session actually
@@ -202,8 +202,10 @@ In the meantime, when one of the planned phases comes up, fall back
 on: (a) the universal principles + AI-assisted-coding rules in this
 SKILL.md; (b) the cited upstream references (Scientific Python
 Development Guide, JOSS criteria, etc.); (c) the
-`research-software-engineering` skill's `references/01` and `02`
-which cover correctness + testing in depth.
+`research-software-engineering` skill's
+`references/01-numerical-correctness.md` and
+`references/02-testing-for-numerical-code.md`, which cover correctness +
+testing in depth.
 
 ## Workflow rules
 
@@ -310,7 +312,7 @@ this skill is the first cut at filling that gap. Currently ships
 companion `templates/software-skeleton/` (with bootstrap.sh
 delegating to scientific-python/cookie | NLeSC/python-template |
 CU-DBMI/template-uv-python-research-software | JuliaBesties/BestieTemplate.jl
-+ MULTI-LANGUAGE.md guidance) shipped 2026-05-13. The remaining 7
++ MULTI-LANGUAGE.md guidance) shipped 2026-05-13. The remaining 8
 references (03 API design, 04 performance, 05 reproducibility infra,
 06 CI/CD, 07 lifecycle, 08 code-paper coupling, 09 numerical-launch,
 10 numerical-debug) are planned in PR2 + PR4 per the audit's
@@ -331,7 +333,10 @@ themselves be tested; test stimulus must exercise the assertion
 site; shell-script unit-test mechanics; exit-summary scope-keyed
 hints). Reference 12 moved from the "Planned references" table to
 the live workflow table. The framework's "research-software-
-engineering" skill now ships 4 references (01, 02, 11, 12); 7
-remain planned (03-10, less 12). Revised 2026-10-14: front-loaded the
+engineering" skill now ships 4 references (01, 02, 11, 12); 8
+remain planned (03-10). Revised 2026-09-16: added universal principle
+9, "Survey the library before extending it", from real-project
+feedback. Revised 2026-10-14: front-loaded the
 frontmatter description so its first ~480 characters (Cursor's
-truncation budget) carry the load triggers and scope.*
+truncation budget) carry the load triggers and scope; corrected the
+planned count from 7 to 8 (reference 12 was never on the planned list).*

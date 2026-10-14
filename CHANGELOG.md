@@ -1,9 +1,9 @@
 # Changelog
 
-Revision history of the root `AGENTS.md` of `scicomp-research-skills`,
-moved here on 2026-05-14 to keep the AGENTS.md file focused on its
-agent-facing content. Per-skill revision history continues to live at
-the foot of each skill's `SKILL.md`. Per-template revision history
+Revision history of `scicomp-research-skills`: the root `AGENTS.md`
+(whose history moved here on 2026-05-14), the tooling, and any change
+to skills or templates large enough to note. Per-skill detail continues
+to live at the foot of each skill's `SKILL.md`. Per-template revision history
 lives at the foot of each template's individual files.
 
 This file follows the AGENTS.md universal-convention date-stamp-footer
@@ -56,7 +56,8 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
   are not. Added the lessons learned since May (projects vendor and
   stop refreshing; projects write their own skills; feedback outpaces
   roll-up; strict loaders fail silently; slides and privacy recur).
-  Fixed the "8 missing" versus "7 remain" contradiction. Project names
+  Settled the "8 missing" versus "7 remain" contradiction (corrected
+  later the same day: 8 remain, see below). Project names
   removed from STATUS.md and the README status callout at the
   maintainer's request: evidence is counted, not attributed.
 - **Project names removed from all tracked files.** Skill text,
@@ -97,6 +98,68 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
     `human-facing-doc-authoring` rule J point at Section 6.7.
   The six public issues that named private details were edited the
   same day (old revisions still need deleting in the GitHub web UI).
+- **Audit of every commit since 2026-05-20.** Fixes:
+  - `research-software-engineering` reference count corrected to four
+    of twelve shipped and eight planned. The earlier "7 remain"
+    figures (here, in STATUS.md and in the skill footer) had counted
+    reference 12 as planned.
+  - The dash check in `human-facing-doc-authoring` used `\u2014` in
+    `grep -E`, which matches the text "u2014" rather than an em dash;
+    it now matches the literal characters.
+  - `uninstall.sh --deep` unset `core.hooksPath` even when run from a
+    dev checkout, despite promising never to touch one. It now does so
+    only in the canonical checkout, and dry-run totals match the real
+    run.
+  - Drift: the `AGENTS.md` provisional callout (still dated 2026-05-14),
+    reference 12 missing from `AGENTS.md` 11.B and the README, the
+    `_resolved/` and `_archive/` folders missing from the template
+    inventories, Step 0 missing from the paper-skeleton `AGENTS.md`
+    and the new-skill issue template, a "Search log" section added to
+    the collection-log template and both skeleton stubs, `AGENTS.md`
+    Section 8 now says to run the validator, and missing footer and
+    changelog entries for 2026-06-25, 2026-09-03 and 2026-09-16
+    (added above).
+
+## 2026-09-16
+
+- **Survey a library before extending it.** New universal principle 9
+  in `research-software-engineering`. An agent concluded from one
+  header that a library lacked a capability, reimplemented it four
+  times in one session, and got a result that disagreed with the
+  library's by a factor of 2.4 because the library encoded a domain
+  convention the rewrite did not know.
+- **No machine-local claims.** `human-facing-doc-authoring` rule J now
+  covers sentences that contain no path but are true only on the
+  author's disk ("built locally and benchmarked").
+- **Prose habits that read as machine-written.** New subsection in
+  `human-facing-doc-authoring` section I (dashes as punctuation,
+  chained semicolons, long sentences, filler, escalations), with a
+  grep to check them.
+- **Frontmatter quoting fix.** Three `SKILL.md` descriptions contained
+  `": "`, which YAML reads as a mapping key, so strict parsers got
+  nothing. Quoted, no text changed.
+
+## 2026-09-03
+
+- **Trailing whitespace removed** from three `research-paper-writing`
+  reference files, which failed `git diff --check` in a project that
+  vendors the skill. One meaningful two-space line break became an
+  explicit `<br>`.
+
+## 2026-06-25
+
+- **Verified client-compatibility matrix.** Checked each agent client
+  against current vendor documentation. `~/.agents/skills` became the
+  canonical multi-agent path (Codex CLI user scope, Cursor, Gemini CLI,
+  Copilot); `~/.cursor/skills` and `~/.copilot/skills` were added;
+  `~/.codex/skills` was relabelled legacy. `install.sh`,
+  `uninstall.sh` and the README compatibility section updated together.
+- **`uninstall.sh` output restyled**: banner, sections, glyph-tagged
+  status lines and a summary box, colour only on a TTY, with the log
+  file kept plain ASCII. Also fixed a dry-run hint that printed
+  `--deep` when it had not been passed.
+- **README adoption prompt** shortened to a self-contained one-liner.
+- **Typo** in `research-paper-writing` ("Paper Rview").
 
 ## 2026-05-20 (continued)
 
@@ -229,9 +292,9 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
     12 moved from the SKILL.md "Planned references" table to the live
     "Workflow table"; SKILL.md footer updated. The framework's
     `research-software-engineering` skill now ships 4 references
-    (01, 02, 11, 12); 7 remain planned (03, 04, 05, 06, 07, 08, 09,
-    10 -- subtract 12 from the original 8-references-still-planned
-    count). Each rule cites its real-project origin + concrete
+    (01, 02, 11, 12); 8 remain planned (03, 04, 05, 06, 07, 08, 09,
+    10). [Corrected 2026-10-14: this entry originally said 7, but
+    reference 12 was never on the planned list.] Each rule cites its real-project origin + concrete
     example.
   - **F-02**: `skills/human-facing-doc-authoring/SKILL.md` gains a
     "Rewriting an existing substantial doc" subsection (~80 lines)

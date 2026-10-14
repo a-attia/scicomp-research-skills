@@ -21,7 +21,8 @@ Load on demand, not all at once:
   -- section-by-section drafting + paragraph-clarity check + claim-evidence
   alignment + adversarial review.
 - `~/.scicomp-research-skills/skills/literature-survey/SKILL.md`
-  -- bibtex + PDF + pdftotext + survey-note workflow for the bibliography.
+  -- finding candidate papers, then bibtex + PDF + pdftotext +
+  survey-note workflow for the bibliography.
 - `~/.scicomp-research-skills/skills/human-facing-doc-authoring/SKILL.md`
   -- load whenever authoring or substantially revising any
   human-facing project doc (README.md, PLAN.md, `notes/survey_*.md`,

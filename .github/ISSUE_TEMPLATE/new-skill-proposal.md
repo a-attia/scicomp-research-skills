@@ -22,14 +22,14 @@ One-paragraph scope:
 
 ## Why this isn't covered by an existing skill
 
-The shipped skills today (as of 2026-05-20; see
+The shipped skills today (as of 2026-10-14; see
 [`AGENTS.md` Section 5](../../AGENTS.md#5-skills-index) for current
 list) are:
 
 - `research-paper-writing` -- paper drafting + adversarial review.
-- `literature-survey` -- bib + PDF + survey-note workflow.
+- `literature-survey` -- finding candidates, then bib + PDF + survey-note workflow.
 - `human-facing-doc-authoring` -- README/PLAN/notes/log conventions.
-- `agent-resource-discipline` -- token / context / memory hygiene.
+- `agent-resource-discipline` -- token / context / memory hygiene, public-surface privacy.
 - `research-software-engineering` -- numerical correctness + testing
   + API design + reproducibility + AI-assisted-coding rules.
 - `project-onboarding` -- inventory-first migration for existing

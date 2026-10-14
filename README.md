@@ -92,10 +92,10 @@ Two reusable building blocks, both loaded on demand by your agent.
 For the canonical inventory (always-current), see the
 [skills index in `AGENTS.md` Section 5](AGENTS.md#5-skills-index) +
 the templates index immediately below it; the lists here are the
-human-facing summary as of 2026-05-20.
+human-facing summary as of 2026-10-14.
 
 1. **Skills** -- focused workflow guides the agent loads when it
-   recognises a matching task. 6 ship today (as of 2026-05-20;
+   recognises a matching task. 6 ship today (as of 2026-10-14;
    see [`AGENTS.md` Section 5](AGENTS.md#5-skills-index) for the
    current count):
 
@@ -109,7 +109,7 @@ human-facing summary as of 2026-05-20.
    | [`project-onboarding`](skills/project-onboarding/SKILL.md)                 | Inventory-first migration workflow for adopting the framework on an EXISTING project (with or without prior agentic instructions). |
 
 2. **Templates** -- starter scaffolds you copy into a new project, then
-   customise. 2 ship today (as of 2026-05-20; see
+   customise. 2 ship today (as of 2026-10-14; see
    [`AGENTS.md` Section 5](AGENTS.md#5-skills-index) templates
    sub-table for the current count):
 
@@ -292,7 +292,7 @@ scicomp-research-skills/
 ├── AGENTS.md                  entry point for AI agents (read this first)
 ├── README.md                  you are here
 ├── STATUS.md                  provisional-framework honesty callout
-├── CHANGELOG.md               root-AGENTS.md revision history
+├── CHANGELOG.md               repository revision history
 ├── CONTRIBUTING.md            feedback-channel + roll-up procedure
 ├── ATTRIBUTION.md             upstream lineage and divergence notes
 ├── LICENSE                    MIT (dual copyright, see ATTRIBUTION.md)
@@ -306,8 +306,9 @@ scicomp-research-skills/
 │   └── private-terms.example.txt  format of the personal terms file
 │
 ├── tools/
-│   └── validate_skills.py     SKILL.md validator (vendored, BSD-2;
-│                              see ATTRIBUTION.md)
+│   ├── validate_skills.py     SKILL.md validator (vendored, BSD-2;
+│   │                          see ATTRIBUTION.md)
+│   └── LICENSE.validate_skills
 │
 ├── skills/                    on-demand skills (one folder per skill)
 │   ├── research-paper-writing/
@@ -424,10 +425,13 @@ Five steps, expanded from the Quick Start:
    - `README.md` -- human-facing project description.
    - `.gitignore` -- excludes PDFs, `.txt` extractions, experiment
      artefacts, LaTeX build files.
+   - `CITATION.cff`, `.gitmessage` (commit template with the AI
+     co-author trailer), and `.github/ISSUE_TEMPLATE/`.
    - `references/` -- with stub `bibliography.bib` and
      `_collection_log.md`.
    - `notes/` -- with stub `README.md` (an index over future survey
-     notes).
+     notes), `agent_feedback.md` (where the skills fell short), and
+     `_resolved/` + `_archive/` indexes.
    - `experiments/`, `figures/`, `drafts/` -- empty, with `.gitkeep`s.
 
 3. **Customise the four files with `<...>` placeholders.** Each file
@@ -538,7 +542,8 @@ Now open the project in your agent client. The agent will:
    gotchas). For test design, `references/02-testing-for-numerical-code.md`
    (3-tier suite + diagnostic tests). For AI-assisted-coding rules,
    `references/11-ai-assisted-coding-rules.md` (Bridgeford et al. 2025
-   condensed to checklist).
+   condensed to checklist). For shell scripts and cross-language data
+   exchange, `references/12-shell-and-cross-language-interop.md`.
 4. Always also load `skills/agent-resource-discipline/` for the
    first-action / last-action protocols.
 5. Load `skills/human-facing-doc-authoring/` whenever touching

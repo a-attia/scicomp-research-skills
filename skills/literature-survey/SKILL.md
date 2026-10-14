@@ -27,11 +27,12 @@ Load this skill when the user is:
 
 A research paper's bibliography drives credibility. Stale, mis-attributed,
 or unverified entries embarrass the author at submission time. This skill
-defines a **5-step workflow** for building a verified literature corpus
+defines a **workflow of five steps plus an optional Step 0** (finding
+candidates) for building a verified literature corpus
 and a deliverables structure that future-you (or a collaborator) can
 audit and extend.
 
-The five steps:
+The steps:
 
 0. *(When candidates are not yet in hand)* Find them: see "Step 0"
    below.

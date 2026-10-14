@@ -211,7 +211,7 @@ dash, and the en dash equally.
 person to see them:
 
 ```bash
-grep -nE ' -- |\u2014|\u2013' <doc>          # dashes used as punctuation
+grep -nE ' -- |—|–' <doc>                    # dashes used as punctuation
 grep -nE '[^;]*;[^;]*;' <doc>            # two semicolons in one line
 ```
 
@@ -401,8 +401,9 @@ README.md was missed. F-20 prevents that miss.
   prevents it.
 - For projects with substantial structural change (multi-file
   refactor, new file format, migrated layout), additionally
-  consult the `project-onboarding` skill's `references/scenario-2-
-  existing-agentic-files.md` Scenario 2.C content-check pattern.
+  consult the `project-onboarding` skill's
+  `references/scenario-2-existing-agentic-files.md` Scenario 2.C
+  content-check pattern.
 - The audit list above is the DEFAULT; per-project AGENTS.md MAY
   extend it (e.g. a CITATION.cff'd software repo might add
   `CITATION.cff` to the per-project list; a paper repo with
@@ -616,4 +617,10 @@ substantial doc" section (F-02; ~80 lines after Authoring workflow)
 in universal conventions). Revised 2026-05-20: added subsection L
 "Downstream-doc audit before commit" (F-20; ~110 lines in universal
 conventions after K), codifying the cross-doc drift-prevention
-discipline motivated by the 2026-05-20 README.md gap.*
+discipline motivated by the 2026-05-20 README.md gap. Revised
+2026-09-16: extended rule J to machine-local claims; added "Prose habits
+that mark a document as machine-written" to section I. Revised
+2026-10-14: the dash check now matches the literal em and en dash
+characters (`\u2014` in `grep -E` matched the text "u2014", not the
+dash); rule J points at root AGENTS.md Section 6.7 for private
+identifiers.*

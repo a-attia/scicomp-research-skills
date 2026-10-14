@@ -386,9 +386,20 @@ note ""
 if (( DEEP )); then
   section "3/3" "Deep uninstall: git config + canonical checkout"
 
-  # 3a. git config core.hooksPath unset.
-  if (( DRY_RUN )); then
+  # 3a. git config core.hooksPath unset -- only in the canonical
+  # checkout. A dev checkout keeps its hooks (they guard against private
+  # identifiers in commits), and the "dev checkouts are never touched"
+  # promise covers its git config too.
+  CANONICAL_ABS="$(cd "${CANONICAL}" 2>/dev/null && pwd -P || echo "")"
+  IS_CANONICAL=0
+  [[ -n "${CANONICAL_ABS}" && "${REPO_ROOT_ABS}" == "${CANONICAL_ABS}" ]] && IS_CANONICAL=1
+
+  if (( ! IS_CANONICAL )); then
+    status skip "skip (not canonical)    git config core.hooksPath left as is"
+    COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
+  elif (( DRY_RUN )); then
     status remove "would unset           git config core.hooksPath in ${REPO_ROOT_ABS}"
+    COUNT_REMOVED=$((COUNT_REMOVED + 1))
   else
     if git -C "${REPO_ROOT_ABS}" config --get core.hooksPath >/dev/null 2>&1; then
       git -C "${REPO_ROOT_ABS}" config --unset core.hooksPath
@@ -401,7 +412,6 @@ if (( DEEP )); then
   fi
 
   # 3b. Delete the canonical checkout (only if THIS checkout IS the canonical one).
-  CANONICAL_ABS="$(cd "${CANONICAL}" 2>/dev/null && pwd -P || echo "")"
 
   if [[ -z "${CANONICAL_ABS}" ]]; then
     status ok "absent (nothing to do)  canonical checkout ${CANONICAL}"
@@ -426,6 +436,7 @@ if (( DEEP )); then
       COUNT_WARNED=$((COUNT_WARNED + 1))
     elif (( DRY_RUN )); then
       status remove "would delete checkout ${CANONICAL_ABS}"
+      COUNT_REMOVED=$((COUNT_REMOVED + 1))
       printf '    %s(dev checkouts at any other path are NOT touched)%s\n' "${C_DIM}" "${C_RESET}"
       log_action "    (dev checkouts at any other path are NOT touched)"
     else
@@ -466,8 +477,9 @@ if (( DEEP )); then
   # was actually deleted; an aborted or refused deep uninstall keeps its
   # audit trail. We cannot delete it here (log_action keeps appending
   # until the very end), so the actual removal is the script's final action.
-  if (( DRY_RUN )); then
+  if (( DRY_RUN )) && (( IS_CANONICAL )); then
     status remove "would remove log      ${LOG_FILE} (if checkout is deleted)"
+    COUNT_REMOVED=$((COUNT_REMOVED + 1))
   elif (( CHECKOUT_DELETED )); then
     status remove "will remove log       ${LOG_FILE} (as final action)"
     COUNT_REMOVED=$((COUNT_REMOVED + 1))

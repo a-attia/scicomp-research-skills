@@ -8,11 +8,11 @@ This file follows the [agents.md](https://agents.md/) open standard.
 Agent clients that look for other filenames (e.g. `CLAUDE.md`) read this
 same content via symlinks created by `bin/install.sh`.
 
-> **PROVISIONAL FRAMEWORK** (as of 2026-05-14): some skill content
+> **PROVISIONAL FRAMEWORK** (as of 2026-10-14): some skill content
 > here is well-grounded (research-paper-writing, literature-survey,
-> paper-skeleton template); other skill content is informed prediction
-> from prior-art audits but **has not yet been validated by any real
-> research-project session**. When a rule feels speculative or
+> paper-skeleton, the Python branch of software-skeleton) after use on
+> real projects; other content is informed prediction from prior-art
+> audits and **has not yet been tested by real use**. When a rule feels speculative or
 > doesn't quite fit the situation, **surface that to the user
 > explicitly** + append an entry to the project's
 > `notes/agent_feedback.md` (per
@@ -171,8 +171,8 @@ into a fresh project directory and customise.
 
 | Template                       | Purpose                                                                  |
 |:-------------------------------|:-------------------------------------------------------------------------|
-| `templates/paper-skeleton/`    | Starter files for a new scientific-computing paper repo: AGENTS.md (per-project entry; loads paper-writing + literature-survey + human-facing-doc-authoring + agent-resource-discipline + project-onboarding-on-demand), PLAN.md (paper plan-of-record skeleton with reading-list + test-case + experiment-protocol + paper-outline sections), README.md (human-facing project description), CITATION.cff (for the supporting code/data repo, distinct from the paper's own DOI; Zenodo handshake instructions baked in), .gitignore, references/{bibliography.bib, _collection_log.md} stubs, notes/{README.md, agent_feedback.md}, experiments/README.md (per-run snapshot discipline including metadata.json schema), figures/README.md (figure-generation provenance + per-figure README convention), .github/ISSUE_TEMPLATE/{reviewer-comment-followup, experiment-rerun-needed, figure-update-needed}.md (paper-flavoured issue templates), .gitkeep stubs for experiments/ + figures/ + drafts/. |
-| `templates/software-skeleton/` | Starter files for a new scientific-computing software project. Paper-coupling layer (AGENTS.md, PLAN.md, README.md, CITATION.cff with Zenodo handshake, .gitignore, experiments/README.md per-run snapshot discipline, figures/README.md provenance, notes/README.md, references/_collection_log.md, .github/ISSUE_TEMPLATE/{numerical-correctness-regression, api-ergonomics, performance-regression}) is **language-agnostic**. Package layer (build manifest, src/, tests/, docs/, CI configs) is delegated by bootstrap.sh to one of: scientific-python/cookie (BSD-3, Python, default) / NLeSC/python-template (Apache-2.0, Python, FAIR-aware) / CU-DBMI/template-uv-python-research-software (BSD-3, Python, uv-first) / JuliaBesties/BestieTemplate.jl (MPL-2.0, Julia). For C++ / Rust / Fortran / MATLAB / Mathematica: no upstream is bundled; see `templates/software-skeleton/MULTI-LANGUAGE.md` for the per-language placeholder-translation table -- the paper-coupling layer applies regardless of language. |
+| `templates/paper-skeleton/`    | Starter files for a new scientific-computing paper repo: AGENTS.md (per-project entry; loads paper-writing + literature-survey + human-facing-doc-authoring + agent-resource-discipline + project-onboarding-on-demand), PLAN.md (paper plan-of-record skeleton with reading-list + test-case + experiment-protocol + paper-outline sections), README.md (human-facing project description), CITATION.cff (for the supporting code/data repo, distinct from the paper's own DOI; Zenodo handshake instructions baked in), .gitignore, references/{bibliography.bib, _collection_log.md} stubs, notes/{README.md, agent_feedback.md, _resolved/INDEX.md, _archive/INDEX.md}, experiments/README.md (per-run snapshot discipline including metadata.json schema), figures/README.md (figure-generation provenance + per-figure README convention), .github/ISSUE_TEMPLATE/{reviewer-comment-followup, experiment-rerun-needed, figure-update-needed}.md (paper-flavoured issue templates), .gitkeep stubs for experiments/ + figures/ + drafts/. |
+| `templates/software-skeleton/` | Starter files for a new scientific-computing software project. Paper-coupling layer (AGENTS.md, PLAN.md, README.md, CITATION.cff with Zenodo handshake, .gitignore, experiments/README.md per-run snapshot discipline, figures/README.md provenance, notes/{README.md, agent_feedback.md, _resolved/INDEX.md, _archive/INDEX.md}, references/_collection_log.md, .github/ISSUE_TEMPLATE/{numerical-correctness-regression, api-ergonomics, performance-regression}) is **language-agnostic**. Package layer (build manifest, src/, tests/, docs/, CI configs) is delegated by bootstrap.sh to one of: scientific-python/cookie (BSD-3, Python, default) / NLeSC/python-template (Apache-2.0, Python, FAIR-aware) / CU-DBMI/template-uv-python-research-software (BSD-3, Python, uv-first) / JuliaBesties/BestieTemplate.jl (MPL-2.0, Julia). For C++ / Rust / Fortran / MATLAB / Mathematica: no upstream is bundled; see `templates/software-skeleton/MULTI-LANGUAGE.md` for the per-language placeholder-translation table -- the paper-coupling layer applies regardless of language. |
 
 ## 6. Universal conventions
 
@@ -376,8 +376,12 @@ locations.
      deep-dive material loaded on demand from within the skill itself.
    - End with a date-stamped revision footer.
 3. Append a row to the skills index table in this AGENTS.md (Section 5).
-4. Commit + push from the dev checkout.
-5. On any machine that needs the new skill, run
+4. Run `python3 tools/validate_skills.py skills/<skill-name>` (needs
+   PyYAML). Fix every error; warnings are advisory. CI runs the same
+   check on push.
+5. Commit + push from the dev checkout. The commit hooks run the
+   privacy scan (Section 6.7); describe the skill's origin generically.
+6. On any machine that needs the new skill, run
    `~/.scicomp-research-skills/bin/refresh.sh`.
 
 ### Skill name validation rules (from OpenCode skills spec)
@@ -432,7 +436,7 @@ literature-survey + human-facing-doc-authoring + agent-resource-discipline
 + project-onboarding-on-demand), PLAN.md (paper plan-of-record skeleton),
 README.md, CITATION.cff (Zenodo handshake instructions baked in),
 .gitignore, references/{bibliography.bib, _collection_log.md} stubs,
-notes/{README.md, agent_feedback.md},
+notes/{README.md, agent_feedback.md, _resolved/INDEX.md, _archive/INDEX.md},
 experiments/README.md (per-run snapshot discipline including
 metadata.json schema), figures/README.md (figure-generation provenance),
 .github/ISSUE_TEMPLATE/ (paper-flavoured templates), and .gitkeep stubs.
@@ -524,7 +528,7 @@ and skills are software-ready as of 2026-05-13.
    ```
 
 After bootstrap, the agent loads `research-software-engineering`
-(primary skill; references 01 + 02 + 11 currently shipped) +
+(primary skill; references 01 + 02 + 11 + 12 currently shipped) +
 `agent-resource-discipline` (always; first-/last-action protocols) +
 `human-facing-doc-authoring` (when touching docs) + `literature-survey`
 (when adding algorithmic references) on demand. Per-project AGENTS.md

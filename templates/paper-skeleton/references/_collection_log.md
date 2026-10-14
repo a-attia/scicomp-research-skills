@@ -8,6 +8,15 @@
 (Describe which sections of PLAN.md this log covers; defer the rest to
 later passes.)
 
+## Search log
+
+(One row per query, from Step 0 of the `literature-survey` skill:
+`references/literature-search.md`. Recording queries, hit counts and
+drop reasons is what makes the search reproducible.)
+
+| Date | Source | Query | Hits | Kept | Notes |
+|:-----|:-------|:------|-----:|-----:|:------|
+
 ## Deliverables produced
 
 (List artefacts produced as the bibliography is built.)

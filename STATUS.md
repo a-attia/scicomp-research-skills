@@ -76,8 +76,8 @@ not been tested enough to trust without thought.
   audit. The per-document structure files (`readme-structures.md` and
   its siblings) remain guesses about what writers will reach for.
 - **[`research-software-engineering`](skills/research-software-engineering/SKILL.md).**
-  Four of eleven designed references have shipped, and none since
-  2026-05-17. The other seven are specified but unwritten, and the
+  Four of twelve designed references have shipped, and none since
+  2026-05-17. The other eight are specified but unwritten, and the
   specification may be wrong. See the skill's workflow table for the
   current list.
 - **[`project-onboarding`](skills/project-onboarding/SKILL.md).** The
@@ -111,15 +111,15 @@ last column before quoting them elsewhere.
 | Per-project feedback journals | 15 journals, about 8,800 lines, about 150 entries | Same |
 | Findings applied upstream from project evidence | about 17 | [`CHANGELOG.md`](CHANGELOG.md) and `git log` |
 | Systematic roll-up sessions | 1 | Session A, 2026-05-17 |
-| Open GitHub issues | 7 | 5 proposals, 2 evidence appends |
+| Open GitHub issues | 6 | 5 proposals, 2 evidence appends, less #2 (closed by the privacy convention) |
 | Issues or pull requests from anyone but the maintainer | 0 | GitHub |
 | Known external users who bootstrapped a project | 0 | (1 public fork exists) |
 
-The open issues are three new-skill proposals (monograph writing #1,
-slide authoring #3, a peer-review checklist and authorship-forensics
-reference #6 and #7), one convention proposal (privacy and
-sanitisation, #2), and two evidence appends to the slides proposal (#4
-and #5).
+The open issues are two new-skill proposals (monograph writing #1 and
+slide authoring #3), a peer-review pair (a standing compliance
+checklist, #6, and an authorship-forensics reference, #7), and two
+evidence appends to the slides proposal (#4 and #5). The privacy
+convention proposal (#2) was implemented on 2026-10-14.
 
 ## Roadmap to "no longer provisional"
 
@@ -131,7 +131,7 @@ README, when all four conditions hold.
 | 1 | At least 3 real research projects have used the framework end to end | **Met.** 14 projects use it, several end to end. |
 | 2 | The roll-up procedure has produced at least 5 issues or PRs that pruned or refined the framework from real evidence | **Met in number, not in kind.** About 17 findings applied, all by the maintainer from his own projects. Independent feedback is still needed. |
 | 3 | At least one external user has bootstrapped from a skeleton template | **Not met.** |
-| 4 | The seven unshipped `research-software-engineering` references have each shipped or been formally dropped | **Not met.** Seven remain. None has been needed badly enough to write since 2026-05-17, which is itself evidence for dropping some. |
+| 4 | The eight unshipped `research-software-engineering` references have each shipped or been formally dropped | **Not met.** Eight remain. None has been needed badly enough to write since 2026-05-17, which is itself evidence for dropping some. |
 
 ## What to expect
 

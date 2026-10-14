@@ -34,6 +34,9 @@ hashes in experiment metadata (see `experiments/`).
 
   notes/
     README.md           -- index of survey notes (by section, by affinity)
+    agent_feedback.md   -- journal of where the skills fell short (feeds upstream)
+    _resolved/INDEX.md  -- feedback entries actioned upstream
+    _archive/INDEX.md   -- superseded or filed-elsewhere artefacts
     survey_<citekey>.md -- per-paper survey notes (~30-50 lines each)
     impl_<component>.md -- per-component implementation plans (one per new code component)
     section_<N>.md      -- per-paper-section research notes (one per draft section)
