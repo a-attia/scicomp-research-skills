@@ -11,18 +11,13 @@ the [OpenCode skills](https://opencode.ai/docs/skills/) /
 conventions, so any markdown-aware coding agent can consume it
 (OpenCode, Claude Code, Codex, Cursor, Aider, Gemini CLI, ...).
 
-> **STATUS (as of 2026-05-20): still provisional but accumulating
-> real-project evidence.** Built in 4 days of intensive agent-assisted
-> development (2026-05-13..2026-05-14), then exercised on 2 real
-> projects (argo-anywhere + AmigAI) during 2026-05-15..2026-05-20.
-> Session A (2026-05-17) rolled the feedback into 7 skill-tightening
-> commits; Session A.5 (2026-05-20) back-propagated the
-> archive+resolved-feedback convention from the project cleanups.
-> Well-grounded: `research-paper-writing`, `literature-survey`,
-> `paper-skeleton`, plus partially `software-skeleton` (1 real
-> codebase exercised) + `project-onboarding` (2 real onboarding
-> sessions). Other content remains informed prediction pending more
-> evidence; external-user evidence is still 0. **See
+> **STATUS (as of 2026-10-14): still provisional, but most content now
+> rests on real use.** Built in 4 days of intensive agent-assisted
+> development (2026-05-13..2026-05-14), then used on 14 real projects
+> by its maintainer. Well-grounded: `research-paper-writing`,
+> `literature-survey`, `paper-skeleton`, and the Python branch of
+> `software-skeleton`. Other content remains informed prediction, and
+> external-user evidence is still 0. **See
 > [`STATUS.md`](STATUS.md) for the honest map of what's tested vs
 > speculative**, the per-condition progress on the retirement
 > roadmap, and what to expect when adopting today.
@@ -825,8 +820,8 @@ effort:
    ship `notes/_resolved/` + `notes/_archive/` skeleton directories
    (with `INDEX.md` each) for entries that get actioned upstream
    (`_resolved/`) or artefacts that get filed elsewhere
-   (`_archive/`); convention added 2026-05-20 from argo-anywhere +
-   AmigAI cleanups.
+   (`_archive/`); convention added 2026-05-20 from two real-project
+   cleanups.
 2. **GitHub issues** -- when a journal entry seems to deserve action,
    it's promoted to an issue here using one of four templates in
    `.github/ISSUE_TEMPLATE/` (skill-bug, skill-improvement-from-

@@ -50,6 +50,15 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
   Aborted, refused, or non-canonical deep runs keep the log, since it
   is then the only record of what happened. README "Removing what
   `install.sh` created" updated to match.
+- **STATUS.md recounted and anonymised.** Evidence recounted from all
+  per-project journals (14 projects, about 150 entries, as of
+  2026-10-14). Retirement condition 1 is now met; conditions 3 and 4
+  are not. Added the lessons learned since May (projects vendor and
+  stop refreshing; projects write their own skills; feedback outpaces
+  roll-up; strict loaders fail silently; slides and privacy recur).
+  Fixed the "8 missing" versus "7 remain" contradiction. Project names
+  removed from STATUS.md and the README status callout at the
+  maintainer's request: evidence is counted, not attributed.
 
 ## 2026-05-20 (continued)
 
