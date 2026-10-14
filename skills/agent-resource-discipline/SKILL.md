@@ -183,6 +183,8 @@ as a signal to STOP and re-evaluate.
 | "I'll process all 14 PDFs now while I have momentum."             | Wants to batch-finish a sub-task.                                  | Process one at a time; close each before opening the next. The context-window cost of 14 simultaneous `.txt` files is much larger than the round-trip cost of 14 separate `Read`s. |
 | "Let me just retry that fetch, it might work this time."         | Hope-based rather than evidence-based.                             | Twice per session is the cap. After that, log to "Items not found" and move on.                                |
 | "I'll silently fix this typo in the bib."                         | Helpful instinct; wants to clean up.                               | Silent fixes break the audit trail. Add a "Corrections to apply" entry; let the user batch-apply.              |
+| "`pdftotext` gave me the title; it's the first line of output."  | Extraction succeeded, so the output feels authoritative.           | Extraction order is content-stream order, not reading order. On posters/slides the banner is a separate layer and lands anywhere. Extraction proves a string is *present*, never that it is the *title*. Render (`pdftoppm -png -r 40`) and look. See `pdf-lifecycle.md` Rung 3. |
+| "The metadata record must be stale; my extraction says otherwise." | Trusts the artifact over the database, which is usually right.     | Not for *titles*. Records are typed by a human looking at the thing; extraction is a lossy projection of it. Render before you conclude the record is wrong — and before you propagate your version anywhere else. |
 | "It's a small task; the protocol overhead would dominate."       | Wants to skip first-action / last-action for speed.                | A genuinely small task (one file edit, one question answered) is fine. Anything multi-file or multi-step earns the protocol's overhead back several times over. |
 
 If you (the agent) find yourself thinking ANY of the left-column
@@ -480,4 +482,8 @@ note; added "Common rationalizations + rebuttals" table
 lineage" section citing Manus / Anthropic / planning-with-files /
 claude-mem / addyosmani / paper-qa / MemGPT; added "Planned future
 work: enforcement hooks" with full spec (deferred implementation,
-specification kept here so future work has the design ready).*
+specification kept here so future work has the design ready). Revised
+2026-09-27: added two rows to "Common rationalizations + rebuttals"
+covering PDF text-extraction order vs visual order, and the prior that
+an external metadata record beats your own extraction on questions of
+title; full treatment in `references/pdf-lifecycle.md` Rung 3.*

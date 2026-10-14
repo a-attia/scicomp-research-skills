@@ -201,11 +201,69 @@ Reserved for cases where text extraction genuinely fails:
    not extract figures; some tables come out as garbled grids).
 3. **Need to see the page layout** (e.g. understand which figure
    refers to which paragraph).
+4. **The question is about a string's ROLE, not its presence** — see
+   the next subsection. This is the dangerous case, because extraction
+   appears to succeed.
 
 For (1), consider re-running `pdftotext` with different flags
 (`-raw`, `-layout`, no flag) to compare; one of them often works
 where the others don't. Cache the better extraction in the same
 `.txt/<citekey>.txt` location (overwriting the worse one).
+
+#### Extraction order is not visual order
+
+**`pdftotext` emits text in content-stream order, which is the order
+objects were written into the file — not the order a human reads them.**
+On a single-column paper these usually coincide, which is what makes
+the failure mode so easy to walk into: the heuristic "first extracted
+line is the title" holds often enough to feel reliable, then fails
+silently on any document where layout carries meaning.
+
+It fails hardest on **posters, slides, figures, and title banners**,
+where the headline typically sits in a separate graphic layer and may
+be emitted anywhere in the stream — frequently *after* body text that
+appears visually below it.
+
+The generalisable rule:
+
+> **Text extraction establishes that a string is PRESENT. It never
+> establishes that a string is the title, the heading, the caption, or
+> the first thing a reader sees.** Presence is a text question; role is
+> a layout question. Do not answer a layout question with a text tool.
+
+When the question is about role — *what is this poster's title?*, *which
+heading does this paragraph sit under?*, *what does the reader see
+first?* — render the page and look at it:
+
+```bash
+pdftoppm -png -r 40 -f 1 -l 1 file.pdf /tmp/page   # -> /tmp/page-1.png
+```
+
+Then `Read` the PNG. At 40 dpi a page is legible for structure and
+costs little; raise to 100+ dpi only if you must read small print.
+Multimodal agents can consume the image directly; for text-only agents,
+this rung means asking the user rather than guessing.
+
+**Symptoms that you are in this failure mode:**
+
+- Two candidate strings both look like plausible titles.
+- The extracted "title" reads more like a section heading or a thesis
+  statement than a title.
+- An adjacent source (a metadata record, a submitted abstract, a
+  citation) disagrees with your extraction.
+
+That last one is the important one. **When an external record disagrees
+with your extraction about a title, the prior should be that the record
+is right and the extraction is wrong** — records are usually entered by
+a human looking at the artifact, whereas extraction is a lossy
+projection of it. Render before concluding otherwise, and be especially
+careful before propagating the extracted string into other documents.
+
+Corollary for the surrounding files: **do not use a sibling file to
+corroborate an extracted title.** A nearby `abstract.txt`, `STORY.md`,
+or `notes.md` may record an *earlier* version, a submission draft, or a
+discussion of framing rather than the delivered title. Two weak signals
+pointing the same way is not confirmation; it is the same guess twice.
 
 ### Rung 4: the PDF was replaced upstream
 
@@ -256,6 +314,14 @@ Modes the agent should refuse to enter:
   agent thinking "let me extract this" when extraction already exists.
 - **Reading the full `.txt` of a 60-page survey paper to find one
   fact.** `Grep` for the fact's keywords first.
+- **Answering a layout question from `pdftotext` output.** "What is the
+  title of this poster/slide/figure?" is not a text question. Render the
+  page (`pdftoppm -png -r 40`) and look. See Rung 3.
+- **Treating the first extracted line as the title.** Extraction order
+  is content-stream order, not reading order.
+- **Concluding an external record is stale because your extraction
+  disagrees with it.** Render the artifact first; the record is more
+  often right than the extraction.
 
 ---
 
@@ -264,4 +330,13 @@ audit): added "How this differs from PaperQA-style RAG" comparison
 table; restructured "When to re-extract or re-read" into a 5-rung
 fallback ladder (target-grep -> wider .txt read -> PDF binary -> PDF
 replaced -> distrust existing note) with explicit update-the-note
-side-effects so the cache stays fresh.*
+side-effects so the cache stays fresh. Revised 2026-09-27: added
+"Extraction order is not visual order" to Rung 3 + three anti-patterns,
+after a live session in which the agent read a conference poster's
+title from `pdftotext` output, took the first extracted line as the
+title, and reported an accurate institutional record as stale. The
+banner sat in a separate graphic layer; the extracted line was the
+first content-box heading. The wrong title had already propagated into
+a submitted document and a CV before the user caught it. The
+generalisation — text extraction answers presence, not role — applies
+to any layout-bearing PDF, not just posters.*
