@@ -61,6 +61,45 @@ unfamiliar files, not for routine consumption.
 - the user has explicitly asked the agent to read the whole file
   ("show me everything in X").
 
+### Line count is a proxy for size, and it can be wildly wrong
+
+**Check bytes, not only lines, before reading an unfamiliar file.** The tree
+above assumes a line is tens of characters. A file holding embedded data
+breaks that assumption completely, and it breaks it in the direction that
+empties the context window without warning.
+
+The case that produced this rule: a Marp slide part of **163 lines** that was
+**1.2 MB** on disk, because each of three figures was a base64 data URI on a
+single line of 1,139,846 characters. Every rule above classifies it as
+"under 300 lines, read the whole file". Doing so returns roughly 300k tokens
+of base64 for 8 KB of actual slide text, and the session ends in an empty
+response.
+
+The tell is a **bytes-per-line ratio** far above prose, which runs about 40.
+Cheap to check, and worth doing for any generated, exported, or
+figure-bearing file:
+
+```bash
+ls -la <file>          # bytes, before deciding how to read it
+wc -lc <file>          # lines and bytes together
+```
+
+Formats that routinely carry this hazard: slide decks with embedded figures,
+notebooks with output cells (`.ipynb`), SVG, minified assets, anything with a
+`data:` URI, and lockfiles.
+
+**When a file is dense, read it through a filter rather than whole.** Strip
+the payload and keep the prose:
+
+```bash
+sed -E 's/data:image\/[a-z+]*;base64,[A-Za-z0-9+/=]+/<FIGURE>/g' <file>
+```
+
+Better, fix the storage so the hazard cannot recur: see
+`research-slides-authoring/references/visual-design.md` rule V8,
+"Figures by reference". A read-side filter treats the
+symptom, and every future session has to remember it.
+
 ## Parallelism: batch independent calls
 
 When several tool calls are **independent** (one's output does NOT
@@ -138,7 +177,17 @@ Modes observed in real sessions; if you find yourself in one, stop:
    instead of writing "I will now do X" in the response message.
 7. **The "sequential reads" trap.** Three messages each with one
    `Read`, when they could be one message with three `Read`s.
+8. **The "short file must be small" trap.** Reading a 163-line file that
+   holds 1.2 MB of base64. Check bytes before reading anything generated,
+   exported, or figure-bearing; see "Line count is a proxy for size".
+9. **The "unpruned find" trap.** `find . -name '*.md'` in a repository with
+   `node_modules/`, returning 170 dependency READMEs to locate three project
+   files. Prune the known-large directories in the same command, or use
+   `Glob` with a specific enough pattern. Committed during one project's own
+   slide-toolchain survey.
 
 ---
 
-*Created 2026-05-13 by A. Attia.*
+*Created 2026-05-13 by A. Attia. Revised 2026-10-14: added the bytes-vs-lines
+rule and waste modes 8 and 9, from a project (2026-09) where a slide deck
+carrying base64 figures made several sessions end in empty responses.*

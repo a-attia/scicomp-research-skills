@@ -142,6 +142,36 @@ When DRAFTING a paper section that cites many papers:
 - If a fact in a survey note isn't enough, target-grep the specific
   `.txt` for the missing detail; do not load the whole `.txt`.
 
+## Image budget
+
+**Render small, view few, never re-view.** An image costs roughly
+`(width x height) / 750` tokens, so one slide at 150 DPI is ~1,800
+tokens and a ten-slide review pass is ~18,000, which is larger than
+most whole documents in a repository. Four rules, all measured on
+one project's decks (2026-10):
+
+- **Cap the long edge at ~1568 px.** The API downscales anything
+  larger *before* the model sees it, so the extra pixels are billed
+  as if they were useful and are not. `pdftoppm -r 80` gives
+  1067x600 at ~854 tokens; `-r 150` gives 2000x1125, is downscaled
+  to 1568x882, and costs ~1,844 for barely more detail.
+- **View a page range, not a document.** `pdftoppm -f N -l M`. A
+  whole-deck pass belongs at the end of a round of work.
+- **Let a checker triage first.** A tool that analyses pixels
+  in-process costs zero tokens. Viewing forty slides to find the two
+  a checker already named is paying twice.
+- **Never re-render an unchanged image.** It is already in context.
+  "Let me check that again" on an unmodified artifact pays full
+  price for pixels the conversation still holds.
+
+**This is not a reason to stop looking.** The rule that a rendered
+artifact is the only evidence stands, and every visual defect that
+project caught was caught by eye. The waste is resolution and
+repetition, never inspection.
+
+For slide decks specifically, see `research-slides-authoring/references/render-audit.md`
+rule A2, which applies the same budget as a pixel size per page.
+
 ## Topic-boundary unloading
 
 When you finish one logical sub-task and start another, ask: do I
@@ -205,4 +235,6 @@ added "The hybrid pre-load + just-in-time pattern" framing so the
 first-action protocol is identified explicitly as a deliberate
 pre-load (not a contradiction of the just-in-time rule); added
 "Skill-author length budgets" sub-section citing Anthropic's
-skill-creator 500-line guidance.*
+skill-creator 500-line guidance. Revised 2026-10-14: added "Image budget" (moved from
+SKILL.md critical rule 9, which keeps a summary), from a slide-review
+session measured in 2026-10.*

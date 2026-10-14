@@ -116,7 +116,22 @@ BSD-3) with sci-computing-specific framing:
 8. **Write useful error messages.** A scientific error message
    should name the offending value, the constraint it violated, and
    the function it occurred in -- not just "ValueError".
-9. **Survey the library before extending it.** Before writing code
+9. **A tool's first negative result is a claim about the tool.** Before
+   believing that a new viewer, rasteriser, linter, or checker has found a
+   defect, run it on an input already known to be good. A tool failing on
+   both is the fault. One command separates "my artifact is broken" from
+   "this tool cannot read this format", and skipping it cost three rounds of
+   fixes to a diagram that was correct from the first build.
+
+   The corollary, for a check that reports a *threshold*: calibrate it
+   against a rendered artifact known to be good rather than against the
+   configuration value it appears to correspond to. A stylesheet says what
+   space is reserved; only the render says what occupies it.
+
+   **An identical measurement across unrelated inputs is the tell** that the
+   quantity being measured is not the one intended.
+
+10. **Survey the library before extending it.** Before writing code
    that a dependency might already provide, enumerate that
    dependency's public surface in the relevant area -- `ls
    src/*plot*.hpp`, the module index, `dir()`, the class list in the
@@ -140,6 +155,26 @@ BSD-3) with sci-computing-specific framing:
    library mirrors the distribution about the symmetry axis in
    cylindrical geometry and the reimplementation used half of it.
    The wrong number was plausible and had nothing to contradict it.
+
+   **A failed import is not a completed survey.** From a second
+   instance (2026-09). A Gaussian laser-field model was written
+   from scratch because the library that already contained it would
+   not import on the author's platform, and the import error was read
+   as "unavailable" rather than as "look harder". An import error is
+   a fact about the **build**, not about the contents, and the
+   contents stay readable: a wheel is a zip, and listing its public
+   surface takes seconds.
+
+   ```bash
+   pip download <pkg>==<version> -d /tmp/x --no-deps
+   unzip -l /tmp/x/*.whl                                  # module layout
+   unzip -p /tmp/x/*.whl '*/physics.py' | grep '^def '    # public surface
+   ```
+
+   In that case the duplicated function was identical in formula and
+   convention, and making the library importable turned out to cost
+   sixteen lines across two small patches. **Survey first, then decide whether the platform
+   problem is worth solving**, not the other way round.
 
 ## Universal AI-assisted-coding rules (Bridgeford et al. 2025)
 
@@ -335,8 +370,12 @@ hints). Reference 12 moved from the "Planned references" table to
 the live workflow table. The framework's "research-software-
 engineering" skill now ships 4 references (01, 02, 11, 12); 8
 remain planned (03-10). Revised 2026-09-16: added universal principle
-9, "Survey the library before extending it", from real-project
-feedback. Revised 2026-10-14: front-loaded the
+9, "Survey the library before extending it" (now principle 10), from
+real-project feedback. Revised 2026-10-14: front-loaded the
 frontmatter description so its first ~480 characters (Cursor's
 truncation budget) carry the load triggers and scope; corrected the
-planned count from 7 to 8 (reference 12 was never on the planned list).*
+planned count from 7 to 8 (reference 12 was never on the planned list);
+added universal principle 9, "A tool's first negative result is a
+claim about the tool", and the "failed import is not a completed
+survey" extension to principle 10, both from a project-local
+improvement made in 2026-09.*

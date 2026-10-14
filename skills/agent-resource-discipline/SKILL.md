@@ -107,8 +107,8 @@ all six at once -- that defeats the purpose.
 
 ## Critical rules (apply unconditionally; do not require loading a reference file)
 
-These are also in `~/.scicomp-research-skills/AGENTS.md` Section 6, so
-they fire even if this skill is not loaded. Restated here for
+Rules 1 to 5 are also in `~/.scicomp-research-skills/AGENTS.md`
+Section 6, so they fire even if this skill is not loaded. Restated here for
 in-skill reference:
 
 1. **Use dedicated tools, not Bash equivalents.**
@@ -152,6 +152,13 @@ in-skill reference:
    (`_collection_log.md` "Items not found / left for user", `PLAN.md`
    "Open Questions") so the failure becomes part of the persistent
    record.
+9. **Images are the most expensive thing an agent can look at.
+   Render small, view few, never re-view.** One slide at 150 DPI costs
+   about 1,800 tokens. Cap renders at about 1568 px on the long edge
+   (larger is downscaled before the model sees it), view only the pages
+   that changed, and never re-render an unchanged image. This is not a
+   reason to stop looking. Measurements and detail:
+   `references/context-window-budget.md` "Image budget".
 
 ### Note on prompt caching
 
@@ -494,4 +501,6 @@ an external metadata record beats your own extraction on questions of
 title; full treatment in `references/pdf-lifecycle.md` Rung 3.
 Revised 2026-10-14: added the sixth discipline, public-surface hygiene
 (`references/public-surface-hygiene.md`), backing root AGENTS.md
-Section 6.7.*
+Section 6.7; added critical rule 9, image cost discipline, from a
+slide-review session measured in 2026-10 (detail in
+`references/context-window-budget.md` "Image budget").*

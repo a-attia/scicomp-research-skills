@@ -173,6 +173,42 @@ nesting visually and is far easier to scan.
 - Use `<...>` placeholders for values the reader must substitute.
   Comment what to substitute on the line above when not obvious.
 
+#### A document that describes a file must say how to open it
+
+**From a real gap (2026-09).** A `sources/README.md` described an
+archive of 32 binary STL solids: what each file was, where it came from, what
+it did not contain. It never said how to **read** any of them. Answering that
+question took four commands, all obvious to whoever had just done the survey,
+none written down.
+
+**The format that is obvious the week it arrives will not be six months
+later.** By then the reader is a new collaborator, or the same person with no
+memory of the header layout, and the cheapest route becomes asking a hosted
+model how to parse a binary STL. That is a network round trip for something
+that belongs in the repository.
+
+So: when a document describes an artifact a reader may need to open, give **the
+literal invocation**. Not a link to a viewer, not "use a mesh library", not a
+tool that has to be located first.
+
+| Artifact | What the document owes the reader |
+|:---|:---|
+| An archive | The `unzip -l` line to look inside, and the `-d` line to unpack. Say where to unpack, and that it is not into the repository |
+| A PDF | The extraction command, and which of the two to read |
+| A binary format | The few lines that parse it, with an **assertion** that fails on a malformed file rather than producing plausible nonsense |
+| A database | The `sqlite3 .schema` line, or equivalent |
+| A plain `.md` beside another `.md` | Nothing. Scope this to things that need a tool |
+
+**The test is offline-first**: every instruction should be runnable by someone
+with a clone, a shell, and no internet. Two reasons, and the second is growing.
+A facility network may not permit the lookup at all. And a **local** assistant
+reading these files can only follow instructions that are present: a document
+written to need an internet lookup is one such a model cannot act on.
+
+**Run the commands before committing them.** A command that was typed from
+memory into a README is a claim, and it fails for the reader rather than for
+the author.
+
 ### H. Math notation
 
 - Use **LaTeX inside Markdown via MathJax** (`$...$` inline,
@@ -626,4 +662,5 @@ that mark a document as machine-written" to section I. Revised
 2026-10-14: the dash check now matches the literal em and en dash
 characters (`\u2014` in `grep -E` matched the text "u2014", not the
 dash); rule J points at root AGENTS.md Section 6.7 for private
-identifiers.*
+identifiers; added "A document that describes a file must say how to
+open it" (section G), from a project-local improvement made in 2026-09.*
