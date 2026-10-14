@@ -1,6 +1,6 @@
 ---
 name: research-software-engineering
-description: "Use this skill whenever a session will touch a scientific-computing codebase (numerical methods, PDE solvers, inverse problems, OED, UQ, scientific ML, or any code that produces numbers) in Python, Julia, C++, or other languages. Make sure to load this EVEN IF THE USER DOES NOT MENTION IT. Codifies eleven disciplines for AI-assisted scientific software development: numerical correctness (MMS, convergence-rate tests, conservation invariants, \"paper tests\" guard); testing strategies for numerical code; API design for researchers (NumPy / JAX / dolfinx / petsc4py idioms); performance + scaling; reproducibility infrastructure (lockfiles, Zenodo); CI/CD; project lifecycle; code-paper coupling (commit-pinning, submission tags); numerical-launch + debug protocols; and the Bridgeford et al. 2025 ten rules for AI-assisted coding in science. Cites Scientific Python Development Guide (BSD-3), pyOpenSci, Wilson et al. 2017, JOSS 2025 criteria, The Turing Way. Composes with `literature-survey` + `research-paper-writing`."
+description: "Use whenever a session will touch a scientific-computing codebase (numerical methods, PDE solvers, inverse problems, OED, UQ, scientific ML, or any code that produces numbers) in Python, Julia, C++, or other languages -- EVEN IF THE USER DOES NOT MENTION IT. Covers numerical correctness, testing, API design, reproducibility, code-paper coupling, and rules for AI-assisted coding in science. Details: numerical correctness (MMS, convergence-rate tests, conservation invariants, \"paper tests\" guard); testing strategies for numerical code; API design for researchers (NumPy / JAX / dolfinx / petsc4py idioms); performance + scaling; reproducibility (lockfiles, Zenodo); CI/CD; project lifecycle; code-paper coupling (commit-pinning, submission tags); numerical launch + debug protocols; the Bridgeford et al. 2025 ten rules. Cites Scientific Python Development Guide, pyOpenSci, Wilson et al. 2017, JOSS 2025, The Turing Way. Composes with `literature-survey` + `research-paper-writing`."
 license: MIT
 metadata:
   audience: scientific-computing software authors and contributors
@@ -332,4 +332,6 @@ site; shell-script unit-test mechanics; exit-summary scope-keyed
 hints). Reference 12 moved from the "Planned references" table to
 the live workflow table. The framework's "research-software-
 engineering" skill now ships 4 references (01, 02, 11, 12); 7
-remain planned (03-10, less 12).*
+remain planned (03-10, less 12). Revised 2026-10-14: front-loaded the
+frontmatter description so its first ~480 characters (Cursor's
+truncation budget) carry the load triggers and scope.*

@@ -1,6 +1,6 @@
 ---
 name: project-onboarding
-description: "Use this skill whenever a user wants to adopt the scicomp-research-skills framework on an EXISTING project (paper, software library, analysis repo) rather than starting from scratch -- OR when the agent has been asked to produce substantive project content (drafting, refactoring, planning) in a directory that has no AGENTS.md while the framework's canonical checkout (~/.scicomp-research-skills/) does exist on the machine. Make sure to load this when the user says \"I have an existing project; help me start using these skills\" OR when you find yourself about to do substantive work in a bare-of-AGENTS.md directory whose contents look like a research project (LaTeX sources, Python package layout, references/ + experiments/ + figures/ subdirectories, bibliography, notes). EVEN IF THE USER DOES NOT MENTION IT EXPLICITLY -- the bare-directory case is the silent failure mode that the AmigAI project surfaced. Covers two scenarios: (1) existing project with NO prior agentic instructions; (2) existing project WITH prior agentic instructions (CLAUDE.md / .cursorrules / etc.). Each scenario has sub-cases (empty / mature / non-standard for #1; one-file / many-files / substantive-content / conflicting-conventions for #2). Provides an inventory-first migration workflow that preserves user content, surfaces conflicts via the per-project AGENTS.md \"Project-specific overrides\" mechanism, and never silently overwrites. Companion to root AGENTS.md Section 11 (from-scratch starts). Composes with `human-facing-doc-authoring` and `agent-resource-discipline`."
+description: "Use when adopting the scicomp-research-skills framework on an EXISTING project (paper, software library, analysis repo), or when about to do substantive work (drafting, refactoring, planning) in a directory with no AGENTS.md that looks like a research project (LaTeX sources, Python package, references/ + experiments/ + figures/, bibliography, notes) -- EVEN IF THE USER DOES NOT MENTION IT. Triggers: \"I have an existing project; help me start using these skills\", \"migrate this repo\", \"integrate my CLAUDE.md / .cursorrules\". Covers two scenarios: no prior agentic instructions, and existing CLAUDE.md / .cursorrules / AGENTS.md files, each with sub-cases. Inventory-first workflow (audit, plan, execute, verify, document) that preserves user content, routes conflicts into the per-project AGENTS.md \"Project-specific overrides\" section, and never silently overwrites. Companion to root AGENTS.md Section 11 (from-scratch starts)."
 license: MIT
 metadata:
   audience: agents performing migration; users planning a migration
@@ -353,4 +353,7 @@ broadened the triggering condition + frontmatter description to fire
 on bare-of-AGENTS.md directories with research-project-shaped contents,
 not only on explicit user requests. The AmigAI session showed the
 agent missing the bare-directory onboarding opportunity because the
-trigger was too narrowly worded.*
+trigger was too narrowly worded. Revised 2026-10-14: shortened the
+frontmatter description from 1560 to under 1024 characters (the
+agentskills.io limit; strict clients reject longer descriptions);
+triggers kept, rationale left in the body above.*
