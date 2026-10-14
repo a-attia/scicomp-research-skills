@@ -802,7 +802,10 @@ anything other than exactly `~/.scicomp-research-skills/`, and (without
 `-y`) requires you to type `DELETE` to confirm.
 
 Every action (preview or actual) is appended to
-`~/.scicomp-research-skills.uninstall.log` for later audit.
+`~/.scicomp-research-skills.uninstall.log` for later audit. The log is
+kept unless a `--deep` run actually deletes the canonical checkout, in
+which case the script removes the log as its final step so nothing is
+left behind.
 
 ---
 

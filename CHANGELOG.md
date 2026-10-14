@@ -44,6 +44,12 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
   `skill-creator` (duplicates Anthropic's and AGENTS.md Section 8;
   no licence stated), `multi-agent-systems` and the AmSC / HPC /
   data / eval / safety skills (better adopted per project).
+- **`uninstall.sh --deep` leaves nothing behind.** When a deep run
+  actually deletes the canonical checkout, the script now removes its
+  own `~/.scicomp-research-skills.uninstall.log` as its final step.
+  Aborted, refused, or non-canonical deep runs keep the log, since it
+  is then the only record of what happened. README "Removing what
+  `install.sh` created" updated to match.
 
 ## 2026-05-20 (continued)
 

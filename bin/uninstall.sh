@@ -23,10 +23,15 @@
 #   3. With --deep AND interactive confirmation: also unsets the local
 #      git config core.hooksPath and DELETES the entire canonical
 #      checkout (~/.scicomp-research-skills/). Dev checkouts of this
-#      repo at any other path are NEVER touched.
+#      repo at any other path are NEVER touched. If the checkout is
+#      actually deleted, --deep finally removes this script's own
+#      uninstall log so no artifacts remain.
 #
 # Every action (preview or actual) is appended to a log file at
 # ~/.scicomp-research-skills.uninstall.log so you can audit later.
+# (The log is kept as an audit trail unless a --deep run actually
+# deletes the canonical checkout; then it is removed as the very last
+# action.)
 # Terminal output is colorized for readability; the log file always
 # receives plain ASCII. Colors auto-disable when stdout is not a TTY
 # or when the NO_COLOR environment variable is set.
@@ -59,6 +64,10 @@ SHOW_HELP=0
 COUNT_REMOVED=0
 COUNT_SKIPPED=0
 COUNT_WARNED=0
+
+# Set to 1 only when --deep actually deletes the canonical checkout; the
+# uninstall log is removed only in that case.
+CHECKOUT_DELETED=0
 
 # ----------------------------------------------------------------------
 # Presentation layer (colors + glyphs).
@@ -122,6 +131,8 @@ EXAMPLES:
 LOG FILE:
   All actions (preview or actual) are logged to:
   ~/.scicomp-research-skills.uninstall.log
+  The log is kept unless --deep actually deletes the canonical checkout,
+  in which case it is removed as the final action.
 
 EOF
 }
@@ -436,6 +447,7 @@ if (( DEEP )); then
           # We're about to delete the directory we're sitting in. cd out first.
           cd "${HOME}"
           rm -rf "${CANONICAL_ABS}"
+          CHECKOUT_DELETED=1
           status remove "deleted checkout      ${CANONICAL_ABS}"
           COUNT_REMOVED=$((COUNT_REMOVED + 1))
         fi
@@ -443,10 +455,25 @@ if (( DEEP )); then
         # --yes was passed; skip the interactive prompt.
         cd "${HOME}"
         rm -rf "${CANONICAL_ABS}"
+        CHECKOUT_DELETED=1
         status remove "deleted checkout      ${CANONICAL_ABS} (via -y)"
         COUNT_REMOVED=$((COUNT_REMOVED + 1))
       fi
     fi
+  fi
+
+  # 3c. Remove this script's own uninstall log, but only if the checkout
+  # was actually deleted; an aborted or refused deep uninstall keeps its
+  # audit trail. We cannot delete it here (log_action keeps appending
+  # until the very end), so the actual removal is the script's final action.
+  if (( DRY_RUN )); then
+    status remove "would remove log      ${LOG_FILE} (if checkout is deleted)"
+  elif (( CHECKOUT_DELETED )); then
+    status remove "will remove log       ${LOG_FILE} (as final action)"
+    COUNT_REMOVED=$((COUNT_REMOVED + 1))
+  else
+    status skip "kept log (checkout kept) ${LOG_FILE}"
+    COUNT_SKIPPED=$((COUNT_SKIPPED + 1))
   fi
 else
   section "3/3" "Deep uninstall"
@@ -501,3 +528,16 @@ fi
 
 hr
 log_action "==== uninstall.sh complete ===="
+
+# ----------------------------------------------------------------------
+# Final action: if --deep deleted the canonical checkout, remove the
+# uninstall log itself. This MUST be the last thing the script does --
+# after the closing log line above -- because log_action appends until
+# now. Announce to stdout only (the log is about to disappear).
+# ----------------------------------------------------------------------
+
+if (( CHECKOUT_DELETED )); then
+  rm -f "${LOG_FILE}"
+  printf '  %s%s%s removed uninstall log %s\n' \
+    "${C_GREEN}" "${GLYPH_REMOVE}" "${C_RESET}" "${LOG_FILE}"
+fi
