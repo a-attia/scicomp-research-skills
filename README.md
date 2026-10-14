@@ -366,6 +366,18 @@ a real directory or as a symlink pointing somewhere else, it warns and
 skips rather than overwrites. Re-running after manually removing a
 problematic target is the way to recover.
 
+**Side effect: other tools write into `skills/`.** Because the
+user-home skill directories are symlinks to this repo's `skills/`,
+anything an agent client installs "for the user" lands inside the
+canonical checkout. Observed so far: the Claude desktop app's skill
+sync writes `skills/synced/`, and a copy of the Claude Code
+`frontend-design` plugin skill appeared as `skills/frontend-design/`.
+Both are listed in `.gitignore`, so they never show up as changes to
+commit and never block `refresh.sh`. If `git status` in the canonical
+checkout shows a new untracked folder under `skills/`, it came from
+another tool: add it to `.gitignore` in the dev checkout rather than
+committing it.
+
 To remove anything `install.sh` created, see
 [Removing what `install.sh` created](#removing-what-installsh-created).
 

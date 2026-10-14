@@ -19,3 +19,12 @@ Thumbs.db
 
 # uninstall.sh log file (only present after running uninstall.sh)
 .scicomp-research-skills.uninstall.log
+
+# Skills written into skills/ by OTHER tools. install.sh points the
+# user-level skill directories (~/.claude/skills, ~/.agents/skills,
+# ~/.config/opencode/skills, ...) at this repo's skills/, so anything a
+# client installs "user-wide" lands here. Not ours; never commit it.
+#   synced/          Claude desktop app skill sync (Anthropic skills)
+#   frontend-design/ copied from the Claude Code frontend-design plugin
+/skills/synced/
+/skills/frontend-design/
