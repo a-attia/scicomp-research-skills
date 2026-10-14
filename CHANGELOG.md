@@ -139,6 +139,18 @@ Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-sk
   proposal's R-numbers. Both skeleton `AGENTS.md` files list it under
   "Available but not loaded by default"; `human-facing-doc-authoring`
   points to it; CI shellchecks `skills/**/*.sh`.
+- **Improvements from project-local copies adopted upstream.** One of
+  the two projects that vendor the skills had improved four files
+  since copying them. Merged three-way and reworded per Section 6.7:
+  image cost discipline (`agent-resource-discipline` critical rule 9,
+  with measurements in `context-window-budget.md` "Image budget"),
+  bytes-not-lines before reading a file (`tool-selection.md`), "a
+  document that describes a file must say how to open it"
+  (`human-facing-doc-authoring` section G), and a new
+  `research-software-engineering` principle 9, "a tool's first negative
+  result is a claim about the tool" (the survey principle is now 10,
+  extended with "a failed import is not a completed survey"). Both
+  vendoring projects were then re-synced to this commit.
 
 ## 2026-09-16
 

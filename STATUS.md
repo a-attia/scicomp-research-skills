@@ -206,11 +206,13 @@ roll-up in May. The rest came later.
 
 - **Projects vendor the skills and stop refreshing.** At least two
   projects copied the skills into their own repository so that
-  collaborators get them by cloning, then declared those copies locally
-  maintained. Improvements made there reach this repository only when
-  copied back by hand, and fixes made here do not reach them. The
-  two-checkout model in [`AGENTS.md`](AGENTS.md) Section 2 does not
-  describe this way of consuming the framework.
+  collaborators get them by cloning, and one declared its copies
+  locally maintained. Improvements made there reach this repository
+  only when copied back by hand, and fixes made here do not reach them.
+  The first two-way sync ran on 2026-10-14: four local improvements came
+  upstream and both projects were brought current. Nothing yet keeps
+  them current, and the two-checkout model in [`AGENTS.md`](AGENTS.md)
+  Section 2 still does not describe this way of consuming the framework.
 - **Projects write their own skills.** Two projects wrote five local
   skills between them, covering claim verification, slide and figure
   authoring, visual assets, and handling external code. Those are
