@@ -156,7 +156,7 @@ files, not automatically.
 | Skill                              | Purpose                                                                                                  | Origin                  |
 |:-----------------------------------|:---------------------------------------------------------------------------------------------------------|:------------------------|
 | `skills/research-paper-writing/`   | Section-by-section paper drafting, paragraph-clarity check, claim-evidence alignment, adversarial review. | upstream (Master-cai)  |
-| `skills/literature-survey/`        | bibtex + PDF + pdftotext + per-paper survey-note + collection-log workflow for heavy-literature papers.   | added here              |
+| `skills/literature-survey/`        | Step 0 search (strategies, sources, APIs, search log) + bibtex + PDF + pdftotext + per-paper survey-note + collection-log workflow for heavy-literature papers. | added here (Step 0 adapted from genesis-skills, Apache-2.0) |
 | `skills/human-facing-doc-authoring/` | Author or revise any human-facing project doc (README.md, PLAN.md, survey notes, collection logs, rebuttal drafts) -- audience split, two-tier structure, cross-references. | added here |
 | `skills/agent-resource-discipline/` | Reduce token / quota / context-window consumption + improve cross-session memory (tool selection, parallelism, targeted reads, PDF lifecycle, persistent-memory protocol, context-window budget, web-fetch caching). | added here |
 | `skills/research-software-engineering/` | Methodology for AI-assisted scientific-computing software development -- numerical correctness (MMS / convergence-rate tests / "paper tests" guard), testing strategies for numerical code, API design for researchers, reproducibility infra, code-paper coupling, plus the Bridgeford et al. 2025 ten rules condensed agent-actionably. | added here |
@@ -642,8 +642,6 @@ Section 3 of this file. The full procedure is in the skill's
 
 *Created 2026-05-13 by clone-and-diverge from
 Master-cai/Research-Paper-Writing-Skills @ 9ee5edd. Most-recent
-revision: 2026-05-14 (Path C of the over-engineering audit:
-extracted full revision history to [`CHANGELOG.md`](CHANGELOG.md);
-added [`STATUS.md`](STATUS.md) provisional-framework callout +
-wired top-of-file). See `CHANGELOG.md` for the full per-revision
-record. Maintained by A. Attia.*
+revision: 2026-10-14 (Section 5 literature-survey row: Step 0
+search adapted from genesis-skills). See `CHANGELOG.md` for the
+full per-revision record. Maintained by A. Attia.*

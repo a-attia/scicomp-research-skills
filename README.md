@@ -107,7 +107,7 @@ human-facing summary as of 2026-05-20.
    | Skill                              | Purpose                                                                                 |
    |:-----------------------------------|:----------------------------------------------------------------------------------------|
    | [`research-paper-writing`](skills/research-paper-writing/SKILL.md)         | Section-by-section drafting, paragraph-clarity check, claim-evidence alignment, adversarial self-review.       |
-   | [`literature-survey`](skills/literature-survey/SKILL.md)                   | BibTeX + PDF + `pdftotext` + per-paper survey notes + verification log workflow.                               |
+   | [`literature-survey`](skills/literature-survey/SKILL.md)                   | Finding candidate papers (strategies, sources, APIs, search log), then BibTeX + PDF + `pdftotext` + per-paper survey notes + verification log workflow. |
    | [`human-facing-doc-authoring`](skills/human-facing-doc-authoring/SKILL.md) | Universal conventions + per-doc-type structure for any document a human reads (README, PLAN, notes, rebuttals). |
    | [`agent-resource-discipline`](skills/agent-resource-discipline/SKILL.md)   | Token / quota / context-window discipline; first-action / last-action protocols; persistent memory across sessions. |
    | [`research-software-engineering`](skills/research-software-engineering/SKILL.md) | Numerical correctness + testing for numerical code + API design + reproducibility + code-paper coupling + AI-assisted-coding rules. |

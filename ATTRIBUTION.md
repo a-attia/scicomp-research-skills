@@ -63,6 +63,17 @@ git log upstream/main --oneline ^main
   kept beside it at `tools/LICENSE.validate_skills` and governs that
   file. To update, re-copy the upstream file and bump the commit here.
 
+- **Licensing note for vendored Apache-2.0 content.**
+  `skills/literature-survey/references/literature-search.md` is
+  adapted from the `literature-search` skill in
+  [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-skills)
+  (author Ian Foster, ModCon Base CAF Team; upstream commit
+  `b7e8434`). That file is a derivative work under **Apache-2.0**, not
+  MIT; the licence text is beside it at
+  `skills/literature-survey/references/literature-search.LICENSE`, and
+  the file's own Provenance block states what was changed, as
+  Apache-2.0 Section 4(b) requires.
+
 ## Acknowledgements
 
 Sincere thanks to:

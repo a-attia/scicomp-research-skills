@@ -25,6 +25,9 @@ honest context for what they are looking at.
 - **`skills/literature-survey/`** was distilled from a real
   literature-survey workflow on the rl-oed paper (per its footer).
   The 5-step workflow is concrete + has been ground-truthed.
+  *Exception:* Step 0 (`references/literature-search.md`, added
+  2026-10-14, adapted from genesis-skills) has not yet been used on a
+  real project; treat it as informed prediction until it has.
 
 - **`templates/paper-skeleton/`** is the result of writing one paper
   workspace and recording what was useful. The structure works for

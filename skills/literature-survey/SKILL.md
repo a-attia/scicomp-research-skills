@@ -1,6 +1,6 @@
 ---
 name: literature-survey
-description: Build and maintain a verified literature-survey corpus for a research paper -- BibTeX entries, published-manuscript PDFs, text extractions for AI consumption, per-paper survey notes (~30-50 lines each), and a collection log tracking verification status and corrections. Use when starting a new paper that needs a substantial literature review, when adding new references to an existing paper, or when migrating an unverified bib file to a verified one.
+description: "Find, verify and maintain a literature-survey corpus for a research paper -- searching arXiv / OpenAlex / Crossref / zbMATH / OSTI / Semantic Scholar for candidates, then BibTeX entries, published-manuscript PDFs, text extractions for AI consumption, per-paper survey notes (~30-50 lines each), and a collection log tracking verification status, corrections and searches. Use when starting a new paper that needs a literature review, when searching for related work or prior art, when adding new references to an existing paper, or when migrating an unverified bib file to a verified one."
 license: MIT
 metadata:
   audience: research-paper authors
@@ -14,6 +14,7 @@ metadata:
 
 Load this skill when the user is:
 
+- looking for related work, prior art, or papers on a topic (Step 0)
 - starting a new research paper that needs a literature review
 - adding new references to an existing paper
 - migrating an unverified BibTeX file to a verified one
@@ -32,6 +33,8 @@ audit and extend.
 
 The five steps:
 
+0. *(When candidates are not yet in hand)* Find them: see "Step 0"
+   below.
 1. Add a verified BibTeX entry to `references/bibliography.bib`.
 2. Drop the published-manuscript PDF into `references/pdf/<citekey>.pdf`.
 3. Generate a text extraction for AI consumption.
@@ -60,6 +63,25 @@ survey-note template, and the collection-log template.
 
 The `references/pdf/` directory and its `.txt/` cache should be gitignored;
 the bibtex + collection log + survey notes are tracked.
+
+## Step 0: Finding candidate papers
+
+Skip this step when the user hands you the papers. Otherwise, before
+Step 1, load `references/literature-search.md` from this skill. It
+covers:
+
+- choosing a strategy (snowball / systematic / exploratory), and when
+  a "no prior work does X" claim needs the systematic one;
+- where to search for scientific computing (arXiv math.NA and
+  friends, OpenAlex, Crossref, zbMATH, SIAM, OSTI, Semantic Scholar,
+  Google Scholar);
+- programmatic lookups (arXiv, OpenAlex, Crossref, OSTI APIs) and
+  DOI-to-BibTeX as the hand-off to Step 1;
+- triage (must read / should read / cite only / drop) and the
+  search-log table that goes in `references/_collection_log.md`.
+
+Each kept candidate enters Step 1 with a DOI or arXiv ID. A
+DOI-resolved BibTeX record is a starting point, not a verified entry.
 
 ## Step 1: Verified BibTeX entry
 
@@ -225,6 +247,9 @@ When the user invokes this skill, the agent should:
 
 ## See also
 
+- `references/literature-search.md` -- Step 0: search strategies,
+  sources, programmatic lookups, triage, and the search log. Adapted
+  from genesis-skills `literature-search` (Apache-2.0).
 - `references/survey-note-template.md` -- the canonical survey-note
   template + worked example.
 - `references/collection-log-template.md` -- the canonical
@@ -260,4 +285,7 @@ artefacts). Revised 2026-05-13 (added See-also pointer to
 agent-resource-discipline skill, since a literature-survey pass is
 PDF-heavy + multi-session and therefore benefits explicitly from the
 PDF-lifecycle + persistent-memory + context-window-budget protocols
-that skill codifies).*
+that skill codifies). Revised 2026-10-14 (added Step 0 "Finding
+candidate papers" + `references/literature-search.md`, adapted from
+the Apache-2.0 genesis-skills `literature-search` skill by I. Foster;
+description extended to cover finding papers).*

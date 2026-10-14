@@ -12,6 +12,39 @@ formatted as a chronological list rather than a prose footer.
 
 ---
 
+## 2026-10-14
+
+Audit against [AI-ModCon/genesis-skills](https://github.com/AI-ModCon/genesis-skills)
+(mirrored at https://gitlab.osti.gov/genesis/genesis-skills, commit
+`b7e8434`), run while preparing for the Genesis Mission hackathon.
+
+- **Recovered canonical-checkout edits.** The PDF "extraction order is
+  not visual order" rung and its two rationalisation rows
+  (agent-resource-discipline, 2026-09-27) existed only as uncommitted
+  edits in `~/.scicomp-research-skills/`; moved into the dev checkout.
+- **Descriptions within spec.** `project-onboarding` was 1560
+  characters (limit 1024); condensed. `research-software-engineering`
+  front-loaded for Cursor's ~480-character truncation.
+- **`.gitignore` for foreign skills.** `skills/synced/` (Claude desktop
+  skill sync) and `skills/frontend-design/` (Claude Code plugin) are
+  written into `skills/` through the user-home symlinks; now ignored,
+  and the side effect documented in README.md.
+- **Skill validator in CI.** Vendored genesis-skills
+  `tools/validate_skills.py` (BSD-2) and added
+  `.github/workflows/validate-skills.yml`. Fixed three cross-skill
+  references it flagged.
+- **literature-survey Step 0.** Absorbed genesis-skills
+  `literature-search` (Apache-2.0, I. Foster) as
+  `skills/literature-survey/references/literature-search.md`,
+  re-targeted at scientific-computing sources with programmatic
+  arXiv / OpenAlex / Crossref / OSTI lookups and a search log in the
+  collection log. Considered and **not absorbed**: genesis
+  `uncertainty-quantification` / `uq-metrics-evaluator` (ML-system
+  confidence rather than UQ for numerical models; no licence stated),
+  `skill-creator` (duplicates Anthropic's and AGENTS.md Section 8;
+  no licence stated), `multi-agent-systems` and the AmSC / HPC /
+  data / eval / safety skills (better adopted per project).
+
 ## 2026-05-20 (continued)
 
 - **README.md drift audit + F-20 downstream-doc-audit rule.** User
